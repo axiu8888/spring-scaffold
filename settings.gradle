@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'springboot-docker'
+
+/**
+ * 公共依赖
+ */
+include ":commons"
+
+/**
+ * web脚手架
+ */
+include ":scaffold"
+/**
+ * quartz
+ */
+include ":quartz"
+/**
+ * 系统
+ */
+include ":system"
+
