@@ -75,7 +75,7 @@ public class QuartzController {
       @ApiImplicitParam(name = "task", value = "任务调度数据", dataTypeClass = QrtzJobTask.class),
   })
   @PutMapping
-  public HttpResult<?> update(QrtzJobTask task) {
+  public HttpResult<?> update(@RequestBody QrtzJobTask task) {
     if (StringUtils.isBlank(task.getId())) {
       return HttpResult.failure("任务调度任务的ID不能为空");
     }
