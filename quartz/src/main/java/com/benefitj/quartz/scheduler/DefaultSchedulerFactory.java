@@ -15,6 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
+/**
+ * Scheduler工厂
+ */
 public class DefaultSchedulerFactory implements SchedulerFactory, InitializingBean {
 
   private static final String DEFAULT = "quartzScheduler";
@@ -112,7 +115,7 @@ public class DefaultSchedulerFactory implements SchedulerFactory, InitializingBe
 
           return s instanceof QrtzScheduler
               ? (QrtzScheduler) s
-              : new QrtzSchedulerDelegate(s);
+              : new QrtzSchedulerWrapper(s);
         }
       } catch (SchedulerException e) {
         throw new IllegalStateException(e);

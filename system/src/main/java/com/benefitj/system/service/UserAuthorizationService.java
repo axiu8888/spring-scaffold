@@ -1,6 +1,6 @@
 package com.benefitj.system.service;
 
-import com.benefitj.scaffold.common.LogicException;
+import com.benefitj.scaffold.LogicException;
 import com.benefitj.system.model.SysRole;
 import com.benefitj.system.model.SysUser;
 import com.benefitj.system.model.SysUserAndRole;

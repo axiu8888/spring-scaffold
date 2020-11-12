@@ -1,7 +1,7 @@
 package com.benefitj.system.service;
 
 import com.benefitj.core.IdUtils;
-import com.benefitj.scaffold.common.Checker;
+import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.system.mapper.SysMenuMapper;
 import com.benefitj.system.model.SysMenu;

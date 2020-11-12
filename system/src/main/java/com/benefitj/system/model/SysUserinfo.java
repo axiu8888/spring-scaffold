@@ -1,6 +1,6 @@
 package com.benefitj.system.model;
 
-import com.benefitj.scaffold.common.Gender;
+import com.benefitj.scaffold.Gender;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

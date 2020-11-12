@@ -1,9 +1,9 @@
 package com.benefitj.scaffold.security;
 
 import com.benefitj.core.EnumHelper;
-import com.benefitj.spring.aop.log.HttpServletRequestLoggingHandler;
 import com.benefitj.scaffold.security.token.JwtToken;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
+import com.benefitj.spring.aop.log.HttpServletRequestLoggingHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

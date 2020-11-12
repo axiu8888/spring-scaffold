@@ -1,7 +1,7 @@
 package com.benefitj.system.service;
 
 import com.benefitj.core.HexUtils;
-import com.benefitj.scaffold.common.LogicException;
+import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.security.JwtUserDetailsService;
 import com.benefitj.scaffold.security.token.JwtToken;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
@@ -9,6 +9,8 @@ import com.benefitj.scaffold.security.user.JwtUserDetails;
 import com.benefitj.scaffold.vo.AuthTokenVo;
 import com.benefitj.spring.BeanHelper;
 import com.benefitj.system.model.SysUser;
+import com.benefitj.system.vo.JwtGrantedAuthority;
+import com.benefitj.system.vo.SimpleJwtUserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -145,12 +147,12 @@ public class UserAuthenticationService implements JwtUserDetailsService {
    */
   public JwtUserDetails getUserDetails(SysUser user) {
     // 转换为 UserDetails，并查询用户的角色(权限)
-    JwtUserDetails userDetails = BeanHelper.copy(user, JwtUserDetails.class);
+    JwtUserDetails userDetails = BeanHelper.copy(user, SimpleJwtUserDetails.class);
     List<GrantedAuthority> authorityList = uarService.getRoleByUserId(user.getId())
         .stream()
         // 过滤不可用的角色
         //.filter(r -> Boolean.TRUE.equals(r.getActive()))
-        .flatMap(r -> Stream.of(BeanHelper.copy(r, GrantedAuthority.class)))
+        .flatMap(r -> Stream.of(BeanHelper.copy(r, JwtGrantedAuthority.class)))
         .collect(Collectors.toList());
     userDetails.setAuthorities(authorityList);
     return userDetails;

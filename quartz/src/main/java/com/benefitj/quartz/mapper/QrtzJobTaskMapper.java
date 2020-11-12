@@ -1,8 +1,8 @@
 package com.benefitj.quartz.mapper;
 
 import com.benefitj.core.DateFmtter;
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.mapper.SuperMapper;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.mapper.SuperMapper;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

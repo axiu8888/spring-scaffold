@@ -1,6 +1,6 @@
 package com.benefitj.system.mapper;
 
-import com.benefitj.scaffold.common.mapper.BaseSQL;
+import com.benefitj.scaffold.mapper.BaseSQL;
 import com.benefitj.system.model.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

@@ -1,6 +1,6 @@
 package com.benefitj.system.service;
 
-import com.benefitj.scaffold.common.BaseService;
+import com.benefitj.scaffold.BaseService;
 import com.benefitj.system.mapper.SysUserAndUserGroupMapper;
 import com.benefitj.system.model.SysUserAndUserGroup;
 import org.springframework.beans.factory.annotation.Autowired;

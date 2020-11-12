@@ -2,19 +2,19 @@ package com.benefitj.quartz.service;
 
 import com.benefitj.core.IdUtils;
 import com.benefitj.core.SingletonSupplier;
-import com.benefitj.spring.BeanHelper;
-import com.benefitj.spring.ctx.SpringCtxHolder;
-import com.benefitj.scaffold.common.BaseService;
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.LogicException;
-import com.benefitj.scaffold.common.page.RequestPage;
-import com.benefitj.quartz.entity.QrtzJobTask;
-import com.benefitj.quartz.mapper.QrtzJobTaskMapper;
 import com.benefitj.quartz.QuartzUtils;
 import com.benefitj.quartz.TriggerType;
+import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.job.JobType;
+import com.benefitj.quartz.mapper.QrtzJobTaskMapper;
 import com.benefitj.quartz.scheduler.QrtzScheduler;
-import com.benefitj.quartz.scheduler.QrtzSchedulerDelegate;
+import com.benefitj.quartz.scheduler.QrtzSchedulerWrapper;
+import com.benefitj.scaffold.BaseService;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.LogicException;
+import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.spring.BeanHelper;
+import com.benefitj.spring.ctx.SpringCtxHolder;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronExpression;
@@ -52,7 +52,7 @@ public class QrtzJobTaskService extends BaseService<QrtzJobTask, QrtzJobTaskMapp
     if (s instanceof QrtzScheduler) {
       return (QrtzScheduler) s;
     }
-    return new QrtzSchedulerDelegate(s);
+    return new QrtzSchedulerWrapper(s);
   }
 
   /**

@@ -1,7 +1,7 @@
 package com.benefitj.quartz;
 
 import com.benefitj.spring.ctx.SpringCtxHolder;
-import com.benefitj.scaffold.common.LogicException;
+import com.benefitj.scaffold.LogicException;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.job.JobType;
 import com.benefitj.quartz.job.JobWorker;

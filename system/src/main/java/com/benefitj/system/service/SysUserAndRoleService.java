@@ -1,6 +1,6 @@
 package com.benefitj.system.service;
 
-import com.benefitj.scaffold.common.BaseService;
+import com.benefitj.scaffold.BaseService;
 import com.benefitj.system.mapper.SysUserAndRoleMapper;
 import com.benefitj.system.model.SysRole;
 import com.benefitj.system.model.SysUserAndRole;

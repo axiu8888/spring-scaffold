@@ -2,8 +2,8 @@ package com.benefitj.system.service;
 
 import com.benefitj.core.HexUtils;
 import com.benefitj.core.IdUtils;
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.LogicException;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.system.mapper.SysUserMapper;
 import com.benefitj.system.model.SysUser;

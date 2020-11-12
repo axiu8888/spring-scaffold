@@ -6,7 +6,7 @@ import com.benefitj.core.EventLoop;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.quartz.service.QrtzJobTaskService;
-import com.benefitj.scaffold.common.SwaggerConfig;
+import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.applicationevent.IApplicationReadyEventListener;
 import org.quartz.JobDataMap;
@@ -15,6 +15,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -42,14 +43,20 @@ public class SystemApplication {
    */
   @Configuration
   public static class ApiConfig extends SwaggerConfig {
-
     /**
-     * 包路径: com.benefitj.system.模块名
+     * 端口号
      */
+    @Value("#{ environment['server.port'] ?: '8080'}")
+    private String port;
+    /**
+     * 上下文路径
+     */
+    @Value("#{ environment['server.servlet.context-path'] ?: ''}")
+    private String contextPath;
+
     @Override
-    public String[] basePackages() {
-//      return new String[]{"com.benefitj.system.controller", "com.benefitj.quartz.controller"};
-      return new String[]{"com.benefitj.system.controller"};
+    public String basePackage() {
+      return "com.benefitj";
     }
 
     @Override
@@ -58,8 +65,8 @@ public class SystemApplication {
           .title("用户模块的API")
           //.setResourceGroupingStrategy(SpringSwaggerConfig.defaultResourceGroupingStrategy())
           .description("用户注册，登录认证，管理权限等方面的操作！")
-          .termsOfServiceUrl("http://127.0.0.1:8080/api/")
-          .contact(new Contact("DING XIU AN", "", "dafeisuowen01@163.com"))
+          .termsOfServiceUrl(String.format("http://127.0.0.1:%s/%s", port, contextPath))
+          .contact(new Contact("DING XIU AN", "", "dingxiuan@163.com"))
           .version("1.0.0")
           .license("The Apache License, Version 2.0")
           .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
@@ -85,7 +92,7 @@ public class SystemApplication {
   /**
    * 测试 Quartz 的 JobWorker
    */
-  @Component
+  @Component("jobTaskWorker")
   public static class JobTaskWorker implements JobWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(JobTaskWorker.class);

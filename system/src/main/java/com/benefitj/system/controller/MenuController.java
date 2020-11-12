@@ -1,7 +1,7 @@
 package com.benefitj.system.controller;
 
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.page.RequestPage;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.page.RequestPage;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;

@@ -1,5 +1,7 @@
 package com.benefitj.system.controller.exception;
 
+import com.benefitj.scaffold.LogicException;
+import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.scaffold.vo.HttpResult;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.catalina.connector.ClientAbortException;
@@ -39,7 +41,7 @@ public class GlobalExceptionHandler {
     return HttpResult.failure(500, e.getMessage());
   }
 
-  @ExceptionHandler(value = {IllegalStateException.class, IllegalArgumentException.class})
+  @ExceptionHandler(value = {IllegalStateException.class, IllegalArgumentException.class, LogicException.class, PermissionException.class})
   public HttpResult simpleExceptionHandler(HttpServletRequest req, Throwable e) {
     LOG.error("[{}]请求出错: {}, e.getClass(): {}", req.getRequestURI(), e.getMessage(), e.getClass());
     if (StringUtils.isBlank(e.getMessage())) {

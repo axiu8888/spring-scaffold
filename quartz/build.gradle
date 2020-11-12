@@ -13,7 +13,6 @@ dependencies {
 	compile fileTree(dir: 'libs/jar', include: ['*.jar'])
 	compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
 
-	compileOnly(project(":commons"))
 	compileOnly(project(":scaffold"))
 
 	compileOnly "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"

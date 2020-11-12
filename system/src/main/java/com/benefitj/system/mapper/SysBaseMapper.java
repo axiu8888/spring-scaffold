@@ -1,8 +1,8 @@
 package com.benefitj.system.mapper;
 
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.mapper.BaseSQL;
-import com.benefitj.scaffold.common.mapper.SuperMapper;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.mapper.BaseSQL;
+import com.benefitj.scaffold.mapper.SuperMapper;
 import com.benefitj.system.model.ISysBaseModel;
 import com.benefitj.system.model.SysOrganization;
 import org.apache.ibatis.annotations.Param;

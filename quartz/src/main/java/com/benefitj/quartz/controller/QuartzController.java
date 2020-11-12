@@ -1,6 +1,6 @@
 package com.benefitj.quartz.controller;
 
-import com.benefitj.scaffold.common.page.RequestPage;
+import com.benefitj.scaffold.page.RequestPage;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.TriggerType;
 import com.benefitj.quartz.job.JobType;
@@ -24,7 +24,7 @@ import java.util.List;
  * Quartz的调度任务
  */
 @AopWebPointCut
-@Api(tags = {"quartz"}, description = "Quartz的调度任务")
+@Api(tags = {"调度任务"}, description = "Quartz的调度任务")
 @RestController
 @RequestMapping("/quartz")
 public class QuartzController {

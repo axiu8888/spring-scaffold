@@ -2,9 +2,9 @@ package com.benefitj.system.service;
 
 import com.benefitj.core.IdUtils;
 import com.benefitj.core.SortedTree;
-import com.benefitj.scaffold.common.BaseService;
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.page.RequestPage;
+import com.benefitj.scaffold.BaseService;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.page.RequestPage;
 import com.benefitj.scaffold.security.CurrentUserService;
 import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.spring.BeanHelper;
@@ -182,6 +182,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
     org.setAutoCode(autoCode);
     org.setCreatorId(currentUserId());
     org.setCreateTime(new Date());
+    org.setActive(true);
     super.insert(org);
     return org;
   }

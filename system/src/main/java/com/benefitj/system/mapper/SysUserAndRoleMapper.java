@@ -1,6 +1,6 @@
 package com.benefitj.system.mapper;
 
-import com.benefitj.scaffold.common.mapper.SuperMapper;
+import com.benefitj.scaffold.mapper.SuperMapper;
 import com.benefitj.system.model.SysRole;
 import com.benefitj.system.model.SysUserAndRole;
 import org.apache.ibatis.annotations.Mapper;

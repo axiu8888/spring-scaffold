@@ -4,12 +4,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'springboot-docker'
-
-/**
- * 公共依赖
- */
-include ":commons"
+rootProject.name = 'springboot-scaffold'
 
 /**
  * web脚手架

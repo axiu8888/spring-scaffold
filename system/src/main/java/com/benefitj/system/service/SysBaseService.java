@@ -1,9 +1,9 @@
 package com.benefitj.system.service;
 
-import com.benefitj.scaffold.common.BaseService;
-import com.benefitj.scaffold.common.Checker;
-import com.benefitj.scaffold.common.LogicException;
-import com.benefitj.scaffold.common.page.RequestPage;
+import com.benefitj.scaffold.BaseService;
+import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.LogicException;
+import com.benefitj.scaffold.page.RequestPage;
 import com.benefitj.scaffold.security.CurrentUserService;
 import com.benefitj.system.mapper.SysBaseMapper;
 import com.benefitj.system.model.ISysBaseModel;

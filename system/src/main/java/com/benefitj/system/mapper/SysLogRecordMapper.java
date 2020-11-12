@@ -1,6 +1,6 @@
 package com.benefitj.system.mapper;
 
-import com.benefitj.scaffold.common.Checker;
+import com.benefitj.scaffold.Checker;
 import com.benefitj.system.model.SysRequestRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
