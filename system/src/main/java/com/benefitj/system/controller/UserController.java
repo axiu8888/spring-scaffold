@@ -79,14 +79,14 @@ public class UserController {
   @ApiOperation("改变用户的状态")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "id", value = "用户ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "status", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
   })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean status) {
+  public HttpResult<?> changeActive(String id, Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("用户ID不能为空");
     }
-    Boolean result = userService.changeActive(id, status);
+    Boolean result = userService.changeActive(id, active);
     return HttpResult.create(CommonStatus.OK, result);
   }
 

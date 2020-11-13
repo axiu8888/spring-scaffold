@@ -161,13 +161,13 @@ public class SysUserService extends SysBaseService<SysUser, SysUserMapper> {
    * 改变用户可用状态
    *
    * @param id     用户ID
-   * @param status 状态
+   * @param active 状态
    * @return 返回是否更新
    */
-  public boolean changeActive(String id, Boolean status) {
+  public boolean changeActive(String id, Boolean active) {
     SysUser user = get(id);
     if (user != null) {
-      user.setActive(Checker.checkNotNull(status, user.getActive()));
+      user.setActive(Checker.checkNotNull(active, user.getActive()));
       user.setUpdateTime(new Date());
       return updateByPKSelective(user) > 0;
     }

@@ -80,14 +80,14 @@ public class OrganizationController {
   @ApiOperation("改变机构的状态")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "status", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
   })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean status) {
+  public HttpResult<?> changeActive(String id, Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.success();
     }
-    Boolean result = orgService.changeActive(id, status);
+    Boolean result = orgService.changeActive(id, active);
     return HttpResult.create(CommonStatus.OK, result);
   }
 

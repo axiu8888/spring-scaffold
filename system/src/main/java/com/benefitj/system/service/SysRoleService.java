@@ -130,13 +130,13 @@ public class SysRoleService extends SysBaseService<SysRole, SysRoleMapper> {
    * 改变角色可用状态
    *
    * @param id     角色ID
-   * @param status 状态
+   * @param active 状态
    * @return 返回是否更新
    */
-  public boolean changeActive(String id, Boolean status) {
+  public boolean changeActive(String id, Boolean active) {
     SysRole role = get(id);
     if (role != null) {
-      role.setActive(Checker.checkNotNull(status, role.getActive()));
+      role.setActive(Checker.checkNotNull(active, role.getActive()));
       role.setUpdateTime(new Date());
       return updateByPKSelective(role) > 0;
     }

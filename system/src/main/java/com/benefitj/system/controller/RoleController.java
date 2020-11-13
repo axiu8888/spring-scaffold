@@ -78,14 +78,14 @@ public class RoleController {
   @ApiOperation("改变角色的状态")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "id", value = "角色ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "status", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
   })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean status) {
+  public HttpResult<?> changeActive(String id, Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("角色ID不能为空");
     }
-    Boolean result = roleService.changeActive(id, status);
+    Boolean result = roleService.changeActive(id, active);
     return HttpResult.create(CommonStatus.OK, result);
   }
 

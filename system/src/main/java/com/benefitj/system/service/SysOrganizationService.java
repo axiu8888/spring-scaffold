@@ -228,13 +228,13 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * 改变机构状态
    *
    * @param id     机构ID
-   * @param status 状态
+   * @param active 状态
    * @return 返回是否更新
    */
-  public boolean changeActive(String id, Boolean status) {
+  public boolean changeActive(String id, Boolean active) {
     SysOrganization org = get(id);
     if (org != null) {
-      org.setActive(Checker.checkNotNull(status, org.getActive()));
+      org.setActive(Checker.checkNotNull(active, org.getActive()));
       org.setUpdateTime(new Date());
       return checkOrgLevel(id) && updateByPKSelective(org) > 0;
     }

@@ -78,14 +78,14 @@ public class MenuController {
   @ApiOperation("改变菜单的状态")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "status", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
   })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean status) {
+  public HttpResult<?> changeActive(String id, Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("菜单ID不能为空");
     }
-    Boolean result = menuService.changeActive(id, status);
+    Boolean result = menuService.changeActive(id, active);
     return HttpResult.create(CommonStatus.OK, result);
   }
 
