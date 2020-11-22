@@ -1,0 +1,33 @@
+version: '1.0'
+services:
+
+  system-management:
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: dingxiuan/system-management
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8001:80
+#    logging:
+#      options:
+#        max-size: "10m"
+#        max-file: "10"
+
+#  gateway:
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#    image: sqshq/piggymetrics-gateway
+#    restart: always
+#    depends_on:
+#      config:
+#        condition: service_healthy
+#    ports:
+#      - 80:4000
+#    logging:
+#      options:
+#        max-size: "10m"
+#        max-file: "10"
+

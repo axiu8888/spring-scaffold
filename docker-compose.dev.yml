@@ -1,0 +1,11 @@
+version: '1.0'
+services:
+#  rabbitmq:
+#    ports:
+#      - 5672:5672
+
+  system-management:
+    build: system
+    ports:
+      - 8001:80
+
