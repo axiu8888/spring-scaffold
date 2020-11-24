@@ -4,6 +4,7 @@ ext {
     springBootVersion = "2.4.0"
     jacksonVersion = "2.11.3"
     swagger2Version = "2.9.2"
+    guavaVersion = "30.0-jre"
 
     lombokVersion = "1.18.16"
     nettyVersion = "4.1.53.Final"
@@ -23,6 +24,6 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
 }

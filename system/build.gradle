@@ -29,3 +29,13 @@ dependencies {
 
 }
 
+
+//docker {
+//	baseImage 'openjdk'
+//	maintainer 'harrison'
+//	useApi true
+//	hostUrl 'http://myserver:4243'
+//	apiUsername 'user'
+//	apiPassword 'password'
+//	apiEmail 'me@mycompany.com'
+//}
