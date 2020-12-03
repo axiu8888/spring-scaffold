@@ -9,6 +9,7 @@ import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.applicationevent.IApplicationReadyEventListener;
+import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 系统管理
  */
+@EnableAthenapdfConfiguration
 @SpringBootApplication
 public class SystemApplication {
   public static void main(String[] args) {

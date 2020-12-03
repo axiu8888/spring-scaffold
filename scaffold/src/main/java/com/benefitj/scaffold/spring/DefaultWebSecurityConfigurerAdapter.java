@@ -156,6 +156,7 @@ public class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAd
         "/swagger-resources/**",
         "/actuator/**",
         "/favicon.ico",
+        "/athenapdf/create",
         // 登录认证
         "/auth/**"
     ).permitAll()
