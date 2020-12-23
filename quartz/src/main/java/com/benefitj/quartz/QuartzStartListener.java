@@ -2,8 +2,8 @@ package com.benefitj.quartz;
 
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
-import com.benefitj.spring.applicationevent.IApplicationReadyEventListener;
 import com.benefitj.quartz.service.QrtzJobTaskService;
+import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 启动调度程序
  */
-public class QuartzStartListener implements IApplicationReadyEventListener {
+public class QuartzStartListener {
 
   private SchedulerFactoryBean schedulerFactoryBean;
   private QrtzJobTaskService service;
@@ -27,7 +27,7 @@ public class QuartzStartListener implements IApplicationReadyEventListener {
     this.service = service;
   }
 
-  @Override
+  @ApplicationEventListener
   public void onApplicationReadyEvent(ApplicationReadyEvent event) {
     Class<?> type = schedulerFactoryBean.getClass();
     Field field = ReflectUtils.getField(type, "startupDelay");

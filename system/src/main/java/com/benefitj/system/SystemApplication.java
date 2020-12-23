@@ -8,7 +8,7 @@ import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.spring.applicationevent.IApplicationReadyEventListener;
+import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -77,9 +77,9 @@ public class SystemApplication {
   }
 
   @Component
-  public static class JwtPrinter implements IApplicationReadyEventListener {
+  public static class JwtPrinter {
 
-    @Override
+    @ApplicationEventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
       EventLoop.multi().schedule(() -> {
         ApplicationContext ctx = event.getApplicationContext();

@@ -24,7 +24,7 @@ public class SystemFileManagerConfiguration {
   /**
    * 系统文件管理
    */
-  @ConditionalOnMissingBean(SystemFileManager.class)
+  @ConditionalOnMissingBean
   @Bean
   public SystemFileManager systemFileManager(UserFileManagerFactory userFileManagerCreator) {
     return new SystemFileManager(new File(root), userFileManagerCreator);
@@ -33,7 +33,7 @@ public class SystemFileManagerConfiguration {
   /**
    * 用户文件管理创建对象
    */
-  @ConditionalOnMissingBean(SimpleUserFileManagerFactory.class)
+  @ConditionalOnMissingBean
   @Bean
   public SimpleUserFileManagerFactory userFileManagerFactory() {
     return new SimpleUserFileManagerFactory();
