@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.typehandler;
+package com.benefitj.scaffold.mapper.typehandler;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -9,48 +9,48 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * String类型的处理器
+ * 布尔类型的处理器
  *
  * @param <T>
  * @author DINGXIUAN
  */
-public abstract class StringTypeHandler<T extends StringTypeHandler.StringTypeValue> extends BaseTypeHandler<T> {
+public abstract class BooleanTypeHandler<T extends BooleanTypeHandler.BooleanTypeValue> extends BaseTypeHandler<T> {
 
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i,
                                   T parameter, JdbcType jdbcType) throws SQLException {
-    ps.setString(i, parameter.getValue());
+    ps.setBoolean(i, parameter.getValue());
   }
 
   @Override
   public T getNullableResult(ResultSet rs, String columnName) throws SQLException {
-    return convert(rs.getString(columnName));
+    return convert(rs.getBoolean(columnName));
   }
 
   @Override
   public T getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-    return convert(rs.getString(columnIndex));
+    return convert(rs.getBoolean(columnIndex));
   }
 
   @Override
   public T getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-    return convert(cs.getString(columnIndex));
+    return convert(cs.getBoolean(columnIndex));
   }
 
   /**
-   * 转换
+   * 转换器
    *
-   * @param value 值
-   * @return 返回转换后的对象
+   * @param value
+   * @return
    */
-  public abstract T convert(String value);
+  public abstract T convert(boolean value);
 
   /**
-   * String类型处理器
+   * 整形类型处理器
    *
    * @author DINGXIUAN
    */
-  public interface StringTypeValue extends TypeValue<String> {
+  public interface BooleanTypeValue extends TypeValue<Boolean> {
     // ~
   }
 }

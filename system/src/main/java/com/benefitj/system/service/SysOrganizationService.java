@@ -4,7 +4,7 @@ import com.benefitj.core.IdUtils;
 import com.benefitj.core.SortedTree;
 import com.benefitj.scaffold.BaseService;
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.CurrentUserService;
 import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.spring.BeanHelper;
@@ -289,7 +289,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @return 返回分页数据
    */
   @Override
-  public PageInfo<SysOrganization> getPage(RequestPage<SysOrganization> page) {
+  public PageInfo<SysOrganization> getPage(PageableRequest<SysOrganization> page) {
     SysOrganization c = page.getCondition();
     if (c == null) {
       page.setCondition(c = new SysOrganization());
@@ -318,7 +318,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param m    之多匹配的次数
    * @return 返回符合的机构
    */
-  protected PageInfo<SysOrganization> getByAutoCodeRegex(RequestPage<SysOrganization> page, int n, int m) {
+  protected PageInfo<SysOrganization> getByAutoCodeRegex(PageableRequest<SysOrganization> page, int n, int m) {
     SysOrganization c = page.getCondition();
     // 重置autoCode
     c.setAutoCode(getAutoCodeById(c.getParentId()));

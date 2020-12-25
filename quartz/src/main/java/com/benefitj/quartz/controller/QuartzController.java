@@ -1,6 +1,6 @@
 package com.benefitj.quartz.controller;
 
-import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.TriggerType;
 import com.benefitj.quartz.job.JobType;
@@ -113,7 +113,7 @@ public class QuartzController {
       @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
   })
   @GetMapping("/page")
-  public HttpResult<?> getPage(RequestPage<QrtzJobTask> page) {
+  public HttpResult<?> getPage(PageableRequest<QrtzJobTask> page) {
     PageInfo<QrtzJobTask> pageList = qrtzService.getPage(page);
     return HttpResult.success(pageList);
   }

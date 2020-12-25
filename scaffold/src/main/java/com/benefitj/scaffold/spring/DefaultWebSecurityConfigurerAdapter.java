@@ -1,9 +1,11 @@
 package com.benefitj.scaffold.spring;
 
+import com.benefitj.scaffold.page.RequestPageAopHandler;
 import com.benefitj.scaffold.security.*;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
-import com.benefitj.scaffold.page.RequestPageAopHandler;
+import com.benefitj.spring.security.AbstractWebSecurityConfigurerAdapter;
+import com.benefitj.spring.security.EnableHttpSecurityCustomizerConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +16,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,10 +28,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-@Configuration
+@EnableHttpSecurityCustomizerConfiguration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+@Configuration
+public class DefaultWebSecurityConfigurerAdapter extends AbstractWebSecurityConfigurerAdapter {
 
   /**
    * 装载BCrypt密码编码器
@@ -114,57 +115,23 @@ public class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAd
   }
 
   @Override
-  protected void configure(AuthenticationManagerBuilder auth) {
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.authenticationProvider(jwtAuthenticationProvider());
   }
 
   @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
-    ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = httpSecurity
+  protected void configure0(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
         // 由于使用的是JWT，我们这里不需要csrf
         .csrf().disable()
         // 基于token，所以不需要session
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().authorizeRequests()
-        // 不处理OPTIONS请求
-        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-    // 配置需要认证的路径
-    loadAuthorizationUrlRegistry(urlRegistry);
-    // 除上面外的所有请求全部需要鉴权认证
-    urlRegistry.anyRequest().authenticated();
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests().anyRequest().authenticated();
     // 配置filter
     loadFilters(httpSecurity);
     // 禁用缓存
-    httpSecurity.headers().cacheControl();
-  }
-
-  /**
-   * 配置需要认证的路径
-   *
-   * @param urlRegistry
-   */
-  public void loadAuthorizationUrlRegistry(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry) {
-    // 允许对于网站静态资源的无授权访问
-    urlRegistry.antMatchers(HttpMethod.GET,
-        "/**/*.html",
-        "/**/*.css",
-        "/**/*.js",
-        "/favicon.ico",
-        "/swagger-ui.html",
-        "/v2/api-docs",
-        "/swagger-resources/**",
-        "/actuator/**",
-        "/favicon.ico",
-        "/athenapdf/create",
-        // 登录认证
-        "/auth/**"
-    ).permitAll()
-        // 不需要认证的路径
-        .antMatchers(HttpMethod.POST,
-            // 登录认证
-            "/auth/**"
-        ).permitAll();
+    httpSecurity.headers().cacheControl().disable();
   }
 
   /**

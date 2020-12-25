@@ -1,5 +1,6 @@
 package com.benefitj.system.controller;
 
+import com.benefitj.spring.security.url.UrlPermitted;
 import com.benefitj.scaffold.vo.AuthTokenVo;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.AopIgnore;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 登录
  */
+@UrlPermitted
 @AopWebPointCut
 @Api(tags = {"用户认证"}, description = "注册/登录/刷新token")
 @RestController

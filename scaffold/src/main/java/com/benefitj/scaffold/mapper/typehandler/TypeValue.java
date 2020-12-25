@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.typehandler;
+package com.benefitj.scaffold.mapper.typehandler;
 
 import java.io.Serializable;
 

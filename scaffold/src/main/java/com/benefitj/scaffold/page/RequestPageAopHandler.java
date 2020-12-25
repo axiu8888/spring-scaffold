@@ -34,7 +34,7 @@ public class RequestPageAopHandler implements WebPointCutHandler {
       rpm.setParameters(Collections.unmodifiableList(Arrays.asList(parameters)));
       for (int i = 0; i < parameters.length; i++) {
         Parameter parameter = parameters[i];
-        if (parameter.getType().isAssignableFrom(RequestPage.class)) {
+        if (parameter.getType().isAssignableFrom(PageableRequest.class)) {
           rpm.setPageParameter(parameter);
           Type type = parameter.getParameterizedType();
           if (type instanceof ParameterizedType) {
@@ -55,7 +55,7 @@ public class RequestPageAopHandler implements WebPointCutHandler {
         JSONObject json = new JSONObject();
         request.getParameterMap().forEach((name, values) ->
             json.put(name, values.length == 1 ? values[0] : values));
-        RequestPage<Object> page = (RequestPage<Object>) args[rpm.getParameterIndex()];
+        PageableRequest<Object> page = (PageableRequest<Object>) args[rpm.getParameterIndex()];
         Object condition = json.toJavaObject(rpm.getGenericType());
         page.setCondition(condition);
       }

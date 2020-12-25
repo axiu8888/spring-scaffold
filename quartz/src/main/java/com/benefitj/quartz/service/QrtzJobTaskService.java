@@ -12,7 +12,7 @@ import com.benefitj.quartz.scheduler.QrtzSchedulerWrapper;
 import com.benefitj.scaffold.BaseService;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.LogicException;
-import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.spring.BeanHelper;
 import com.benefitj.spring.ctx.SpringCtxHolder;
 import com.github.pagehelper.PageInfo;
@@ -293,7 +293,7 @@ public class QrtzJobTaskService extends BaseService<QrtzJobTask, QrtzJobTaskMapp
   }
 
   @Override
-  public PageInfo<QrtzJobTask> getPage(RequestPage<QrtzJobTask> page) {
+  public PageInfo<QrtzJobTask> getPage(PageableRequest<QrtzJobTask> page) {
     return super.getPage(page);
   }
 

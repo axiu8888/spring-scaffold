@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public class RequestPage<T> {
+public class PageableRequest<T> {
 
   public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
@@ -53,24 +53,24 @@ public class RequestPage<T> {
   @DateTimeFormat(pattern = DATE_PATTERN)
   private Date endTime;
 
-  public RequestPage() {
+  public PageableRequest() {
   }
 
   /**
    * @param pageNum  must not be less than zero.
    * @param pageSize must not be less than one.
    */
-  public RequestPage(Integer pageNum, Integer pageSize) {
+  public PageableRequest(Integer pageNum, Integer pageSize) {
     this.setPageNum(pageNum);
     this.setPageSize(pageSize);
   }
 
-  public RequestPage(Integer pageNum, Integer pageSize, List<String> orderBy) {
+  public PageableRequest(Integer pageNum, Integer pageSize, List<String> orderBy) {
     this(pageNum, pageSize);
     this.setOrderBy(orderBy);
   }
 
-  public RequestPage(Integer pageNum, Integer pageSize, List<String> orderBy, T condition) {
+  public PageableRequest(Integer pageNum, Integer pageSize, List<String> orderBy, T condition) {
     this(pageNum, pageSize, orderBy);
     this.setCondition(condition);
   }
@@ -143,20 +143,20 @@ public class RequestPage<T> {
     return pageNum > 0;
   }
 
-  public RequestPage<T> previousOrFirst() {
+  public PageableRequest<T> previousOrFirst() {
     return hasPrevious() ? previous() : first();
   }
 
-  public RequestPage<T> next() {
-    return new RequestPage<>(getPageNum() + 1, getPageSize(), getOrderBy());
+  public PageableRequest<T> next() {
+    return new PageableRequest<>(getPageNum() + 1, getPageSize(), getOrderBy());
   }
 
-  public RequestPage<T> previous() {
-    return getPageNum() == 0 ? this : new RequestPage<>(getPageNum() - 1, getPageSize(), getOrderBy());
+  public PageableRequest<T> previous() {
+    return getPageNum() == 0 ? this : new PageableRequest<>(getPageNum() - 1, getPageSize(), getOrderBy());
   }
 
-  public RequestPage<T> first() {
-    return new RequestPage<>(0, getPageSize(), getOrderBy());
+  public PageableRequest<T> first() {
+    return new PageableRequest<>(0, getPageSize(), getOrderBy());
   }
 
   /**
@@ -183,7 +183,7 @@ public class RequestPage<T> {
     public Builder() {
     }
 
-    public Builder(RequestPage<T> copy) {
+    public Builder(PageableRequest<T> copy) {
       this.pageNum = copy.getPageNum();
       this.pageSize = copy.getPageSize();
       this.orderBy = copy.getOrderBy();
@@ -234,8 +234,8 @@ public class RequestPage<T> {
       return this;
     }
 
-    public RequestPage<T> build() {
-      RequestPage<T> page = new RequestPage<>();
+    public PageableRequest<T> build() {
+      PageableRequest<T> page = new PageableRequest<>();
       page.setPageNum(this.pageNum);
       page.setPageSize(this.pageSize);
       page.setOrderBy(this.orderBy);

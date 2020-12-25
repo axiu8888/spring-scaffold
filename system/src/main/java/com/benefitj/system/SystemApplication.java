@@ -80,7 +80,7 @@ public class SystemApplication {
   public static class JwtPrinter {
 
     @ApplicationEventListener
-    public void onApplicationReadyEvent(ApplicationReadyEvent event) {
+    public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
       EventLoop.multi().schedule(() -> {
         ApplicationContext ctx = event.getApplicationContext();
         JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);

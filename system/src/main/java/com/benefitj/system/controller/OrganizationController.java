@@ -2,7 +2,7 @@ package com.benefitj.system.controller;
 
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
@@ -96,7 +96,7 @@ public class OrganizationController {
       @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
   })
   @GetMapping("/page")
-  public HttpResult<?> getPage(RequestPage<SysOrganization> page) {
+  public HttpResult<?> getPage(PageableRequest<SysOrganization> page) {
     PageInfo<SysOrganization> orgList = orgService.getPage(page);
     return HttpResult.success(orgList);
   }

@@ -3,7 +3,7 @@ package com.benefitj.system.service;
 import com.benefitj.scaffold.BaseService;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.LogicException;
-import com.benefitj.scaffold.page.RequestPage;
+import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.CurrentUserService;
 import com.benefitj.system.mapper.SysBaseMapper;
 import com.benefitj.system.model.ISysBaseModel;
@@ -96,7 +96,7 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
   }
 
   @Override
-  public PageInfo<T> getPage(RequestPage<T> page) {
+  public PageInfo<T> getPage(PageableRequest<T> page) {
     page.setCondition(checkAndGetEntity(page.getCondition()));
     changeOrgLevel(page.getCondition());
     return super.getPage(page);
