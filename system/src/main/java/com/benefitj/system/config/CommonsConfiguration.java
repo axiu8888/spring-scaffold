@@ -8,6 +8,8 @@ import com.benefitj.spring.aop.log.EnableRequestLoggingHandler;
 import com.benefitj.spring.applicationevent.EnableApplicationListener;
 import com.benefitj.spring.security.url.AnnotationUrlRegistryConfigurerCustomizer;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,12 +30,14 @@ import java.util.stream.Collectors;
 @Configuration
 public class CommonsConfiguration {
 
+  private final Logger log = LoggerFactory.getLogger(getClass());
+
   @Bean
   public AnnotationUrlRegistryConfigurerCustomizer annotationUrlAuthorizationConfigurerCustomizer() {
     return new AnnotationUrlRegistryConfigurerCustomizer() {
       @Override
       public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
-        System.err.println(getAllMetadata().stream()
+        log.info("\n{}", getAllMetadata().stream()
             .map(metadata -> String.format("[%s], [%s]",
                 StringUtils.join(metadata.getUris(), ", "),
                 StringUtils.join(metadata.getMethodTypes(), ", "))
