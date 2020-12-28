@@ -8,8 +8,12 @@ import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
+import com.benefitj.spring.ServletUtils;
 import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
+import com.benefitj.spring.eventbus.PosterDefinition;
+import com.google.common.eventbus.Subscribe;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -27,7 +31,10 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 /**
  * 系统管理
@@ -76,6 +83,7 @@ public class SystemApplication {
     }
   }
 
+  @Slf4j
   @Component
   public static class JwtPrinter {
 
@@ -88,6 +96,20 @@ public class SystemApplication {
         System.err.println(jwtProperty.getSigningKey());
         System.err.println("----- SIGNING_KEY -----------------------\n");
       }, 3, TimeUnit.SECONDS);
+    }
+
+    //@PosterDefinition
+    @Subscribe
+    public void onEvent(HttpServletRequest request) {
+      Map<String, String> headers = ServletUtils.getHeaderMap(request);
+      StringBuilder sb = new StringBuilder();
+      headers.forEach((key, value) ->
+          sb.append(key).append(": ").append(value).append("\n"));
+      log.info("uri: {}, method: {}, headers: \n{}"
+          , request.getRequestURI()
+          , request.getMethod()
+          , sb.toString()
+      );
     }
   }
 
