@@ -1,6 +1,5 @@
 package com.benefitj.scaffold.spring;
 
-import com.benefitj.scaffold.page.RequestPageAopHandler;
 import com.benefitj.scaffold.security.*;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
@@ -161,15 +160,6 @@ public class DefaultWebSecurityConfigurerAdapter extends AbstractWebSecurityConf
   @Bean
   public JwtTokenManager jwtTokenManager(JwtProperty jwtProperty) {
     return new JwtTokenManager(jwtProperty);
-  }
-
-  /**
-   * 请求分页
-   */
-  @ConditionalOnMissingBean
-  @Bean
-  public RequestPageAopHandler requestPageAopHandler() {
-    return new RequestPageAopHandler();
   }
 
 }

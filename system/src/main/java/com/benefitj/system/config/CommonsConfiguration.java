@@ -22,7 +22,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,12 +42,12 @@ public class CommonsConfiguration {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Bean
-  public OncePerRequestFilter anyFilter(EventBusPoster poster) {
+  public OncePerRequestFilter anyRequestDoSomethingFilter(EventBusPoster poster) {
     return new OncePerRequestFilter() {
       @Override
       protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-          poster.post(request);
+          poster.postSync(request);
         } finally {
           filterChain.doFilter(request, response);
         }
@@ -61,6 +60,7 @@ public class CommonsConfiguration {
     return new AnnotationUrlRegistryConfigurerCustomizer() {
       @Override
       public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
+        // 打印忽略的路径，不包含通用路径
         log.info("\n{}", getAllMetadata().stream()
             .map(metadata -> String.format("[%s], [%s]",
                 StringUtils.join(metadata.getUris(), ", "),

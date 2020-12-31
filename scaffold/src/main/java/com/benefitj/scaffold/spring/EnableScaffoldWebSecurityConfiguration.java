@@ -7,7 +7,10 @@ import java.lang.annotation.*;
 /**
  * 引入 Web Security 配置
  */
-@Import({DefaultWebSecurityConfigurerAdapter.class})
+@Import({
+    DefaultWebMvcConfiguration.class,
+    DefaultWebSecurityConfigurerAdapter.class
+})
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

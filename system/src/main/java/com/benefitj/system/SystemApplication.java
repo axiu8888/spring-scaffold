@@ -11,7 +11,6 @@ import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.ServletUtils;
 import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
-import com.benefitj.spring.eventbus.PosterDefinition;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
@@ -34,7 +33,6 @@ import springfox.documentation.service.Contact;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 
 /**
  * 系统管理
@@ -85,7 +83,7 @@ public class SystemApplication {
 
   @Slf4j
   @Component
-  public static class JwtPrinter {
+  public static class Printer {
 
     @ApplicationEventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {

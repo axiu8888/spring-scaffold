@@ -2,6 +2,7 @@ package com.benefitj.system.controller;
 
 
 import com.benefitj.scaffold.Checker;
+import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
@@ -95,7 +96,7 @@ public class UserController {
       @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
   })
   @GetMapping("/page")
-  public HttpResult<?> getPage(PageableRequest<SysUser> page) {
+  public HttpResult<?> getPage(@PageBody PageableRequest<SysUser> page) {
     PageInfo<SysUser> userList = userService.getPage(page);
     return HttpResult.success(userList);
   }

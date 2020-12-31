@@ -8,6 +8,7 @@ import org.apache.catalina.connector.ClientAbortException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+  /**
+   * 请求方法不支持
+   */
+  @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
+  public HttpResult<?> httpRequestMethodNotSupported(HttpServletRequest req,
+                                                     HttpRequestMethodNotSupportedException e) {
+    LOG.error("[{}]请求出错: {}", req.getRequestURI(), e.getMessage());
+    return HttpResult.failure(400, e.getMessage());
+  }
 
   /**
    * JWT过期的异常
