@@ -4,7 +4,7 @@ import com.benefitj.core.file.IUserFileManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.BreakPointTransmissionHelper;
-import com.benefitj.spring.aop.AopWebPointCut;
+import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.system.file.SystemFileManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

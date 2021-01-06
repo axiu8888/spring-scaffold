@@ -4,7 +4,7 @@ import com.benefitj.spring.security.url.UrlPermitted;
 import com.benefitj.scaffold.vo.AuthTokenVo;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.AopIgnore;
-import com.benefitj.spring.aop.AopWebPointCut;
+import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.system.service.UserAuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

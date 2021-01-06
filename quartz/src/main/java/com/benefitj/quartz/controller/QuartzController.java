@@ -8,7 +8,7 @@ import com.benefitj.quartz.job.WorkerType;
 import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
-import com.benefitj.spring.aop.AopWebPointCut;
+import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

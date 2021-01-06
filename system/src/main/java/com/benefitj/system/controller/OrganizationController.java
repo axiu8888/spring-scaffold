@@ -7,7 +7,7 @@ import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
-import com.benefitj.spring.aop.AopWebPointCut;
+import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.system.model.SysOrganization;
 import com.benefitj.system.service.SysOrganizationService;
 import com.github.pagehelper.PageInfo;

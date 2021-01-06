@@ -4,7 +4,7 @@ import com.benefitj.event.EventBusPoster;
 import com.benefitj.quartz.spring.EnableQuartzConfuration;
 import com.benefitj.scaffold.spring.EnableDruidConfuration;
 import com.benefitj.scaffold.spring.EnableScaffoldWebSecurityConfiguration;
-import com.benefitj.spring.aop.EnableAutoAopWebHandler;
+import com.benefitj.spring.aop.web.EnableAutoAopWebHandler;
 import com.benefitj.spring.aop.log.EnableRequestLoggingHandler;
 import com.benefitj.spring.applicationevent.EnableApplicationListener;
 import com.benefitj.spring.eventbus.EnableEventBusPoster;

@@ -1,7 +1,7 @@
 package com.benefitj.system.controller;
 
 import com.benefitj.scaffold.vo.HttpResult;
-import com.benefitj.spring.aop.AopWebPointCut;
+import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.system.model.SysRole;
 import com.benefitj.system.service.UserAuthorizationService;
 import io.swagger.annotations.Api;

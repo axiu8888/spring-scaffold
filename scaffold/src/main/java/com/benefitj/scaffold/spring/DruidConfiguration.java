@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 /**
  * druid数据库配置
  */
+//@EnableDynamicDataSourceConfiguration
 @EnableTransactionManagement
 @Configuration
 public class DruidConfiguration {
