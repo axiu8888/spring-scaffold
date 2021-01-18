@@ -1,7 +1,7 @@
 
 
 ext {
-    springBootVersion = "2.4.0"
+    springBootVersion = "2.4.2"
     jacksonVersion = "2.11.3"
     swagger2Version = "2.9.2"
     guavaVersion = "30.0-jre"
