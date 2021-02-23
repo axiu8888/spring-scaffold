@@ -9,7 +9,8 @@ import java.lang.annotation.*;
  */
 @Import({
     DefaultWebMvcConfiguration.class,
-    DefaultWebSecurityConfigurerAdapter.class
+    DefaultWebSecurityConfigurerAdapter.class,
+    SystemFileManagerConfiguration.class,
 })
 @Documented
 @Target(ElementType.TYPE)

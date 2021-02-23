@@ -1,4 +1,4 @@
-package com.benefitj.system.file;
+package com.benefitj.scaffold.file;
 
 import com.benefitj.core.file.IUserFileManager;
 

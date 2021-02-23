@@ -1,15 +1,16 @@
 package com.benefitj.system.controller;
 
 import com.benefitj.core.file.IUserFileManager;
-import com.benefitj.scaffold.vo.CommonStatus;
+import com.benefitj.scaffold.file.SystemFileManager;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.BreakPointTransmissionHelper;
 import com.benefitj.spring.aop.web.AopWebPointCut;
-import com.benefitj.system.file.SystemFileManager;
+import com.benefitj.system.vo.FileItem;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * 文件操作
@@ -35,12 +39,25 @@ public class FileController {
   private SystemFileManager systemFileManager;
 
   @ApiOperation("文件列表")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "path", value = "文件的全路径"),
+  })
   @GetMapping("/list")
-  public HttpResult<?> list() {
-    return HttpResult.create(CommonStatus.NO_CONTENT);
+  public HttpResult<?> list(String path) {
+    IUserFileManager ufm = systemFileManager.currentUser();
+    File dir = StringUtils.isNotBlank(path) ? ufm.getDirectory(path, false) : ufm.getUserRoot();
+    if (dir.exists()) {
+      File[] files = dir.listFiles();
+      if (files != null) {
+        return HttpResult.success(Arrays.stream(files)
+            .map(file -> FileItem.of(file, ufm.getUserRootPath()))
+            .collect(Collectors.toList()));
+      }
+    }
+    return HttpResult.success(Collections.emptyList());
   }
 
-  @ApiOperation("上传下载")
+  @ApiOperation("下载文件")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "type", value = "文件类型"),
       @ApiImplicitParam(name = "filename", value = "文件名称"),

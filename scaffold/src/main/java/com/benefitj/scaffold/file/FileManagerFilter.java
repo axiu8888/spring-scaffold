@@ -1,4 +1,4 @@
-package com.benefitj.system.file;
+package com.benefitj.scaffold.file;
 
 import com.benefitj.scaffold.security.token.JwtToken;
 import com.benefitj.scaffold.security.token.JwtTokenManager;

@@ -8,7 +8,6 @@ import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.spring.ServletUtils;
 import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import com.google.common.eventbus.Subscribe;
@@ -31,7 +30,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -99,15 +97,15 @@ public class SystemApplication {
     //@PosterDefinition
     @Subscribe
     public void onEvent(HttpServletRequest request) {
-      Map<String, String> headers = ServletUtils.getHeaderMap(request);
-      StringBuilder sb = new StringBuilder();
-      headers.forEach((key, value) ->
-          sb.append(key).append(": ").append(value).append("\n"));
-      log.info("uri: {}, method: {}, headers: \n{}"
-          , request.getRequestURI()
-          , request.getMethod()
-          , sb.toString()
-      );
+//      Map<String, String> headers = ServletUtils.getHeaderMap(request);
+//      StringBuilder sb = new StringBuilder();
+//      headers.forEach((key, value) ->
+//          sb.append(key).append(": ").append(value).append("\n"));
+//      log.info("uri: {}, method: {}, headers: \n{}"
+//          , request.getRequestURI()
+//          , request.getMethod()
+//          , sb.toString()
+//      );
     }
   }
 

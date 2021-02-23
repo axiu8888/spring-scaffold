@@ -145,7 +145,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param multiLevel 是否为多层级
    * @return 返回查询的列表
    */
-  public List<T> getList(T condition, Date startTime, Date endTime, boolean multiLevel) throws UnsupportedOperationException {
+  public List<T> getList(T condition, @Nullable Date startTime, @Nullable Date endTime, boolean multiLevel) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("还未实现，请实现此方法!");
   }
 
@@ -155,7 +155,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param page 分页参数
    * @return 返回查询的分页
    */
-  public PageInfo<T> getPage(PageableRequest<T> page) {
+  public PageInfo<T> getPage(@Nonnull PageableRequest<T> page) {
     // ORDER BY
     String orderBy = String.join(",", getOrderByList(page.getOrderBy()));
     Date startTime = page.getStartTime();
@@ -172,7 +172,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param condition 条件
    * @return 返回统计的条数
    */
-  public int count(T condition) {
+  public int count(@Nonnull T condition) {
     return getMapper().selectCount(condition);
   }
 
@@ -182,7 +182,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param pkValues 主键值(属性, 值)
    * @return 返回统计的条数
    */
-  public int countByPK(Map<String, Object> pkValues) {
+  public int countByPK(@Nonnull Map<String, Object> pkValues) {
     return getMapper().selectCountByPK(pkValues);
   }
 
@@ -192,7 +192,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param pk 主键
    * @return 返回统计的条数
    */
-  public int countByPK(Object pk) {
+  public int countByPK(@Nonnull Object pk) {
     EntityColumn pkColumn = PK_CACHE.computeIfAbsent(getEntityClass(), PK_COLUMN_SEARCHER);
     Sqls sqls = Sqls.custom().andEqualTo(pkColumn.getColumn(), pk);
     final M mapper = getMapper();
@@ -206,7 +206,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @return 返回删除的条数
    */
   @Transactional(rollbackFor = Throwable.class)
-  protected int delete(T record) {
+  protected int delete(@Nonnull T record) {
     return getMapper().delete(record);
   }
 
@@ -217,7 +217,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @return 返回删除的条数
    */
   @Transactional(rollbackFor = Throwable.class)
-  protected int deleteByPK(String pk) {
+  protected int deleteByPK(@Nonnull Object pk) {
     return getMapper().deleteByPrimaryKey(pk);
   }
 

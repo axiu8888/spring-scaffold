@@ -1,9 +1,9 @@
-package com.benefitj.system.config;
+package com.benefitj.scaffold.spring;
 
-import com.benefitj.system.file.FileManagerFilter;
-import com.benefitj.system.file.SimpleUserFileManagerFactory;
-import com.benefitj.system.file.SystemFileManager;
-import com.benefitj.system.file.UserFileManagerFactory;
+import com.benefitj.scaffold.file.FileManagerFilter;
+import com.benefitj.scaffold.file.SimpleUserFileManagerFactory;
+import com.benefitj.scaffold.file.SystemFileManager;
+import com.benefitj.scaffold.file.UserFileManagerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

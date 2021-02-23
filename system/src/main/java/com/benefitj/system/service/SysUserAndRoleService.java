@@ -41,7 +41,7 @@ public class SysUserAndRoleService extends BaseService<SysUserAndRole, SysUserAn
   }
 
   @Override
-  public int deleteByPK(String pk) {
+  public int deleteByPK(Object pk) {
     return super.deleteByPK(pk);
   }
 
