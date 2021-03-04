@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * JWT用户想请
+ * JWT用户详情
  */
 public class SimpleJwtUserDetails extends SysUser implements JwtUserDetails {
 
