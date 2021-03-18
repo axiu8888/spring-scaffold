@@ -6,7 +6,6 @@ import com.benefitj.scaffold.spring.EnableDruidConfuration;
 import com.benefitj.scaffold.spring.EnableScaffoldWebSecurityConfiguration;
 import com.benefitj.spring.aop.web.EnableAutoAopWebHandler;
 import com.benefitj.spring.aop.log.EnableRequestLoggingHandler;
-import com.benefitj.spring.applicationevent.EnableApplicationListener;
 import com.benefitj.spring.eventbus.EnableEventBusPoster;
 import com.benefitj.spring.security.url.AnnotationUrlRegistryConfigurerCustomizer;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 @MapperScan("com.benefitj.system.mapper")
 @EnableAutoAopWebHandler // AOP
 @EnableRequestLoggingHandler // 打印请求日志
-@EnableApplicationListener // Application Event
 @EnableQuartzConfuration // quartz
 @EnableDruidConfuration // druid
 @EnableEventBusPoster // EventBus

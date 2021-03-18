@@ -8,7 +8,6 @@ import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.spring.applicationevent.ApplicationEventListener;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
@@ -83,7 +83,7 @@ public class SystemApplication {
   @Component
   public static class Printer {
 
-    @ApplicationEventListener
+    @EventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
       EventLoop.multi().schedule(() -> {
         ApplicationContext ctx = event.getApplicationContext();
