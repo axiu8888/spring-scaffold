@@ -1,4 +1,4 @@
-package com.benefitj.quartz.service;
+package com.benefitj.quartz.api;
 
 import com.benefitj.core.IdUtils;
 import com.benefitj.core.SingletonSupplier;

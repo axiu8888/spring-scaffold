@@ -1,11 +1,10 @@
-package com.benefitj.quartz.controller;
+package com.benefitj.quartz.api;
 
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.TriggerType;
 import com.benefitj.quartz.job.JobType;
 import com.benefitj.quartz.job.WorkerType;
-import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;

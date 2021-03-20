@@ -2,7 +2,7 @@ package com.benefitj.quartz;
 
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
-import com.benefitj.quartz.service.QrtzJobTaskService;
+import com.benefitj.quartz.api.QrtzJobTaskService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;

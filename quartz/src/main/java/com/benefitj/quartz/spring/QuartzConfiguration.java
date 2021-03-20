@@ -4,7 +4,7 @@ import com.benefitj.quartz.QuartzStartListener;
 import com.benefitj.quartz.scheduler.DefaultSchedulerFactory;
 import com.benefitj.quartz.scheduler.GlobalDeleteJobTaskListener;
 import com.benefitj.quartz.scheduler.LoggingSchedulerListener;
-import com.benefitj.quartz.service.QrtzJobTaskService;
+import com.benefitj.quartz.api.QrtzJobTaskService;
 import com.benefitj.spring.ctx.EnableSpringCtxInit;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -26,10 +26,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Lazy
-@ComponentScan({
-    "com.benefitj.quartz.service",
-    "com.benefitj.quartz.controller"
-})
+@ComponentScan("com.benefitj.quartz.api")
 @EntityScan({"com.benefitj.quartz.entity"}) // quartz entity
 @MapperScan({"com.benefitj.quartz.mapper"}) // quartz mapper
 @EnableSpringCtxInit // Spring Context

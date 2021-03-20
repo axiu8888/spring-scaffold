@@ -3,14 +3,12 @@ package com.benefitj.system;
 import com.alibaba.fastjson.JSON;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
+import com.benefitj.quartz.api.QrtzJobTaskService;
 import com.benefitj.quartz.entity.QrtzJobTask;
 import com.benefitj.quartz.job.JobWorker;
-import com.benefitj.quartz.service.QrtzJobTaskService;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
-import com.google.common.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -29,7 +27,6 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -79,34 +76,15 @@ public class SystemApplication {
     }
   }
 
-  @Slf4j
-  @Component
-  public static class Printer {
-
-    @EventListener
-    public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
-      EventLoop.multi().schedule(() -> {
-        ApplicationContext ctx = event.getApplicationContext();
-        JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);
-        System.err.println("\n----- SIGNING_KEY -----------------------");
-        System.err.println(jwtProperty.getSigningKey());
-        System.err.println("----- SIGNING_KEY -----------------------\n");
-      }, 3, TimeUnit.SECONDS);
-    }
-
-    //@PosterDefinition
-    @Subscribe
-    public void onEvent(HttpServletRequest request) {
-//      Map<String, String> headers = ServletUtils.getHeaderMap(request);
-//      StringBuilder sb = new StringBuilder();
-//      headers.forEach((key, value) ->
-//          sb.append(key).append(": ").append(value).append("\n"));
-//      log.info("uri: {}, method: {}, headers: \n{}"
-//          , request.getRequestURI()
-//          , request.getMethod()
-//          , sb.toString()
-//      );
-    }
+  @EventListener
+  public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
+    EventLoop.multi().schedule(() -> {
+      ApplicationContext ctx = event.getApplicationContext();
+      JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);
+      System.err.println("\n----- SIGNING_KEY -----------------------");
+      System.err.println(jwtProperty.getSigningKey());
+      System.err.println("----- SIGNING_KEY -----------------------\n");
+    }, 3, TimeUnit.SECONDS);
   }
 
   /**
@@ -136,7 +114,7 @@ public class SystemApplication {
         System.err.println("-------------------------------------\n");
       } catch (Exception e) {
         logger.error("throws: " + e.getMessage(), e);
-        throw new JobExecutionException(e);
+        //throw new JobExecutionException(e);
       }
     }
   }

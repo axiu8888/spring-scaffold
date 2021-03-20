@@ -1,7 +1,7 @@
 package com.benefitj.quartz.scheduler;
 
 import com.benefitj.quartz.job.JobWorker;
-import com.benefitj.quartz.service.QrtzJobTaskService;
+import com.benefitj.quartz.api.QrtzJobTaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -67,6 +67,5 @@ public class GlobalDeleteJobTaskListener implements JobListener {
       logger.warn("throw: {}", ee.getMessage());
     }
   }
-
 
 }
