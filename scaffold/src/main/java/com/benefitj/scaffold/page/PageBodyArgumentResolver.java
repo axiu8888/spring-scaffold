@@ -7,7 +7,10 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * 请求分页参数解析
@@ -22,9 +25,18 @@ public class PageBodyArgumentResolver implements CustomHandlerMethodArgumentReso
   }
 
   @Override
-  public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+  public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
     Class<?> parameterType = parameter.getParameterType();
-    PageableRequest page = (PageableRequest) parameterType.newInstance();
+    Constructor<?> constructor = Arrays.stream(parameterType.getConstructors())
+        .min(Comparator.comparingInt(Constructor::getParameterCount))
+        .orElse(null);
+    PageableRequest page;
+    if (constructor != null) {
+      page = (PageableRequest) constructor.newInstance();
+    } else {
+      page = (PageableRequest) parameterType.newInstance();
+    }
     JSONObject json = new JSONObject();
     webRequest.getParameterMap().forEach((name, values) ->
         json.put(name, values.length == 1 ? values[0] : values));
