@@ -1,4 +1,7 @@
 
+apply plugin: 'java'
+apply plugin: 'maven'
+
 //sourceCompatibility = JavaVersion.VERSION_1_8
 //targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -42,8 +45,8 @@ dependencies {
 
     implementation "com.alibaba:fastjson:${fastjsonVersion}"
     implementation 'javax.inject:javax.inject:1'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation "com.google.guava:guava:${guavaVersion}"
     compileOnly 'ch.qos.logback:logback-classic:1.2.3'
