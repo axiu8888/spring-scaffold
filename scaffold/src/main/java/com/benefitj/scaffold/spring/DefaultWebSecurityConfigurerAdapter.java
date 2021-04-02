@@ -54,7 +54,7 @@ public class DefaultWebSecurityConfigurerAdapter extends AbstractWebSecurityConf
     config.addAllowedOriginPattern("*");
     config.addAllowedHeader("*");
     config.setMaxAge(36000L);
-    config.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"));
+    config.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);

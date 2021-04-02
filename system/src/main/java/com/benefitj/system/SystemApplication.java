@@ -9,11 +9,10 @@ import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import com.benefitj.spring.quartz.JobWorker;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -90,10 +89,9 @@ public class SystemApplication {
   /**
    * 测试 Quartz 的 JobWorker
    */
+  @Slf4j
   @Component("jobTaskWorker")
   public static class JobTaskWorker implements JobWorker {
-
-    private static final Logger logger = LoggerFactory.getLogger(JobTaskWorker.class);
 
     @Autowired
     private QuartzJobTaskService taskService;
@@ -114,7 +112,7 @@ public class SystemApplication {
         System.err.println("thread: " + Thread.currentThread().getName());
         System.err.println("-------------------------------------\n");
       } catch (Exception e) {
-        logger.error("throws: " + e.getMessage(), e);
+        log.error("throws: " + e.getMessage(), e);
         //throw new JobExecutionException(e);
       }
     }
