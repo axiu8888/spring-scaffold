@@ -1,4 +1,4 @@
-package com.benefitj.quartz.spring;
+package com.benefitj.scaffold.quartz;
 
 import org.springframework.context.annotation.Import;
 

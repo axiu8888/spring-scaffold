@@ -1,7 +1,7 @@
 package com.benefitj.system.config;
 
 import com.benefitj.event.EventBusPoster;
-import com.benefitj.quartz.spring.EnableQuartzConfuration;
+import com.benefitj.scaffold.quartz.EnableQuartzConfuration;
 import com.benefitj.scaffold.spring.EnableDruidConfuration;
 import com.benefitj.scaffold.spring.EnableScaffoldWebSecurityConfiguration;
 import com.benefitj.spring.aop.web.EnableAutoAopWebHandler;
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 
 @EntityScan("com.benefitj.system.model")
 @MapperScan("com.benefitj.system.mapper")
-@EnableAutoAopWebHandler // AOP
-@EnableRequestLoggingHandler // 打印请求日志
-@EnableQuartzConfuration // quartz
-@EnableDruidConfuration // druid
-@EnableEventBusPoster // EventBus
+@EnableAutoAopWebHandler      // AOP
+@EnableRequestLoggingHandler  // 打印请求日志
+@EnableQuartzConfuration      // quartz
+@EnableDruidConfuration       // druid
+@EnableEventBusPoster         // EventBus
 @EnableScaffoldWebSecurityConfiguration // web security
 @Configuration
 public class CommonsConfiguration {

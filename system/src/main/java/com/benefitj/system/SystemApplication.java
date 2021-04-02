@@ -3,18 +3,18 @@ package com.benefitj.system;
 import com.alibaba.fastjson.JSON;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
-import com.benefitj.quartz.api.QrtzJobTaskService;
-import com.benefitj.quartz.entity.QrtzJobTask;
-import com.benefitj.quartz.job.JobWorker;
 import com.benefitj.scaffold.SwaggerConfig;
+import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
+import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
-import org.quartz.JobDataMap;
+import com.benefitj.spring.quartz.JobWorker;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -95,18 +95,19 @@ public class SystemApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(JobTaskWorker.class);
 
+    @Autowired
+    private QuartzJobTaskService taskService;
+
     @Override
     public void execute(JobExecutionContext context, JobDetail detail, String taskId) throws JobExecutionException {
       try {
-        JobDataMap jobDataMap = detail.getJobDataMap();
-        QrtzJobTaskService taskService = getBean(QrtzJobTaskService.class);
-        QrtzJobTask task = taskService.get(taskId);
+        QuartzJobTaskEntity task = taskService.get(taskId);
         System.err.println("\n-------------------------------------");
         System.err.println("task: " + JSON.toJSONString(task));
         System.err.println("now: " + DateFmtter.fmtNowS());
         System.err.println("key: " + detail.getKey());
         System.err.println("jobClass: " + detail.getJobClass());
-        System.err.println("jobDataMap: " + JSON.toJSONString(jobDataMap));
+        System.err.println("jobDataMap: " + JSON.toJSONString(detail.getJobDataMap()));
         System.err.println("description: " + detail.getDescription());
         System.err.println("refireCount: " + context.getRefireCount());
         System.err.println("nextFireTime: " + fmtS(context.getNextFireTime()));

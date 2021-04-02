@@ -14,7 +14,6 @@ dependencies {
 	compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
 
 	compile(project(":scaffold"))
-	compile(project(":quartz"))
 
 	compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 	compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"

@@ -1,7 +1,7 @@
-package com.benefitj.quartz.scheduler;
+package com.benefitj.scaffold.quartz;
 
-import com.benefitj.quartz.job.JobWorker;
-import com.benefitj.quartz.api.QrtzJobTaskService;
+import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
+import com.benefitj.spring.quartz.JobWorker;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -20,15 +20,15 @@ public class GlobalDeleteJobTaskListener implements JobListener {
 
   private static final String NAME = "deleteListener";
 
-  private QrtzJobTaskService service;
+  private QuartzJobTaskService service;
 
-  public QrtzJobTaskService getService() {
+  public QuartzJobTaskService getService() {
     return service;
   }
 
   @Lazy
   @Autowired
-  public void setService(QrtzJobTaskService service) {
+  public void setService(QuartzJobTaskService service) {
     this.service = service;
   }
 

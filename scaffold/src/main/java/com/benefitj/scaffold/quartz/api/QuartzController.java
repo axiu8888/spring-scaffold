@@ -1,13 +1,13 @@
-package com.benefitj.quartz.api;
+package com.benefitj.scaffold.quartz.api;
 
 import com.benefitj.scaffold.page.PageableRequest;
-import com.benefitj.quartz.entity.QrtzJobTask;
-import com.benefitj.quartz.TriggerType;
-import com.benefitj.quartz.job.JobType;
-import com.benefitj.quartz.job.WorkerType;
+import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
+import com.benefitj.spring.quartz.JobType;
+import com.benefitj.spring.quartz.TriggerType;
+import com.benefitj.spring.quartz.WorkerType;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -29,7 +29,7 @@ import java.util.List;
 public class QuartzController {
 
   @Autowired
-  private QrtzJobTaskService qrtzService;
+  private QuartzJobTaskService quartzService;
 
   @ApiOperation("获取触发器类型")
   @GetMapping("/triggerType")
@@ -55,30 +55,30 @@ public class QuartzController {
   })
   @GetMapping
   public HttpResult<?> get(String id) {
-    QrtzJobTask task = qrtzService.get(id);
+    QuartzJobTaskEntity task = quartzService.get(id);
     return HttpResult.create(CommonStatus.OK, task);
   }
 
   @ApiOperation("添加任务调度")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "task", dataTypeClass = QrtzJobTask.class),
+      @ApiImplicitParam(name = "task", dataTypeClass = QuartzJobTaskEntity.class),
   })
   @PostMapping
-  public HttpResult<?> create(QrtzJobTask task) {
-    task = qrtzService.create(task);
+  public HttpResult<?> create(QuartzJobTaskEntity task) {
+    task = quartzService.create(task);
     return HttpResult.create(CommonStatus.CREATED, task);
   }
 
   @ApiOperation("更新任务调度")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "task", value = "任务调度数据", dataTypeClass = QrtzJobTask.class),
+      @ApiImplicitParam(name = "task", value = "任务调度数据", dataTypeClass = QuartzJobTaskEntity.class),
   })
   @PutMapping
-  public HttpResult<?> update(@RequestBody QrtzJobTask task) {
+  public HttpResult<?> update(@RequestBody QuartzJobTaskEntity task) {
     if (StringUtils.isBlank(task.getId())) {
       return HttpResult.failure("任务调度任务的ID不能为空");
     }
-    task = qrtzService.update(task);
+    task = quartzService.update(task);
     return HttpResult.create(CommonStatus.CREATED, task);
   }
 
@@ -89,7 +89,7 @@ public class QuartzController {
   })
   @DeleteMapping
   public HttpResult<?> delete(String id, Boolean force) {
-    int count = qrtzService.delete(id, Boolean.TRUE.equals(force));
+    int count = quartzService.delete(id, Boolean.TRUE.equals(force));
     return HttpResult.create(CommonStatus.NO_CONTENT, count);
   }
 
@@ -103,7 +103,7 @@ public class QuartzController {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("调度任务的ID不能为空");
     }
-    Boolean result = qrtzService.changeActive(id, active);
+    Boolean result = quartzService.changeActive(id, active);
     return HttpResult.create(CommonStatus.OK, result);
   }
 
@@ -112,8 +112,8 @@ public class QuartzController {
       @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
   })
   @GetMapping("/page")
-  public HttpResult<?> getPage(PageableRequest<QrtzJobTask> page) {
-    PageInfo<QrtzJobTask> pageList = qrtzService.getPage(page);
+  public HttpResult<?> getPage(PageableRequest<QuartzJobTaskEntity> page) {
+    PageInfo<QuartzJobTaskEntity> pageList = quartzService.getPage(page);
     return HttpResult.success(pageList);
   }
 
@@ -121,7 +121,7 @@ public class QuartzController {
   @ApiImplicitParams({})
   @GetMapping("/list")
   public HttpResult<?> getJobTaskList() {
-    List<QrtzJobTask> all = qrtzService.getAll();
+    List<QuartzJobTaskEntity> all = quartzService.getAll();
     return HttpResult.success(all);
   }
 

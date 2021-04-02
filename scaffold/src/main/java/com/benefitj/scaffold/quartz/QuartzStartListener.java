@@ -1,8 +1,8 @@
-package com.benefitj.quartz;
+package com.benefitj.scaffold.quartz;
 
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
-import com.benefitj.quartz.api.QrtzJobTaskService;
+import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 public class QuartzStartListener {
 
   private SchedulerFactoryBean schedulerFactoryBean;
-  private QrtzJobTaskService service;
+  private QuartzJobTaskService service;
 
   public QuartzStartListener() {
   }
 
   public QuartzStartListener(SchedulerFactoryBean schedulerFactoryBean,
-                             QrtzJobTaskService service) {
+                             QuartzJobTaskService service) {
     this.schedulerFactoryBean = schedulerFactoryBean;
     this.service = service;
   }
@@ -45,7 +45,7 @@ public class QuartzStartListener {
     }
   }
 
-  public void scheduleJobTasks(QrtzJobTaskService service) {
+  public void scheduleJobTasks(QuartzJobTaskService service) {
     service.scheduleJobTasks(service.getAll());
   }
 
@@ -57,11 +57,11 @@ public class QuartzStartListener {
     this.schedulerFactoryBean = schedulerFactoryBean;
   }
 
-  public QrtzJobTaskService getService() {
+  public QuartzJobTaskService getService() {
     return service;
   }
 
-  public void setService(QrtzJobTaskService service) {
+  public void setService(QuartzJobTaskService service) {
     this.service = service;
   }
 }

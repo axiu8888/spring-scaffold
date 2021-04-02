@@ -20,6 +20,9 @@ dependencies {
     compile "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
     compile "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
 
+    // QUARTZ
+    compile "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
+
     compile("io.springfox:springfox-swagger2:${swagger2Version}")
     compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
 

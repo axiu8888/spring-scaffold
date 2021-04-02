@@ -1,9 +1,10 @@
-package com.benefitj.quartz.entity;
+package com.benefitj.scaffold.quartz.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.benefitj.quartz.TriggerType;
-import com.benefitj.quartz.job.JobType;
-import com.benefitj.quartz.job.WorkerType;
+import com.benefitj.spring.quartz.JobType;
+import com.benefitj.spring.quartz.QuartzJobTask;
+import com.benefitj.spring.quartz.TriggerType;
+import com.benefitj.spring.quartz.WorkerType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
@@ -14,9 +15,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "qrtz_job_task")
-public class QrtzJobTask {
-
-  public static final int TRIGGER_PRIORITY = 50;
+public class QuartzJobTaskEntity implements QuartzJobTask {
 
   /**
    * 任务id
@@ -159,256 +158,273 @@ public class QrtzJobTask {
   @Column(name = "active", columnDefinition = "tinyint(1) NOT NULL DEFAULT 1 comment '可用状态'", length = 1)
   private Boolean active;
 
-  public QrtzJobTask() {
-  }
-
-  @JSONField(serialize = false)
-  @JsonIgnore
-  protected QrtzJobTask self() {
-    return this;
-  }
-
+  @Override
   public String getId() {
     return id;
   }
 
-  public QrtzJobTask setId(String id) {
+  @Override
+  public void setId(String id) {
     this.id = id;
-    return self();
   }
 
-  public String getJobName() {
-    return jobName;
-  }
-
-  public QrtzJobTask setJobName(String jobName) {
-    this.jobName = jobName;
-    return self();
-  }
-
+  @Override
   public String getJobGroup() {
     return jobGroup;
   }
 
-  public QrtzJobTask setJobGroup(String jobGroup) {
+  @Override
+  public void setJobGroup(String jobGroup) {
     this.jobGroup = jobGroup;
-    return self();
   }
 
+  @Override
+  public String getJobName() {
+    return jobName;
+  }
+
+  @Override
+  public void setJobName(String jobName) {
+    this.jobName = jobName;
+  }
+
+  @Override
   public String getJobAlias() {
     return jobAlias;
   }
 
-  public QrtzJobTask setJobAlias(String jobAlias) {
+  @Override
+  public void setJobAlias(String jobAlias) {
     this.jobAlias = jobAlias;
-    return self();
   }
 
+  @Override
   public String getDescription() {
     return description;
   }
 
-  public QrtzJobTask setDescription(String description) {
+  @Override
+  public void setDescription(String description) {
     this.description = description;
-    return self();
   }
 
+  @Override
   public Boolean getAsync() {
     return async;
   }
 
-  public QrtzJobTask setAsync(Boolean async) {
+  @Override
+  public void setAsync(Boolean async) {
     this.async = async;
-    return self();
   }
 
+  @Override
   public Boolean getRecovery() {
     return recovery;
   }
 
-  public QrtzJobTask setRecovery(Boolean recovery) {
+  @Override
+  public void setRecovery(Boolean recovery) {
     this.recovery = recovery;
-    return self();
   }
 
+  @Override
   public Boolean getPersistent() {
     return persistent;
   }
 
-  public QrtzJobTask setPersistent(Boolean persistAfter) {
-    this.persistent = persistAfter;
-    return self();
+  @Override
+  public void setPersistent(Boolean persistent) {
+    this.persistent = persistent;
   }
 
+  @Override
   public Boolean getDisallowConcurrent() {
     return disallowConcurrent;
   }
 
-  public QrtzJobTask setDisallowConcurrent(Boolean concurrent) {
-    this.disallowConcurrent = concurrent;
-    return self();
+  @Override
+  public void setDisallowConcurrent(Boolean disallowConcurrent) {
+    this.disallowConcurrent = disallowConcurrent;
   }
 
+  @Override
   public Date getCreateTime() {
     return createTime;
   }
 
-  public QrtzJobTask setCreateTime(Date createTime) {
+  @Override
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
-    return self();
   }
 
+  @Override
   public Date getUpdateTime() {
     return updateTime;
   }
 
-  public QrtzJobTask setUpdateTime(Date updateTime) {
+  @Override
+  public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
-    return self();
   }
 
+  @Override
   public String getJobType() {
     return jobType;
   }
 
+  @Override
   public void setJobType(String jobType) {
     this.jobType = jobType;
   }
 
-  public String getJobData() {
-    return jobData;
-  }
-
-  public QrtzJobTask setJobData(String jobClass) {
-    this.jobData = jobClass;
-    return self();
-  }
-
+  @Override
   public String getWorker() {
     return worker;
   }
 
-  public QrtzJobTask setWorker(String jobMethod) {
-    this.worker = jobMethod;
-    return self();
+  @Override
+  public void setWorker(String worker) {
+    this.worker = worker;
   }
 
+  @Override
   public String getWorkerType() {
     return workerType;
   }
 
-  public QrtzJobTask setWorkerType(String jobData) {
-    this.workerType = jobData;
-    return self();
+  @Override
+  public void setWorkerType(String workerType) {
+    this.workerType = workerType;
   }
 
-  public Boolean getActive() {
-    return active;
+  @Override
+  public String getJobData() {
+    return jobData;
   }
 
-  public QrtzJobTask setActive(Boolean active) {
-    this.active = active;
-    return self();
+  @Override
+  public void setJobData(String jobData) {
+    this.jobData = jobData;
   }
 
-
+  @Override
   public String getTriggerGroup() {
     return triggerGroup;
   }
 
-  public QrtzJobTask setTriggerGroup(String triggerGroup) {
+  @Override
+  public void setTriggerGroup(String triggerGroup) {
     this.triggerGroup = triggerGroup;
-    return self();
   }
 
+  @Override
   public String getTriggerName() {
     return triggerName;
   }
 
-  public QrtzJobTask setTriggerName(String triggerName) {
+  @Override
+  public void setTriggerName(String triggerName) {
     this.triggerName = triggerName;
-    return self();
   }
 
+  @Override
   public Integer getPriority() {
     return priority;
   }
 
-  public QrtzJobTask setPriority(Integer priority) {
+  @Override
+  public void setPriority(Integer priority) {
     this.priority = priority;
-    return self();
   }
 
+  @Override
   public Long getStartAt() {
     return startAt;
   }
 
-  public QrtzJobTask setStartAt(Long startAt) {
+  @Override
+  public void setStartAt(Long startAt) {
     this.startAt = startAt;
-    return self();
   }
 
+  @Override
   public Long getEndAt() {
     return endAt;
   }
 
-  public QrtzJobTask setEndAt(Long endAt) {
+  @Override
+  public void setEndAt(Long endAt) {
     this.endAt = endAt;
-    return self();
   }
 
+  @Override
   public String getCalendarName() {
     return calendarName;
   }
 
-  public QrtzJobTask setCalendarName(String calendarName) {
+  @Override
+  public void setCalendarName(String calendarName) {
     this.calendarName = calendarName;
-    return self();
   }
 
+  @Override
   public Integer getMisfirePolicy() {
     return misfirePolicy;
   }
 
-  public QrtzJobTask setMisfirePolicy(Integer misfirePolicy) {
+  @Override
+  public void setMisfirePolicy(Integer misfirePolicy) {
     this.misfirePolicy = misfirePolicy;
-    return self();
   }
 
+  @Override
   public String getTriggerType() {
     return triggerType;
   }
 
-  public QrtzJobTask setTriggerType(String taskType) {
-    this.triggerType = taskType;
-    return self();
+  @Override
+  public void setTriggerType(String triggerType) {
+    this.triggerType = triggerType;
   }
 
+  @Override
   public Long getSimpleInterval() {
     return simpleInterval;
   }
 
-  public QrtzJobTask setSimpleInterval(Long simpleInterval) {
+  @Override
+  public void setSimpleInterval(Long simpleInterval) {
     this.simpleInterval = simpleInterval;
-    return self();
   }
 
+  @Override
   public Integer getSimpleRepeatCount() {
     return simpleRepeatCount;
   }
 
-  public QrtzJobTask setSimpleRepeatCount(Integer simpleRepeatCount) {
+  @Override
+  public void setSimpleRepeatCount(Integer simpleRepeatCount) {
     this.simpleRepeatCount = simpleRepeatCount;
-    return self();
   }
 
+  @Override
   public String getCronExpression() {
     return cronExpression;
   }
 
-  public QrtzJobTask setCronExpression(String cronExpression) {
+  @Override
+  public void setCronExpression(String cronExpression) {
     this.cronExpression = cronExpression;
-    return self();
   }
 
+  @Override
+  public Boolean getActive() {
+    return active;
+  }
+
+  @Override
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
 }

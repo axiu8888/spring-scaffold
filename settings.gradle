@@ -11,10 +11,6 @@ rootProject.name = 'springboot-scaffold'
  */
 include ":scaffold"
 /**
- * quartz
- */
-include ":quartz"
-/**
  * 系统
  */
 include ":system"
