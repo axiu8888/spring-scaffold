@@ -1,5 +1,6 @@
 package com.benefitj.scaffold.spring;
 
+import com.benefitj.core.IOUtils;
 import com.benefitj.scaffold.file.FileManagerFilter;
 import com.benefitj.scaffold.file.SimpleUserFileManagerFactory;
 import com.benefitj.scaffold.file.SystemFileManager;
@@ -9,8 +10,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
-import java.io.File;
 
 /**
  * 系统文件
@@ -27,7 +26,7 @@ public class SystemFileManagerConfiguration {
   @ConditionalOnMissingBean
   @Bean
   public SystemFileManager systemFileManager(UserFileManagerFactory userFileManagerCreator) {
-    return new SystemFileManager(new File(root), userFileManagerCreator);
+    return new SystemFileManager(IOUtils.mkDirs(root, "users/"), userFileManagerCreator);
   }
 
   /**

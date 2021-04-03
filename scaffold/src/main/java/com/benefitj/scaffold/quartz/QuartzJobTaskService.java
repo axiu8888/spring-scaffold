@@ -1,10 +1,8 @@
-package com.benefitj.scaffold.quartz.api;
+package com.benefitj.scaffold.quartz;
 
 import com.benefitj.core.IdUtils;
 import com.benefitj.core.SingletonSupplier;
 import com.benefitj.scaffold.BaseService;
-import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.quartz.mapper.QuartzJobTaskMapper;
@@ -13,14 +11,12 @@ import com.benefitj.spring.ctx.SpringCtxHolder;
 import com.benefitj.spring.quartz.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.CronExpression;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +26,7 @@ import java.util.List;
 @Service
 public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, QuartzJobTaskMapper> {
 
-  private final SingletonSupplier<QuartzScheduler> QuartzSchedulerInstance = SingletonSupplier.of(this::wrapScheduler);
+  private final SingletonSupplier<QuartzScheduler> schedulerInstance = SingletonSupplier.of(this::wrapScheduler);
 
   @Autowired
   private QuartzJobTaskMapper mapper;
@@ -55,7 +51,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
    * 获取调度器
    */
   public QuartzScheduler getScheduler() {
-    return QuartzSchedulerInstance.get();
+    return schedulerInstance.get();
   }
 
   /**
@@ -70,7 +66,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
       }
     }
     if (StringUtils.isBlank(name)) {
-      throw new LogicException("无法获取jobName");
+      throw new QuartzException("无法获取jobName");
     }
     return name;
   }
@@ -103,7 +99,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
    */
   public QuartzJobTaskEntity create(QuartzJobTaskEntity task) {
     if (StringUtils.isBlank(task.getDescription())) {
-      throw new LogicException("请给此调度任务添加一个描述");
+      throw new QuartzException("请给此调度任务添加一个描述");
     }
 
     // 任务ID
@@ -111,83 +107,11 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
     // 创建时间
     task.setCreateTime(new Date());
     task.setActive(Boolean.TRUE);
-    setupJobTask(task);
+    QuartzUtils.setup(task, nextJobName());
     QuartzUtils.scheduleJob(getScheduler(), task);
     // 保存
     super.insert(task);
     return task;
-  }
-
-  private void setupJobTask(QuartzJobTaskEntity task) {
-    TriggerType triggerType = TriggerType.of(task.getTriggerType());
-    if (triggerType == null) {
-      throw new LogicException("请指定正确的触发器类型");
-    }
-
-    QuartzUtils.checkWorker(task);
-
-    String jobName = nextJobName();
-    // 触发器组名称
-    task.setTriggerGroup(triggerType.name());
-    // 创建随机的触发器名称
-    task.setTriggerName("trigger-" + jobName);
-    // Job组名称
-    task.setJobGroup(triggerType.name());
-    // 创建随机的 JobName
-    task.setJobName(jobName);
-
-    // 开始时间
-    long now = System.currentTimeMillis();
-    Checker.checkNull(task.getStartAt(), () -> task.setStartAt(now));
-
-    // 调度的时间不能比当前时间更早
-    if (task.getStartAt() < now) {
-      task.setStartAt(now);
-    }
-
-    if (triggerType == TriggerType.CRON) {
-      try {
-        // 验证表达式
-        CronExpression.validateExpression(task.getCronExpression());
-      } catch (ParseException e) {
-        throw new LogicException("[" + task.getCronExpression() + "]表达式错误: " + e.getMessage());
-      }
-      if (task.getMisfirePolicy() == null) {
-        // 默认什么都不做
-        task.setMisfirePolicy(TriggerType.CronPolicy.DO_NOTHING.getPolicy());
-      }
-    } else {
-      // 验证Simple的值
-      // 执行次数
-      Checker.checkNull(task.getSimpleRepeatCount(), () -> task.setSimpleRepeatCount(0));
-      // 间隔时间
-      Checker.checkNull(task.getSimpleInterval(), () -> task.setSimpleInterval(0L));
-
-      if (task.getMisfirePolicy() == null) {
-        // 默认什么都不做
-        task.setMisfirePolicy(TriggerType.SimplePolicy.SMART_POLICY.getPolicy());
-      }
-    }
-
-    if (task.getEndAt() != null) {
-      // 至少开始后的5秒再结束
-      task.setEndAt(Math.max(task.getStartAt() + 5_000, task.getEndAt()));
-    }
-
-    Checker.checkNull(task.getAsync(), () -> task.setAsync(false));
-    Checker.checkNull(task.getRecovery(), () -> task.setRecovery(false));
-    Checker.checkNull(task.getPersistent(), () -> task.setPersistent(false));
-    Checker.checkNull(task.getDisallowConcurrent(), () -> task.setDisallowConcurrent(false));
-    Checker.checkNull(task.getPriority(), () -> task.setPriority(QuartzJobTaskEntity.TRIGGER_PRIORITY));
-
-    // job类型
-    JobType jobType = JobType.of(task.getJobType());
-    // 任务类型
-    task.setJobType(jobType.name());
-    // 是否持久化
-    task.setPersistent(jobType.isPersistent());
-    // 不允许并发执行
-    task.setDisallowConcurrent(jobType.isDisallowConcurrent());
   }
 
   /**
@@ -204,11 +128,11 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
 
       TriggerType type = TriggerType.of(task.getTriggerType());
       if (type == null) {
-        throw new LogicException("请指定正确的触发器类型");
+        throw new QuartzException("请指定正确的触发器类型");
       }
 
       if (!type.name().equalsIgnoreCase(existTask.getTriggerType())) {
-        throw new LogicException("无法修改触发器类型");
+        throw new QuartzException("无法修改触发器类型");
       }
 
       QuartzJobTaskEntity copy = BeanHelper.copy(existTask, QuartzJobTaskEntity.class);
@@ -218,7 +142,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
       existTask.setActive(copy.getActive());
 
       // 重置调度
-      setupJobTask(existTask);
+      QuartzUtils.setup(existTask, nextJobName());
 
       try {
         Scheduler s = getScheduler();

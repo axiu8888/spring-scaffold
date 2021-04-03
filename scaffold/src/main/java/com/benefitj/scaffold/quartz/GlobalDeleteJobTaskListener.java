@@ -1,6 +1,5 @@
 package com.benefitj.scaffold.quartz;
 
-import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
 import com.benefitj.spring.quartz.JobWorker;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;

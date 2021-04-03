@@ -1,5 +1,6 @@
-package com.benefitj.scaffold.quartz.api;
+package com.benefitj.scaffold.quartz;
 
+import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.vo.CommonStatus;
@@ -17,11 +18,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Singleton;
 import java.util.List;
 
 /**
  * Quartz的调度任务
  */
+@Singleton
 @AopWebPointCut
 @Api(tags = {"调度任务"}, description = "Quartz的调度任务")
 @RestController
@@ -112,7 +115,7 @@ public class QuartzController {
       @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
   })
   @GetMapping("/page")
-  public HttpResult<?> getPage(PageableRequest<QuartzJobTaskEntity> page) {
+  public HttpResult<?> getPage(@PageBody PageableRequest<QuartzJobTaskEntity> page) {
     PageInfo<QuartzJobTaskEntity> pageList = quartzService.getPage(page);
     return HttpResult.success(pageList);
   }

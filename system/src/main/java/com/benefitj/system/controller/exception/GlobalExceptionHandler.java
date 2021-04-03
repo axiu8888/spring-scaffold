@@ -12,6 +12,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+  /**
+   * 文件过大
+   */
+  @ExceptionHandler(value = {MultipartException.class})
+  public HttpResult<?> httpRequestMethodNotSupported(HttpServletRequest req,
+                                                     MultipartException e) {
+    LOG.error("[{}]请求出错: {}", req.getRequestURI(), e.getMessage());
+    return HttpResult.failure(400, e.getMessage());
+  }
 
   /**
    * 请求方法不支持

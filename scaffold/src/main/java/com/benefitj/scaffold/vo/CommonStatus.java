@@ -8,31 +8,31 @@ public enum CommonStatus {
   /**
    * 200 OK 服务器返回用户请求的数据，该操作是幂等的
    */
-  OK(200, "OK", "Success"),
+  OK(200, "OK", "success"),
   /**
    * 201 CREATED 新建或者修改数据成功
    */
-  CREATED(201, "Created", "Success"),
+  CREATED(201, "Created", "success"),
   /**
    * 204 NO CONTENT 删除数据成功
    */
-  NO_CONTENT(204, "No Content", "Success"),
+  NO_CONTENT(204, "No Content", "success"),
   /**
    * 400 BAD REQUEST 用户发出的请求有问题，该操作是幂等的
    */
-  BAD_REQUEST(400, "Bad Request", "Failure"),
+  BAD_REQUEST(400, "Bad Request", "failure"),
   /**
    * 401 UNAUTHORIED 表示用户没有认证，无法进行操作
    */
-  UNAUTHORIED(401, "Unauthoried", "Failure"),
+  UNAUTHORIED(401, "Unauthoried", "failure"),
   /**
    * 403 FORBIDDEN 用户访问是被禁止的
    */
-  FORBIDDEN(403, "Forbidden", "Failure"),
+  FORBIDDEN(403, "Forbidden", "failure"),
   /**
    * 422 Unprocesable Entity 当创建一个对象时，发生一个验证错误
    */
-  UNPROCESABLE_ENTITY(422, "Unprocesable Entity", "Failure"),
+  UNPROCESABLE_ENTITY(422, "Unprocesable Entity", "failure"),
   /**
    * 500 INTERNAL SERVER ERROR 服务器内部错误，用户将无法判断发出的请求是否成功
    */

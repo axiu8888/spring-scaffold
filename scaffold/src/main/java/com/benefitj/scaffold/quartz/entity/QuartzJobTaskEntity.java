@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "qrtz_job_task")
+@Table(name = "quartz_job_task")
 public class QuartzJobTaskEntity implements QuartzJobTask {
 
   /**

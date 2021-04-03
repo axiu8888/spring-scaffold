@@ -1,16 +1,18 @@
 package com.benefitj.scaffold.quartz;
 
-import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
+import com.benefitj.scaffold.quartz.schedservice.SchedService;
+import com.benefitj.scaffold.quartz.schedservice.SchedServiceRegistrar;
 import com.benefitj.spring.quartz.enbale.EnableQuartz;
+import com.benefitj.spring.registrar.RegistrarMethodAnnotationBeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@ComponentScan("com.benefitj.scaffold.quartz.api")
+@Import({QuartzController.class, QuartzJobTaskService.class})
 @EntityScan({"com.benefitj.scaffold.quartz.entity"}) // quartz entity
 @MapperScan({"com.benefitj.scaffold.quartz.mapper"}) // quartz mapper
 @EnableQuartz
@@ -40,6 +42,19 @@ public class QuartzConfiguration {
   @Bean
   public GlobalDeleteJobTaskListener deleteJobTaskListener() {
     return new GlobalDeleteJobTaskListener();
+  }
+
+
+  @ConditionalOnMissingBean(name = "schedServiceAnnotationProcessor")
+  @Bean("schedServiceAnnotationProcessor")
+  public RegistrarMethodAnnotationBeanPostProcessor schedServiceAnnotationProcessor(SchedServiceRegistrar registrar) {
+    return new RegistrarMethodAnnotationBeanPostProcessor(registrar, SchedService.class);
+  }
+
+  @ConditionalOnMissingBean
+  @Bean
+  public SchedServiceRegistrar schedServiceRegistrar() {
+    return new SchedServiceRegistrar();
   }
 
 }

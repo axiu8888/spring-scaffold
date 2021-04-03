@@ -2,7 +2,6 @@ package com.benefitj.scaffold.quartz;
 
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
-import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -34,12 +33,12 @@ public class QuartzStartListener {
     if (field != null) {
       Integer value = ReflectUtils.getFieldValue(field, schedulerFactoryBean);
       // 调度任务
-      EventLoop.multi().schedule(() -> scheduleJobTasks(getService())
+      EventLoop.io().schedule(() -> scheduleJobTasks(getService())
           , value + 3000
           , TimeUnit.MILLISECONDS);
     } else {
       // 调度任务
-      EventLoop.multi().schedule(() -> scheduleJobTasks(getService())
+      EventLoop.io().schedule(() -> scheduleJobTasks(getService())
           , 5
           , TimeUnit.SECONDS);
     }

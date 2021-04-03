@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
 import com.benefitj.scaffold.SwaggerConfig;
-import com.benefitj.scaffold.quartz.api.QuartzJobTaskService;
+import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import com.benefitj.spring.quartz.JobWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
@@ -31,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * 系统管理
  */
-@EnableAthenapdfConfiguration
 @SpringBootApplication
 public class SystemApplication {
   public static void main(String[] args) {

@@ -64,6 +64,17 @@ public class HttpResult<T> {
   /**
    * 失败
    *
+   * @param data 数据
+   * @param <T>  类型
+   * @return 返回Http结果
+   */
+  public static <T> HttpResult<T> failure(String data) {
+    return failure(CommonStatus.BAD_REQUEST.getCode(), data);
+  }
+
+  /**
+   * 失败
+   *
    * @param code 结果码
    * @param msg  消息
    * @param <T>  类型
