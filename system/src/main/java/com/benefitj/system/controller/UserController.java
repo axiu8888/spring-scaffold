@@ -39,6 +39,9 @@ public class UserController {
   })
   @GetMapping
   public HttpResult<?> get(String id) {
+    if (StringUtils.isBlank(id)) {
+      id = JwtTokenManager.currentUserId();
+    }
     SysUser user = userService.get(id);
     return HttpResult.create(CommonStatus.OK, user);
   }

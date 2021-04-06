@@ -238,3 +238,4 @@ lint/tmp/
 
 /.gradle/
 /.idea/
+/system/src/main/resources/application-dev.properties

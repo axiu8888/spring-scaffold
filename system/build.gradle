@@ -8,6 +8,7 @@ apply from: "${getRootDir()}/buildSystem/springboot.gradle"
 
 group = "system-management"
 version = "1.0.1-SNAPSHOT"
+archivesBaseName = "${group}"
 
 dependencies {
 	compile fileTree(dir: 'libs/jar', include: ['*.jar'])
