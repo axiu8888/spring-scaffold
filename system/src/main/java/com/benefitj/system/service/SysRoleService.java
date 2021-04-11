@@ -144,26 +144,8 @@ public class SysRoleService extends SysBaseService<SysRole, SysRoleMapper> {
   }
 
   @Override
-  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
-  }
-
-  /**
-   * 获取机构的角色
-   *
-   * @param orgId      机构ID
-   * @param active     是否可用
-   * @param multiLevel 多层级(当前用户机构下的所有子级机构)
-   * @return 返回角色列表
-   */
-  public List<SysRole> getRoleList(String orgId, Boolean active, Boolean multiLevel) {
-    if (Boolean.TRUE.equals(multiLevel)) {
-      SysRole role = new SysRole();
-      role.setOrgId(orgId);
-      role.setActive(active);
-      return getMapper().selectList(role, null, null, true);
-    }
-    return getMapper().selectPlainList(orgId, active);
   }
 
 }

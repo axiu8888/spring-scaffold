@@ -3,6 +3,7 @@ package com.benefitj.scaffold.quartz;
 import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
@@ -123,8 +124,8 @@ public class QuartzController {
   @ApiOperation("获取机构的任务调度列表")
   @ApiImplicitParams({})
   @GetMapping("/list")
-  public HttpResult<?> getJobTaskList() {
-    List<QuartzJobTaskEntity> all = quartzService.getAll();
+  public HttpResult<?> getJobTaskList(@GetBody QuartzJobTaskEntity condition) {
+    List<QuartzJobTaskEntity> all = quartzService.getList(condition, null, null, false);
     return HttpResult.success(all);
   }
 

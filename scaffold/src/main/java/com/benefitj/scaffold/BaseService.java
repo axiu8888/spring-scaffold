@@ -145,7 +145,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param multiLevel 是否为多层级
    * @return 返回查询的列表
    */
-  public List<T> getList(T condition, @Nullable Date startTime, @Nullable Date endTime, boolean multiLevel) throws UnsupportedOperationException {
+  public List<T> getList(T condition, @Nullable Date startTime, @Nullable Date endTime, Boolean multiLevel) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("还未实现，请实现此方法!");
   }
 
@@ -206,7 +206,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @return 返回删除的条数
    */
   @Transactional(rollbackFor = Throwable.class)
-  protected int delete(@Nonnull T record) {
+  public int delete(@Nonnull T record) {
     return getMapper().delete(record);
   }
 
@@ -217,7 +217,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @return 返回删除的条数
    */
   @Transactional(rollbackFor = Throwable.class)
-  protected int deleteByPK(@Nonnull Object pk) {
+  public int deleteByPK(@Nonnull Object pk) {
     return getMapper().deleteByPrimaryKey(pk);
   }
 

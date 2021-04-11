@@ -38,6 +38,45 @@ public class FileController {
   @Autowired
   private SystemFileManager systemFileManager;
 
+  @ApiOperation("文件上传")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "path", value = "文件路径"),
+      @ApiImplicitParam(name = "files", value = "文件数组", required = true),
+  })
+  @PostMapping
+  public HttpResult<?> upload(HttpServletRequest request, MultipartFile[] files, String path) throws IOException {
+    if (files == null || files.length == 0) {
+      return HttpResult.failure("上传文件不能为空!");
+    }
+    IUserFileManager ufm = systemFileManager.currentUser();
+    File dir = ufm.getDirectory(StringUtils.isNotBlank(path) ? path : "/", true);
+    for (MultipartFile file : files) {
+      String filename = file.getOriginalFilename();
+      filename = StringUtils.isNotBlank(filename) ? filename : IdUtils.nextId(8) + "__" + file.getName();
+      BreakPointTransmissionHelper.upload(request, file, new File(dir, filename));
+    }
+    return HttpResult.success("上传成功!");
+  }
+
+  @ApiOperation("文件下载")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "path", value = "路径"),
+      @ApiImplicitParam(name = "filename", value = "文件名称"),
+  })
+  @GetMapping
+  public void download(HttpServletRequest request,
+                       HttpServletResponse response,
+                       String path,
+                       String filename) throws IOException {
+    IUserFileManager ufm = systemFileManager.currentUser();
+    File file = ufm.getFile(path, filename);
+    if (!file.exists()) {
+      response.encodeRedirectURL("/error/404.html");
+      return;
+    }
+    BreakPointTransmissionHelper.download(request, response, file, filename);
+  }
+
   @ApiOperation("文件列表")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "path", value = "文件的全路径", required = true),
@@ -69,51 +108,12 @@ public class FileController {
     return Stream.of(file);
   }
 
-  @ApiOperation("文件下载")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "path", value = "路径"),
-      @ApiImplicitParam(name = "filename", value = "文件名称"),
-  })
-  @GetMapping("/download")
-  public void download(HttpServletRequest request,
-                       HttpServletResponse response,
-                       String path,
-                       String filename) throws IOException {
-    IUserFileManager ufm = systemFileManager.currentUser();
-    File file = ufm.getFile(path, filename);
-    if (!file.exists()) {
-      response.encodeRedirectURL("/error/404.html");
-      return;
-    }
-    BreakPointTransmissionHelper.download(request, response, file, filename);
-  }
-
-  @ApiOperation("文件上传")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "path", value = "文件路径"),
-      @ApiImplicitParam(name = "files", value = "文件数组", required = true),
-  })
-  @PostMapping("/upload")
-  public HttpResult<?> upload(HttpServletRequest request, MultipartFile[] files, String path) throws IOException {
-    if (files == null || files.length == 0) {
-      return HttpResult.failure("上传文件不能为空!");
-    }
-    IUserFileManager ufm = systemFileManager.currentUser();
-    File dir = ufm.getDirectory(StringUtils.isNotBlank(path) ? path : "/", true);
-    for (MultipartFile file : files) {
-      String filename = file.getOriginalFilename();
-      filename = StringUtils.isNotBlank(filename) ? filename : IdUtils.nextId(8) + "__" + file.getName();
-      BreakPointTransmissionHelper.upload(request, file, new File(dir, filename));
-    }
-    return HttpResult.success("上传成功!");
-  }
-
   @ApiOperation("文件删除")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "path", value = "文件路径"),
       @ApiImplicitParam(name = "files", value = "文件", required = true),
   })
-  @PostMapping("/delete")
+  @DeleteMapping
   public HttpResult<?> delete(String path, String[] files) {
     IUserFileManager ufm = systemFileManager.currentUser();
     File dir = ufm.getDirectory(StringUtils.isNotBlank(path) ? path : "/", true);

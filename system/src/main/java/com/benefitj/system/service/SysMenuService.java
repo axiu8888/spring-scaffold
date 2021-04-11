@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 菜单
@@ -26,7 +25,7 @@ public class SysMenuService extends SysBaseService<SysMenu, SysMenuMapper> {
   }
 
   public boolean checkMenuPermission(SysMenu menu) throws PermissionException {
-    if (super.checkPermission(menu)) {
+    if (!super.checkPermission(menu)) {
       logger.info("当前用户无权操作此机构的菜单, checkId: {}, standardId: {}", menu.getOrgId(), currentOrgId());
       throw new PermissionException("当前用户无权操作此菜单");
     }
@@ -116,24 +115,5 @@ public class SysMenuService extends SysBaseService<SysMenu, SysMenuMapper> {
     }
     return false;
   }
-
-  /**
-   * 获取机构的菜单
-   *
-   * @param orgId      机构ID
-   * @param active     是否可用
-   * @param multiLevel 多层级(当前用户机构下的所有子级机构)
-   * @return 返回菜单列表
-   */
-  public List<SysMenu> getMenuList(String orgId, Boolean active, Boolean multiLevel) {
-    if (Boolean.TRUE.equals(multiLevel)) {
-      SysMenu menu = new SysMenu();
-      menu.setOrgId(orgId);
-      menu.setActive(active);
-      return getMapper().selectList(menu, null, null, true);
-    }
-    return getMapper().selectPlainList(orgId, active);
-  }
-
 
 }

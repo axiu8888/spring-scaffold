@@ -4,6 +4,7 @@ package com.benefitj.system.controller;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
+import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
@@ -19,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -102,19 +102,16 @@ public class OrganizationController {
     return HttpResult.success(orgList);
   }
 
-  @ApiOperation("获取全部的机构")
+  @ApiOperation("获取机构列表")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
+      @ApiImplicitParam(name = "multiLevel", value = "是否多层级", dataType = "Boolean"),
   })
   @GetMapping("/list")
-  public HttpResult<?> getOrgList(String id, Boolean active) {
-    id = Checker.checkNotBlank(id, JwtTokenManager.currentOrgId());
-    if (StringUtils.isBlank(id)) {
-      return HttpResult.failure("机构id不能为空");
-    }
-    List<SysOrganization> orgList = orgService.getMultiOrgList(id, active, true);
-    return HttpResult.success(orgList);
+  public HttpResult<?> getList(@GetBody SysOrganization condition, Boolean multiLevel) {
+    condition.setId(Checker.checkNotBlank(condition.getId(), JwtTokenManager.currentOrgId()));
+    List<SysOrganization> organizations = orgService.getList(condition, null, null, multiLevel);
+    return HttpResult.success(organizations);
   }
 
   @ApiOperation("获取子机构")
@@ -123,13 +120,11 @@ public class OrganizationController {
       @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
   })
   @GetMapping("/children")
-  public HttpResult<?> getChildren(String id, Boolean active) {
-    id = Checker.checkNotBlank(id, JwtTokenManager.currentOrgId());
-    if (StringUtils.isBlank(id)) {
-      return HttpResult.success(Collections.emptyList());
-    }
-    List<SysOrganization> orgList = orgService.getPlainChildren(id, active);
-    return HttpResult.success(orgList);
+  public HttpResult<?> getChildren(@GetBody SysOrganization condition, Boolean multiLevel) {
+    condition.setParentId(Checker.checkNotBlank(condition.getParentId(), JwtTokenManager.currentOrgId()));
+    condition.setId(null);
+    List<SysOrganization> organizations = orgService.getList(condition, null, null, multiLevel);
+    return HttpResult.success(organizations);
   }
 
   @ApiOperation("获取组织机构树")

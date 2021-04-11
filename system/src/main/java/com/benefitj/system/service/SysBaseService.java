@@ -38,7 +38,7 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
    * @return 返回是否可以继续操作
    */
   public boolean checkOrgLevel(String orgId) {
-    return currentToken() == null || orgService.checkOrgLevel(orgId);
+    return currentToken() == null || getOrgService().checkOrgLevel(orgId);
   }
 
   /**
@@ -91,7 +91,7 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
   }
 
   @Override
-  public List<T> getList(T condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<T> getList(T condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

@@ -157,6 +157,21 @@ public class QuartzJobTaskEntity implements QuartzJobTask {
    */
   @Column(name = "active", columnDefinition = "tinyint(1) NOT NULL DEFAULT 1 comment '可用状态'", length = 1)
   private Boolean active;
+  /**
+   * 机构ID
+   */
+  @Column(name = "org_id", columnDefinition = "varchar(32) comment '拥有者'", length = 32)
+  private String orgId;
+  /**
+   * 拥有者
+   */
+  @Column(name = "owner", columnDefinition = "varchar(32) comment '拥有者'", length = 32)
+  private String owner;
+  /**
+   * 拥有者类型
+   */
+  @Column(name = "owner_type", columnDefinition = "varchar(30) comment '拥有者类型'", length = 30)
+  private String ownerType;
 
   @Override
   public String getId() {
@@ -426,5 +441,29 @@ public class QuartzJobTaskEntity implements QuartzJobTask {
   @Override
   public void setActive(Boolean active) {
     this.active = active;
+  }
+
+  public String getOrgId() {
+    return orgId;
+  }
+
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
+  }
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
+  public String getOwnerType() {
+    return ownerType;
+  }
+
+  public void setOwnerType(String ownerType) {
+    this.ownerType = ownerType;
   }
 }

@@ -2,7 +2,7 @@ package com.benefitj.system.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.benefitj.scaffold.security.user.JwtUserDetails;
-import com.benefitj.system.model.SysUser;
+import com.benefitj.system.model.SysAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,9 +12,16 @@ import java.util.List;
 /**
  * JWT用户详情
  */
-public class SimpleJwtUserDetails extends SysUser implements JwtUserDetails {
+public class SimpleJwtAccountDetails extends SysAccount implements JwtUserDetails {
 
+  /**
+   * 权限
+   */
   private List<GrantedAuthority> authorities = Collections.emptyList();
+  /**
+   * 机构ID
+   */
+  private String orgId;
 
   /**
    * 获取用户ID
@@ -36,6 +43,16 @@ public class SimpleJwtUserDetails extends SysUser implements JwtUserDetails {
   @Override
   public void setUserId(String userId) {
     this.setId(userId);
+  }
+
+  @Override
+  public String getOrgId() {
+    return orgId;
+  }
+
+  @Override
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
   }
 
   @Override

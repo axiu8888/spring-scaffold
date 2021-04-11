@@ -1,59 +1,61 @@
 package com.benefitj.system.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.benefitj.scaffold.Gender;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
 
 /**
- * 账号
+ * 用户信息
  */
 @Entity
 @Table(name = "sys_user")
 public class SysUser extends BaseModel implements ISysBaseModel<String> {
 
   /**
-   * ID
+   * 用户ID
    */
   @Id
-  @Column(name = "id", columnDefinition = "varchar(32) comment 'ID'", length = 32)
+  @Column(name = "id", columnDefinition = "varchar(32) comment '用户ID'")
   private String id;
-  /**
-   * 用户名
-   */
-  @PrimaryKeyJoinColumn
-  @Column(name = "username", columnDefinition = "varchar(100) comment '用户名'", length = 100, nullable = false, unique = true)
-  private String username;
-  /**
-   * 密码
-   */
-  @JsonIgnore
-  @Column(name = "password", columnDefinition = "varchar(200) comment '密码'", length = 200, nullable = false)
-  private String password;
-  /**
-   * 是否被锁住
-   */
-  @JsonIgnore
-  @Column(name = "locked", columnDefinition = "tinyint(1) comment '是否被锁住'")
-  private Boolean locked = Boolean.FALSE;
   /**
    * 机构ID
    */
   @Column(name = "org_id", columnDefinition = "varchar(32) comment '机构ID'")
   private String orgId;
-
-  public SysUser() {
-  }
-
-  public SysUser(String id) {
-    this.id = id;
-    this.setActive(null);
-  }
-
-  public SysUser(String username, String password) {
-    this.username = username;
-    this.password = password;
-  }
+  /**
+   * 姓
+   */
+  @Column(name = "name", columnDefinition = "varchar(50) comment '姓'", length = 50)
+  private String name;
+  /**
+   * 性别
+   */
+  @Column(name = "gender", columnDefinition = "varchar(20) comment '性别'")
+  private Gender gender;
+  /**
+   * 出生日期
+   */
+  @Column(name = "birthday", columnDefinition = "datetime comment '出生日期'")
+  private Date birthday;
+  /**
+   * 身高 CM
+   */
+  @Column(name = "height", columnDefinition = "integer comment '身高'")
+  private Integer height;
+  /**
+   * 体重 KG
+   */
+  @Column(name = "weight", columnDefinition = "float comment '体重'")
+  private Float weight;
+  /**
+   * 头像地址
+   */
+  @Column(name = "avatar", columnDefinition = "varchar(200) comment '头像'")
+  private String avatar;
 
   @Override
   public String getId() {
@@ -61,24 +63,8 @@ public class SysUser extends BaseModel implements ISysBaseModel<String> {
   }
 
   @Override
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setId(String zid) {
+    this.id = zid;
   }
 
   @Override
@@ -86,30 +72,58 @@ public class SysUser extends BaseModel implements ISysBaseModel<String> {
     return orgId;
   }
 
-  public void setLocked(Boolean locked) {
-    this.locked = locked;
-  }
-
   @Override
   public void setOrgId(String orgId) {
     this.orgId = orgId;
   }
 
-  public Boolean getLocked() {
-    return locked;
-  }
-
-  @JSONField(serialize = false)
-  @JsonIgnore
   @Override
   public String getName() {
-    return getUsername();
+    return name;
   }
 
-  @JSONField(serialize = false)
-  @JsonIgnore
   @Override
-  public void setName(String name) {
-    this.setUsername(name);
+  public void setName(String firstName) {
+    this.name = firstName;
+  }
+
+  public Gender getGender() {
+    return gender;
+  }
+
+  public void setGender(Gender gender) {
+    this.gender = gender;
+  }
+
+  public Date getBirthday() {
+    return birthday;
+  }
+
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
+
+  public Integer getHeight() {
+    return height;
+  }
+
+  public void setHeight(Integer height) {
+    this.height = height;
+  }
+
+  public Float getWeight() {
+    return weight;
+  }
+
+  public void setWeight(Float weight) {
+    this.weight = weight;
+  }
+
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
   }
 }

@@ -75,7 +75,7 @@ public class SystemApplication {
 
   @EventListener
   public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
-    EventLoop.multi().schedule(() -> {
+    EventLoop.io().schedule(() -> {
       ApplicationContext ctx = event.getApplicationContext();
       JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);
       System.err.println("\n----- SIGNING_KEY -----------------------");

@@ -2,7 +2,7 @@ package com.benefitj.system.service;
 
 import com.benefitj.scaffold.LogicException;
 import com.benefitj.system.model.SysRole;
-import com.benefitj.system.model.SysUser;
+import com.benefitj.system.model.SysAccount;
 import com.benefitj.system.model.SysUserAndRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
 public class UserAuthorizationService {
 
   @Autowired
-  private SysUserService userService;
+  private SysAccountService userService;
   @Autowired
   private SysRoleService roleService;
   @Autowired
@@ -35,7 +35,7 @@ public class UserAuthorizationService {
    */
   @Transactional(rollbackFor = Throwable.class)
   public int correlate(String userId, String[] roleIds) {
-    SysUser user = userService.get(userId);
+    SysAccount user = userService.get(userId);
     if (user == null) {
       throw new LogicException("无法为此用户添加角色");
     }
@@ -63,7 +63,7 @@ public class UserAuthorizationService {
    */
   @Transactional(rollbackFor = Throwable.class)
   public int uncorrelate(String userId, String[] roleIds) {
-    SysUser user = userService.get(userId);
+    SysAccount user = userService.get(userId);
     if (user == null) {
       throw new LogicException("无法解除用户关联的角色");
     }
@@ -77,7 +77,7 @@ public class UserAuthorizationService {
    * @return 返回解除关联的记录
    */
   public List<SysRole> getUserOwnedRoleList(String userId) {
-    SysUser user = userService.get(userId);
+    SysAccount user = userService.get(userId);
     return user != null ? uarService.getRoleByUserId(userId) : Collections.emptyList();
   }
 

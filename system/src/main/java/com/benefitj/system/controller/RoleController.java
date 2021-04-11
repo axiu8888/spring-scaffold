@@ -3,6 +3,7 @@ package com.benefitj.system.controller;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
+import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
@@ -102,19 +103,19 @@ public class RoleController {
 
   @ApiOperation("获取机构的角色列表")
   @ApiImplicitParams({
+      @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String"),
       @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String"),
       @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
       @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean"),
   })
   @GetMapping("/list")
-  public HttpResult<?> getRoleList(String orgId, Boolean active, Boolean multiLevel) {
-    orgId = Checker.checkNotBlank(orgId, JwtTokenManager.currentOrgId());
-    if (StringUtils.isBlank(orgId)) {
-      return HttpResult.failure("机构ID不能为空");
+  public HttpResult<?> getList(@GetBody SysRole condition, Boolean multiLevel) {
+    condition.setOrgId(Checker.checkNotBlank(condition.getOrgId(), JwtTokenManager.currentOrgId()));
+    if (StringUtils.isBlank(condition.getOrgId())) {
+      return HttpResult.failure("orgId为空");
     }
-    List<SysRole> roleList = roleService.getRoleList(orgId, active, multiLevel);
+    List<SysRole> roleList = roleService.getList(condition, null, null, multiLevel);
     return HttpResult.success(roleList);
   }
-
 
 }

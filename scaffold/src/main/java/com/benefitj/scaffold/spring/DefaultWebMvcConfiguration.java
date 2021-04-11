@@ -1,16 +1,13 @@
 package com.benefitj.scaffold.spring;
 
 import com.benefitj.scaffold.page.PageBodyArgumentResolver;
+import com.benefitj.scaffold.request.GetBodyArgumentResolver;
 import com.benefitj.spring.mvc.EnableCustomArgumentResolverWebMvcConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.MultipartConfigElement;
 
 /**
  * 分页参数解析
@@ -19,6 +16,7 @@ import javax.servlet.MultipartConfigElement;
 @EnableCustomArgumentResolverWebMvcConfigurer
 @Configuration
 public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
+
 
   /**
    * 请求分页
@@ -30,17 +28,12 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
   }
 
   /**
-   * 文件上传配置
+   * GET请求
    */
   @ConditionalOnMissingBean
   @Bean
-  public MultipartConfigElement multipartConfigElement() {
-    MultipartConfigFactory factory = new MultipartConfigFactory();
-    // 单个文件最大
-    factory.setMaxFileSize(DataSize.ofMegabytes(200));
-    /// 设置总上传数据总大小
-    factory.setMaxRequestSize(DataSize.ofMegabytes(1024));
-    return factory.createMultipartConfig();
+  public GetBodyArgumentResolver getBodyArgumentResolver() {
+    return new GetBodyArgumentResolver();
   }
 
   /**

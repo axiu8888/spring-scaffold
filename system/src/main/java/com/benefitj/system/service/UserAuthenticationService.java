@@ -8,16 +8,15 @@ import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.security.user.JwtUserDetails;
 import com.benefitj.scaffold.vo.AuthTokenVo;
 import com.benefitj.spring.BeanHelper;
+import com.benefitj.system.model.SysAccount;
 import com.benefitj.system.model.SysUser;
 import com.benefitj.system.vo.JwtGrantedAuthority;
-import com.benefitj.system.vo.SimpleJwtUserDetails;
-import org.apache.commons.lang3.StringUtils;
+import com.benefitj.system.vo.SimpleJwtAccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +33,8 @@ public class UserAuthenticationService implements JwtUserDetailsService {
   @Autowired
   private JwtTokenManager jwtTokenManager;
   @Autowired
+  private SysAccountService accountService;
+  @Autowired
   private SysUserService userService;
   @Autowired
   private SysUserAndRoleService uarService;
@@ -45,46 +46,46 @@ public class UserAuthenticationService implements JwtUserDetailsService {
         && token.getUserDetails().getUsername().equals(username)) {
       return token.getUserDetails();
     }
-    SysUser user = userService.getByUsername(username);
+    SysAccount user = accountService.getByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException("Username not found");
     }
     return getUserDetails(user);
   }
 
-  public AuthTokenVo<SysUser> register(String username, String password, String orgId) {
+  /**
+   * 注册
+   *
+   * @param username 用户名
+   * @param password 账号密码
+   * @param orgId    机构ID
+   * @return 返回创建的信息
+   */
+  public AuthTokenVo<SysAccount> register(String username, String password, String orgId) {
+    if (accountService.countByUsername(username) > 0) {
+      throw new LogicException("此账号已存在");
+    }
+
     SysUser user = new SysUser();
-    user.setUsername(username);
-    user.setPassword(password);
     user.setOrgId(orgId);
+    userService.save(user);
 
+    SysAccount account = new SysAccount();
+    account.setUsername(username);
+    account.setPassword(password);
+    account.setUserId(user.getId());
     // 保存用户
-    user = save(user);
+    account = accountService.save(account);
 
-    JwtUserDetails userDetails = getUserDetails(user);
+    JwtUserDetails userDetails = getUserDetails(account);
     JwtToken accessToken = jwtTokenManager.createAccessToken(userDetails);
     JwtToken refreshToken = jwtTokenManager.createRefreshToken(userDetails);
 
-    AuthTokenVo<SysUser> vo = new AuthTokenVo<>();
+    AuthTokenVo<SysAccount> vo = new AuthTokenVo<>();
     vo.setAccessToken(accessToken.getRawToken());
     vo.setRefreshToken(refreshToken.getRawToken());
-    vo.setData(user);
+    vo.setData(account);
     return vo;
-  }
-
-  /**
-   * 保存用户信息
-   *
-   * @param user
-   */
-  @Transactional(rollbackFor = Throwable.class)
-  public SysUser save(SysUser user) {
-    if (StringUtils.isNotBlank(user.getId())) {
-      userService.update(user);
-    } else {
-      userService.create(user);
-    }
-    return user;
   }
 
   /**
@@ -95,7 +96,7 @@ public class UserAuthenticationService implements JwtUserDetailsService {
    * @return 返回登陆后的 token
    */
   public AuthTokenVo login(String username, String password) {
-    SysUser user = userService.getByUsername(username);
+    SysAccount user = accountService.getByUsername(username);
     String rawPassword = HexUtils.bytesToHex(password.getBytes());
     if (user == null || !passwordEncoder.matches(rawPassword, user.getPassword())) {
       throw new LogicException("账号或密码错误");
@@ -132,29 +133,33 @@ public class UserAuthenticationService implements JwtUserDetailsService {
         && token.getUserDetails().getUserId().equals(userId)) {
       return token.getUserDetails();
     }
-    SysUser user = userService.get(userId);
-    if (user == null) {
-      throw new UsernameNotFoundException("The user is not found.");
+    SysAccount account = accountService.getByUserId(userId);
+    if (account == null) {
+      throw new UsernameNotFoundException("The account is not found.");
     }
-    return getUserDetails(user);
+    return getUserDetails(account);
   }
 
   /**
    * 获取用户信息详情
    *
-   * @param user 用户
+   * @param account 用户
    * @return 返回用户详情
    */
-  public JwtUserDetails getUserDetails(SysUser user) {
+  public JwtUserDetails getUserDetails(SysAccount account) {
     // 转换为 UserDetails，并查询用户的角色(权限)
-    JwtUserDetails userDetails = BeanHelper.copy(user, SimpleJwtUserDetails.class);
-    List<GrantedAuthority> authorityList = uarService.getRoleByUserId(user.getId())
+    JwtUserDetails userDetails = BeanHelper.copy(account, SimpleJwtAccountDetails.class);
+    List<GrantedAuthority> authorityList = uarService.getRoleByUserId(account.getId())
         .stream()
         // 过滤不可用的角色
         //.filter(r -> Boolean.TRUE.equals(r.getActive()))
         .flatMap(r -> Stream.of(BeanHelper.copy(r, JwtGrantedAuthority.class)))
         .collect(Collectors.toList());
     userDetails.setAuthorities(authorityList);
+
+    SysUser user = userService.get(account.getUserId());
+    userDetails.setOrgId(user.getOrgId());
+
     return userDetails;
   }
 
@@ -178,5 +183,24 @@ public class UserAuthenticationService implements JwtUserDetailsService {
     return vo;
   }
 
-
+  /**
+   * 删除帐号
+   *
+   * @param id    帐号ID
+   * @param force 是否强制删除
+   * @return 返回删除的条数
+   */
+  public int deleteAccount(String id, Boolean force) {
+    SysAccount account = accountService.get(id);
+    if (account != null) {
+      if (Boolean.TRUE.equals(force)) {
+        accountService.deleteByPK(account.getId());
+      } else {
+        accountService.changeActive(id, false);
+      }
+      userService.changeActive(id, false);
+      return 1;
+    }
+    return 0;
+  }
 }

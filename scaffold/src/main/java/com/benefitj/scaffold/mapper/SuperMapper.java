@@ -1,7 +1,6 @@
 package com.benefitj.scaffold.mapper;
 
 import com.benefitj.core.DateFmtter;
-import com.benefitj.core.ReflectUtils;
 import org.apache.commons.lang3.StringUtils;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
@@ -16,7 +15,6 @@ import javax.persistence.Transient;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Mapper
@@ -58,7 +56,7 @@ public interface SuperMapper<T> extends Mapper<T>, MySqlMapper<T>, SelectByIdsMa
    */
   @Transient
   default Class<T> getEntityClass() {
-    return EntityHolder.getEntityClass(getClass(), "T");
+    return EntityFinder.INSTANCE.getEntityClass(getClass(), "T");
   }
 
   /**
@@ -80,32 +78,6 @@ public interface SuperMapper<T> extends Mapper<T>, MySqlMapper<T>, SelectByIdsMa
         .filter(values::containsKey)
         .forEach(property -> sqls.andEqualTo(property, values.get(property)));
     return selectCountByExample(example(sqls));
-  }
-
-  final class EntityHolder {
-    /**
-     * 缓存实体类
-     */
-    private static final Map<Class<?>, Class> ENTITY_CACHE = new ConcurrentHashMap<>();
-
-    private EntityHolder() {
-    }
-
-    /**
-     * 获取实体类类型
-     */
-    public static <T> Class<T> getEntityClass(Class<?> clazz, String typeParamName) {
-      Class<T> entityClass = (Class<T>) ENTITY_CACHE.get(clazz);
-      if (entityClass != null) {
-        return entityClass;
-      }
-      entityClass = ReflectUtils.getParameterizedTypeClass(clazz, typeParamName);
-      if (entityClass == null) {
-        throw new IllegalStateException("无法获取实体类型!");
-      }
-      ENTITY_CACHE.put(clazz, entityClass);
-      return entityClass;
-    }
   }
 
 

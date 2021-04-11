@@ -6,6 +6,7 @@ import com.benefitj.scaffold.BaseService;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.quartz.mapper.QuartzJobTaskMapper;
+import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.spring.BeanHelper;
 import com.benefitj.spring.ctx.SpringCtxHolder;
 import com.benefitj.spring.quartz.*;
@@ -104,6 +105,10 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
 
     // 任务ID
     task.setId(IdUtils.uuid());
+    // 机构ID
+    if (StringUtils.isBlank(task.getOrgId())) {
+      task.setOrgId(JwtTokenManager.currentOrgId());
+    }
     // 创建时间
     task.setCreateTime(new Date());
     task.setActive(Boolean.TRUE);
@@ -208,12 +213,16 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
   }
 
   @Override
-  public List<QuartzJobTaskEntity> getList(QuartzJobTaskEntity condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<QuartzJobTaskEntity> getList(QuartzJobTaskEntity condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 
   @Override
   public PageInfo<QuartzJobTaskEntity> getPage(PageableRequest<QuartzJobTaskEntity> page) {
+    QuartzJobTaskEntity task = page.getCondition();
+    if (StringUtils.isNotBlank(task.getOrgId())) {
+      task.setOrgId(JwtTokenManager.currentOrgId());
+    }
     return super.getPage(page);
   }
 

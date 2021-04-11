@@ -7,6 +7,8 @@ import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.security.CurrentUserService;
 import com.benefitj.scaffold.security.exception.PermissionException;
+import com.benefitj.scaffold.security.token.JwtToken;
+import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.spring.BeanHelper;
 import com.benefitj.system.mapper.SysOrganizationMapper;
 import com.benefitj.system.model.SysOrganization;
@@ -145,7 +147,9 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
       if (standardId.equals(checkId)) {
         return true;
       }
-      String ownedAutoCode = getAutoCodeById(standardId);
+      JwtToken token = JwtTokenManager.currentToken();
+      String ownedAutoCode = token != null && token.containsKey("organization")
+          ? ((SysOrganization)token.get("organization")).getAutoCode() : getAutoCodeById(standardId);
       String autoCode = getAutoCodeById(checkId);
       return StringUtils.isNotBlank(autoCode) && autoCode.startsWith(ownedAutoCode);
     }
@@ -242,44 +246,8 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
   }
 
   @Override
-  public List<SysOrganization> getList(SysOrganization condition, Date startTime, Date endTime, boolean multiLevel) {
-    return getMapper().selectList(condition, startTime, endTime, multiLevel);
-  }
-
-  /**
-   * 查询单级子机构
-   *
-   * @param parentId 父级机构
-   * @param active   是否可用
-   * @return 返回查询到的子机构
-   */
-  public List<SysOrganization> getPlainChildren(String parentId, @Nullable Boolean active) {
-    return checkOrgLevel(parentId) ? getMapper().selectPlainChildren(parentId, active) : Collections.emptyList();
-  }
-
-  /**
-   * 查询多级机构
-   *
-   * @param id     机构ID
-   * @param active 是否可用
-   * @param self   是否自身
-   * @return 返回查询到的多级子机构
-   */
-  public List<SysOrganization> getMultiOrgList(String id,
-                                               @Nullable Boolean active,
-                                               @Nullable Boolean self) {
-    return checkOrgLevel(id) ? getMapper().selectMultiOrgList(id, active, self) : Collections.emptyList();
-  }
-
-  /**
-   * 查询多级子机构
-   *
-   * @param parentId 父级机构
-   * @param active   是否可用
-   * @return 返回查询到的多级子机构
-   */
-  public List<SysOrganization> getMultiChildren(String parentId, @Nullable Boolean active) {
-    return getMultiOrgList(parentId, active, false);
+  public List<SysOrganization> getList(SysOrganization condition, Date startTime, Date endTime, Boolean multiLevel) {
+    return getMapper().selectList(condition, startTime, endTime, Boolean.TRUE.equals(multiLevel));
   }
 
   /**
@@ -291,9 +259,6 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
   @Override
   public PageInfo<SysOrganization> getPage(PageableRequest<SysOrganization> page) {
     SysOrganization c = page.getCondition();
-    if (c == null) {
-      page.setCondition(c = new SysOrganization());
-    }
     String ownedId = currentOrgId();
     if (StringUtils.isBlank(c.getParentId())) {
       c.setParentId(ownedId);

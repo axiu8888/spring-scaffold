@@ -1,9 +1,10 @@
-package com.benefitj.scaffold.page;
+package com.benefitj.scaffold.request;
+
 
 import java.lang.annotation.*;
 
 /**
- * 分页请求
+ * get请求
  *
  * @author DINGXIUAN
  */
@@ -11,5 +12,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 @Inherited
-public @interface PageBody {
+public @interface GetBody {
+
+  /**
+   * 请求参数类型
+   */
+  Class<?> type() default Object.class;
+
 }

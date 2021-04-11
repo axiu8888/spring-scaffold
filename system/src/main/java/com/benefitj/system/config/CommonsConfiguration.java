@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @MapperScan("com.benefitj.system.mapper")
 @EnableAthenapdfConfiguration // PDF打印
 @EnableAutoAopWebHandler      // AOP
-@EnableHttpLoggingHandler  // 打印请求日志
+@EnableHttpLoggingHandler     // 打印请求日志
 @EnableQuartzConfuration      // quartz
 @EnableDruidConfuration       // druid
 @EnableEventBusPoster         // EventBus
@@ -33,20 +33,6 @@ import java.util.stream.Collectors;
 public class CommonsConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
-
-//  @Bean
-//  public OncePerRequestFilter anyRequestDoSomethingFilter(EventBusPoster poster) {
-//    return new OncePerRequestFilter() {
-//      @Override
-//      protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        try {
-//          poster.postSync(request);
-//        } finally {
-//          filterChain.doFilter(request, response);
-//        }
-//     }
-//    };
-//  }
 
   @Bean
   public AnnotationUrlRegistryConfigurerCustomizer annotationUrlAuthorizationConfigurerCustomizer() {

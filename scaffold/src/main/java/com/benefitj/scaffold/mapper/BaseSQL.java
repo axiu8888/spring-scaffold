@@ -1,7 +1,9 @@
 package com.benefitj.scaffold.mapper;
 
+import com.benefitj.core.DateFmtter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
+import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 
@@ -30,6 +32,25 @@ public abstract class BaseSQL extends SQL {
     this.table = table;
   }
 
+  public String getTableName() {
+    return getTable().getName();
+  }
+
+  public String[] getColumns() {
+    return getTable().getEntityClassColumns()
+        .stream()
+        .map(EntityColumn::getColumn)
+        .toArray(String[]::new);
+  }
+
+  public String fmt(Object time) {
+    return DateFmtter.fmt(time, "yyyy-MM-dd HH:mm:ss");
+  }
+
+  public String fmtDate(Object time) {
+    return DateFmtter.fmt(time, "yyyy-MM-dd");
+  }
+
   /**
    * 初始化基本的SQL
    *
@@ -49,8 +70,8 @@ public abstract class BaseSQL extends SQL {
    * @return 返回当前对象
    */
   public BaseSQL WHERE(String timeColumn, Date startTime, Date endTime) {
-    notNull(startTime, () -> WHERE(timeColumn + " >= #{startTime}"));
-    notNull(endTime, () -> WHERE(timeColumn + " <= #{endTime}"));
+    notNull(startTime, () -> WHERE(timeColumn + " >= '" + fmt(startTime) + "'"));
+    notNull(endTime, () -> WHERE(timeColumn + " <= '" + fmt(endTime) + "'"));
     return this;
   }
 

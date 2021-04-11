@@ -3,6 +3,7 @@ package com.benefitj.system.controller;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.page.PageBody;
 import com.benefitj.scaffold.page.PageableRequest;
+import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
@@ -102,19 +103,19 @@ public class MenuController {
 
   @ApiOperation("获取机构的菜单列表")
   @ApiImplicitParams({
+      @ApiImplicitParam(name = "name", value = "菜单名称", dataType = "String"),
       @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String"),
       @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
       @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean"),
   })
   @GetMapping("/list")
-  public HttpResult<?> getMenuList(String orgId, Boolean active, Boolean multiLevel) {
-    orgId = Checker.checkNotBlank(orgId, JwtTokenManager.currentOrgId());
-    if (StringUtils.isBlank(orgId)) {
+  public HttpResult<?> getList(@GetBody SysMenu condition, Boolean multiLevel) {
+    condition.setOrgId(Checker.checkNotBlank(condition.getOrgId(), JwtTokenManager.currentOrgId()));
+    if (StringUtils.isBlank(condition.getOrgId())) {
       return HttpResult.failure("orgId为空");
     }
-    List<SysMenu> menuList = menuService.getMenuList(orgId, active, multiLevel);
+    List<SysMenu> menuList = menuService.getList(condition, null, null, multiLevel);
     return HttpResult.success(menuList);
   }
-
 
 }

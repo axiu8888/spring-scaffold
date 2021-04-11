@@ -30,8 +30,7 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
    * @return 返回出现的次数
    */
   default int countJobName(@Param("jobName") String jobName) {
-    return selectCountByExample(example(Sqls.custom()
-        .andEqualTo("jobName", jobName)));
+    return selectCountByExample(example(Sqls.custom().andEqualTo("jobName", jobName)));
   }
 
   /**
@@ -41,8 +40,7 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
    * @return 返回出现的次数
    */
   default int countTriggerName(@Param("triggerName") String triggerName) {
-    return selectCountByExample(example(Sqls.custom()
-        .andEqualTo("triggerName", triggerName)));
+    return selectCountByExample(example(Sqls.custom().andEqualTo("triggerName", triggerName)));
   }
 
   /**
@@ -55,7 +53,7 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
    * @return 返回查询的列表
    */
   @Transient
-  default List<QuartzJobTaskEntity> selectList(QuartzJobTask condition, Date startTime, Date endTime, boolean multiLevel) {
+  default List<QuartzJobTaskEntity> selectList(QuartzJobTaskEntity condition, Date startTime, Date endTime, Boolean multiLevel) {
     final Sqls sqls = Sqls.custom();
     Checker.checkNotNull(startTime, () -> sqls.andGreaterThanOrEqualTo("create_time", fmt(startTime)));
     Checker.checkNotNull(endTime, () -> sqls.andLessThanOrEqualTo("create_time", fmt(endTime)));
@@ -64,6 +62,9 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
     Checker.checkNotBlank(condition.getJobName(), s -> sqls.andLike("jobName", s));
     Checker.checkNotBlank(condition.getTriggerGroup(), s -> sqls.andLike("triggerGroup", s));
     Checker.checkNotBlank(condition.getTriggerName(), s -> sqls.andLike("triggerName", s));
+    Checker.checkNotBlank(condition.getOrgId(), s -> sqls.andEqualTo("orgId", s));
+    Checker.checkNotBlank(condition.getOwner(), s -> sqls.andEqualTo("owner", s));
+    Checker.checkNotBlank(condition.getOwnerType(), s -> sqls.andEqualTo("ownerType", s));
     return selectByExample(example(sqls));
   }
 
