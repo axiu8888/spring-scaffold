@@ -21,10 +21,11 @@ public class GetBodyArgumentResolver implements CustomHandlerMethodArgumentResol
     Class<?> parameterType = parameter.getParameterType();
     return parameter.hasParameterAnnotation(GetBody.class)
         && !(parameterType == Object.class
+        || parameterType.isPrimitive()
+        || parameterType.isArray()
         || parameterType.isAssignableFrom(Number.class)
         || parameterType.isAssignableFrom(String.class)
-        || parameterType.isArray()
-        || parameterType.isPrimitive()
+        || parameterType.isAssignableFrom(Boolean.class)
         || parameterType.isInterface()
         || parameterType.isAssignableFrom(ServletRequest.class)
         || parameterType.isAssignableFrom(ServletResponse.class)
@@ -36,8 +37,12 @@ public class GetBodyArgumentResolver implements CustomHandlerMethodArgumentResol
   public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                 NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
     JSONObject json = new JSONObject();
-    webRequest.getParameterMap().forEach((name, values) -> json.put(name, values.length == 1 ? values[0] : values));
-    return json.toJavaObject(parameter.getParameterType());
+    webRequest.getParameterMap().forEach((name, values)
+        -> json.put(name, values.length == 1 ? values[0] : values));
+    GetBody annotation = parameter.getMethodAnnotation(GetBody.class);
+    return annotation != null && annotation.type() != Object.class
+        ? json.toJavaObject(annotation.type())
+        : json.toJavaObject(parameter.getParameterType());
   }
 
 }
