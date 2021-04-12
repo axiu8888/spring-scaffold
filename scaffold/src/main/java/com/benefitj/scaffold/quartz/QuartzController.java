@@ -1,12 +1,12 @@
 package com.benefitj.scaffold.quartz;
 
-import com.benefitj.scaffold.page.PageBody;
-import com.benefitj.scaffold.page.PageableRequest;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
-import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
+import com.benefitj.spring.mvc.page.PageableRequest;
+import com.benefitj.spring.mvc.request.GetBody;
+import com.benefitj.spring.mvc.request.PageBody;
 import com.benefitj.spring.quartz.JobType;
 import com.benefitj.spring.quartz.TriggerType;
 import com.benefitj.spring.quartz.WorkerType;

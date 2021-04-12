@@ -1,8 +1,8 @@
 package com.benefitj.scaffold;
 
 import com.benefitj.scaffold.mapper.SuperMapper;
-import com.benefitj.scaffold.page.OrderUtils;
-import com.benefitj.scaffold.page.PageableRequest;
+import com.benefitj.spring.mvc.page.OrderUtils;
+import com.benefitj.spring.mvc.page.PageableRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.mybatis.spring.SqlSessionTemplate;

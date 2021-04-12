@@ -1,10 +1,7 @@
 package com.benefitj.scaffold.spring;
 
-import com.benefitj.scaffold.page.PageBodyArgumentResolver;
-import com.benefitj.scaffold.request.GetBodyArgumentResolver;
 import com.benefitj.spring.mvc.EnableCustomArgumentResolverWebMvcConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,25 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableCustomArgumentResolverWebMvcConfigurer
 @Configuration
 public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
-
-
-  /**
-   * 请求分页
-   */
-  @ConditionalOnMissingBean
-  @Bean
-  public PageBodyArgumentResolver pageBodyArgumentResolver() {
-    return new PageBodyArgumentResolver();
-  }
-
-  /**
-   * GET请求
-   */
-  @ConditionalOnMissingBean
-  @Bean
-  public GetBodyArgumentResolver getBodyArgumentResolver() {
-    return new GetBodyArgumentResolver();
-  }
 
   /**
    * 页面跨域访问Controller过滤

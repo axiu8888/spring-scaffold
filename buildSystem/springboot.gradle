@@ -8,10 +8,10 @@
 apply from: "${getRootDir()}/buildSystem/base.gradle"
 
 configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
+//    developmentOnly
+//    runtimeClasspath {
+//        extendsFrom developmentOnly
+//    }
     compileOnly {
         extendsFrom annotationProcessor
     }

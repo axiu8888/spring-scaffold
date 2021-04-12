@@ -57,14 +57,15 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
     final Sqls sqls = Sqls.custom();
     Checker.checkNotNull(startTime, () -> sqls.andGreaterThanOrEqualTo("create_time", fmt(startTime)));
     Checker.checkNotNull(endTime, () -> sqls.andLessThanOrEqualTo("create_time", fmt(endTime)));
-    Checker.checkNotBlank(condition.getTriggerType(), s -> sqls.andLike("triggerType", s));
-    Checker.checkNotBlank(condition.getJobGroup(), s -> sqls.andLike("jobGroup", s));
-    Checker.checkNotBlank(condition.getJobName(), s -> sqls.andLike("jobName", s));
-    Checker.checkNotBlank(condition.getTriggerGroup(), s -> sqls.andLike("triggerGroup", s));
-    Checker.checkNotBlank(condition.getTriggerName(), s -> sqls.andLike("triggerName", s));
-    Checker.checkNotBlank(condition.getOrgId(), s -> sqls.andEqualTo("orgId", s));
-    Checker.checkNotBlank(condition.getOwner(), s -> sqls.andEqualTo("owner", s));
-    Checker.checkNotBlank(condition.getOwnerType(), s -> sqls.andEqualTo("ownerType", s));
+    Checker.checkNotBlank(condition.getTriggerType(), triggerType -> sqls.andLike("triggerType", triggerType));
+    Checker.checkNotBlank(condition.getJobGroup(), jobGroup -> sqls.andLike("jobGroup", jobGroup));
+    Checker.checkNotBlank(condition.getJobName(), jobName -> sqls.andLike("jobName", jobName));
+    Checker.checkNotBlank(condition.getTriggerGroup(), triggerGroup -> sqls.andLike("triggerGroup", triggerGroup));
+    Checker.checkNotBlank(condition.getTriggerName(), triggerName -> sqls.andLike("triggerName", triggerName));
+    Checker.checkNotBlank(condition.getOrgId(), orgId -> sqls.andEqualTo("orgId", orgId));
+    Checker.checkNotBlank(condition.getOwner(), owner -> sqls.andEqualTo("owner", owner));
+    Checker.checkNotBlank(condition.getOwnerType(), ownerType -> sqls.andEqualTo("ownerType", ownerType));
+    Checker.checkNotNull(condition.getActive(), active -> sqls.andEqualTo("active", active));
     return selectByExample(example(sqls));
   }
 

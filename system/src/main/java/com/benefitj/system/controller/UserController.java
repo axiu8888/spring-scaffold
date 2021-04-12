@@ -2,13 +2,13 @@ package com.benefitj.system.controller;
 
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.page.PageBody;
-import com.benefitj.scaffold.page.PageableRequest;
-import com.benefitj.scaffold.request.GetBody;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
+import com.benefitj.spring.mvc.page.PageableRequest;
+import com.benefitj.spring.mvc.request.GetBody;
+import com.benefitj.spring.mvc.request.PageBody;
 import com.benefitj.system.model.SysUser;
 import com.benefitj.system.service.SysUserService;
 import com.github.pagehelper.PageInfo;
