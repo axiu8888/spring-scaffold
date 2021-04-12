@@ -220,7 +220,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
   @Override
   public PageInfo<QuartzJobTaskEntity> getPage(PageableRequest<QuartzJobTaskEntity> page) {
     QuartzJobTaskEntity task = page.getCondition();
-    if (StringUtils.isNotBlank(task.getOrgId())) {
+    if (StringUtils.isBlank(task.getOrgId())) {
       task.setOrgId(JwtTokenManager.currentOrgId());
     }
     return super.getPage(page);
