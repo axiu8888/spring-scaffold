@@ -19,13 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Singleton;
 import java.util.List;
 
 /**
  * Quartz的调度任务
  */
-@Singleton
 @AopWebPointCut
 @Api(tags = {"调度任务"}, description = "Quartz的调度任务")
 @RestController

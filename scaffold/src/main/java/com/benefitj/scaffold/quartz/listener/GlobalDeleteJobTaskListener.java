@@ -1,5 +1,6 @@
-package com.benefitj.scaffold.quartz;
+package com.benefitj.scaffold.quartz.listener;
 
+import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.spring.quartz.JobWorker;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
@@ -13,11 +14,9 @@ import java.util.Date;
 /**
  * 删除
  */
-public class GlobalDeleteJobTaskListener implements JobListener {
+public class GlobalDeleteJobTaskListener implements SimpleJobListener {
 
   private static final Logger logger = LoggerFactory.getLogger(GlobalDeleteJobTaskListener.class);
-
-  private static final String NAME = "deleteListener";
 
   private QuartzJobTaskService service;
 
@@ -33,21 +32,11 @@ public class GlobalDeleteJobTaskListener implements JobListener {
 
   @Override
   public String getName() {
-    return NAME;
+    return "deleteListener";
   }
 
   @Override
-  public void jobToBeExecuted(JobExecutionContext context) {
-    // 被执行之前
-  }
-
-  @Override
-  public void jobExecutionVetoed(JobExecutionContext context) {
-    // 触发器优先级排序
-  }
-
-  @Override
-  public void jobWasExecuted(JobExecutionContext context, JobExecutionException e) {
+  public void jobWasExecuted(JobExecutionContext context, JobExecutionException jee) {
     try {
       // job执行完毕
       final Date nextFireTime = context.getNextFireTime();
@@ -60,10 +49,10 @@ public class GlobalDeleteJobTaskListener implements JobListener {
           getService().delete(id, true);
         }
         logger.warn("调度任务执行完毕, 删除调度任务, key[{}]  id[{}] result: {},  job throws: {}",
-            jd.getKey(), id, context.getResult(), (e != null ? e.getMessage() : null));
+            jd.getKey(), id, context.getResult(), (jee != null ? jee.getMessage() : null));
       }
-    } catch (Exception ee) {
-      logger.warn("throw: {}", ee.getMessage());
+    } catch (Exception e) {
+      logger.warn("throw: {}", e.getMessage());
     }
   }
 

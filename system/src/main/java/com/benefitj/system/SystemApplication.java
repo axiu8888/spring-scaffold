@@ -6,12 +6,13 @@ import com.benefitj.core.EventLoop;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.quartz.sched.AnchorParam;
+import com.benefitj.scaffold.quartz.sched.SchedAnchor;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.quartz.JobWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -95,7 +96,7 @@ public class SystemApplication {
     private QuartzJobTaskService taskService;
 
     @Override
-    public void execute(JobExecutionContext context, JobDetail detail, String taskId) throws JobExecutionException {
+    public void execute(JobExecutionContext context, JobDetail detail, String taskId) {
       try {
         QuartzJobTaskEntity task = taskService.get(taskId);
         System.err.println("\n-------------------------------------");
@@ -113,6 +114,15 @@ public class SystemApplication {
         log.error("throws: " + e.getMessage(), e);
         //throw new JobExecutionException(e);
       }
+    }
+
+    @SchedAnchor(
+        name = "testScheduler",
+        params = {},
+        description = "测试调度服务"
+    )
+    public void testScheduler(@AnchorParam(name = "personZid") String personZid) {
+      System.err.println("测试调度方法...");
     }
   }
 }

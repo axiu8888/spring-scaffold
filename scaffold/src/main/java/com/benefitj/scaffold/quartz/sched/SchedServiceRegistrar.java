@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.quartz.schedservice;
+package com.benefitj.scaffold.quartz.sched;
 
 import com.benefitj.spring.registrar.AnnotationMetadata;
 import com.benefitj.spring.registrar.AnnotationMetadataRegistrar;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class SchedServiceRegistrar implements AnnotationMetadataRegistrar {
 
@@ -24,14 +25,18 @@ public class SchedServiceRegistrar implements AnnotationMetadataRegistrar {
     //Object bean = metadata.getBean();
     for (MethodElement element : metadata.getMethodElements()) {
       Method method = element.getMethod();
-      SchedService service = (SchedService) element.getAnnotations()[0];
+      SchedAnchor service = (SchedAnchor) element.getAnnotations()[0];
       // 处理被注解的对象
-      log.error("{}.{}, name: {}, params: {}, remarks: {}"
+      Class<?>[] parameterTypes = method.getParameterTypes();
+      //
+
+      log.error("{}.{}, name: {}, params: {}, remarks: {}, parameterTypes: {}"
           , method.getDeclaringClass().getName()
           , method.getName()
           , service.name()
           , service.params()
           , service.description()
+          , Arrays.toString(parameterTypes)
       );
     }
   }

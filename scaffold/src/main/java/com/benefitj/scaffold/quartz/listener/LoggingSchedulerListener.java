@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.quartz;
+package com.benefitj.scaffold.quartz.listener;
 
 import com.benefitj.core.DateFmtter;
 import org.quartz.*;

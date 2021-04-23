@@ -8,9 +8,7 @@ import com.benefitj.scaffold.quartz.mapper.QuartzJobTaskMapper;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.spring.BeanHelper;
 import com.benefitj.spring.ctx.SpringCtxHolder;
-import com.benefitj.spring.mvc.page.PageableRequest;
 import com.benefitj.spring.quartz.*;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -214,27 +212,10 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
 
   @Override
   public List<QuartzJobTaskEntity> getList(QuartzJobTaskEntity condition, Date startTime, Date endTime, Boolean multiLevel) {
-    return getMapper().selectList(condition, startTime, endTime, multiLevel);
-  }
-
-  @Override
-  public PageInfo<QuartzJobTaskEntity> getPage(PageableRequest<QuartzJobTaskEntity> page) {
-    QuartzJobTaskEntity task = page.getCondition();
-    if (StringUtils.isBlank(task.getOrgId())) {
-      task.setOrgId(JwtTokenManager.currentOrgId());
+    if (StringUtils.isBlank(condition.getOrgId())) {
+      condition.setOrgId(JwtTokenManager.currentOrgId());
     }
-    return super.getPage(page);
-  }
-
-  public List<QuartzJobTaskEntity> getAll() {
-    return getMapper().selectAll();
-  }
-
-  public void scheduleJobTasks(List<QuartzJobTaskEntity> tasks) {
-    tasks.stream()
-        .filter(t -> countByPK(t.getId()) > 0)
-        .filter(t -> Boolean.TRUE.equals(t.getActive()))
-        .forEach(t -> QuartzUtils.scheduleJob(getScheduler(), t));
+    return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 
 }
