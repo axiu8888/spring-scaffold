@@ -48,16 +48,16 @@ public class QuartzConfiguration {
   }
 
 
-  @ConditionalOnMissingBean(name = "schedServiceAnnotationProcessor")
-  @Bean("schedServiceAnnotationProcessor")
-  public RegistrarMethodAnnotationBeanPostProcessor schedServiceAnnotationProcessor(SchedServiceRegistrar registrar) {
-    return new RegistrarMethodAnnotationBeanPostProcessor(registrar, SchedAnchor.class);
-  }
-
-  @ConditionalOnMissingBean
-  @Bean
-  public SchedServiceRegistrar schedServiceRegistrar() {
-    return new SchedServiceRegistrar();
-  }
+//  @ConditionalOnMissingBean(name = "schedServiceAnnotationProcessor")
+//  @Bean("schedServiceAnnotationProcessor")
+//  public RegistrarMethodAnnotationBeanPostProcessor schedServiceAnnotationProcessor(SchedServiceRegistrar registrar) {
+//    return new RegistrarMethodAnnotationBeanPostProcessor(registrar, SchedAnchor.class);
+//  }
+//
+//  @ConditionalOnMissingBean
+//  @Bean
+//  public SchedServiceRegistrar schedServiceRegistrar() {
+//    return new SchedServiceRegistrar();
+//  }
 
 }
