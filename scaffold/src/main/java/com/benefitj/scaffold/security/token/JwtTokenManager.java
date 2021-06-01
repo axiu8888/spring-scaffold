@@ -121,8 +121,8 @@ public class JwtTokenManager {
    * @param issuer     发布者
    * @return 返回新的 token
    */
-  public static DefaultJwtToken newJwtToken(JwtUserDetails user, Integer expiration, String issuer) {
-    DefaultJwtToken token = new DefaultJwtToken();
+  public JwtToken newJwtToken(JwtUserDetails user, Integer expiration, String issuer) {
+    JwtToken token = createToken();
     token.setUserDetails(user);
     token.setOrgId(user.getOrgId());
     // 设置ID
@@ -162,7 +162,7 @@ public class JwtTokenManager {
    */
   public JwtToken createAccessToken(JwtUserDetails user) {
     JwtProperty property = getJwtProperty();
-    DefaultJwtToken token = newJwtToken(user, null, property.getIssuer());
+    JwtToken token = newJwtToken(user, null, property.getIssuer());
     token.setRawToken(generate(token, property.getExpiration(), property.getSigningKey()));
     return token;
   }
@@ -175,7 +175,7 @@ public class JwtTokenManager {
    */
   public JwtToken createRefreshToken(JwtUserDetails user) {
     JwtProperty property = getJwtProperty();
-    DefaultJwtToken token = newJwtToken(user, null, property.getIssuer());
+    JwtToken token = newJwtToken(user, null, property.getIssuer());
     token.setRefresh(true);
     String jwt = generate(token, property.getRefreshExpiration(), property.getSigningKey());
     token.setRawToken(jwt);
@@ -228,11 +228,18 @@ public class JwtTokenManager {
       jwt = new DefaultJwt<>(header, body);
     }
 
-    DefaultJwtToken jwtToken = new DefaultJwtToken(token, jwt);
+    JwtToken jwtToken = createToken();
+    jwtToken.setRawToken(token);
+    jwtToken.getHeader().putAll(jwt.getHeader());
+    jwtToken.getBody().putAll(jwt.getBody());
     if (!ignoreRefresh && jwtToken.isRefresh()) {
       throw new UnsupportedJwtException("The token is wrong");
     }
     return jwtToken;
+  }
+
+  public JwtToken createToken() {
+    return new DefaultJwtToken();
   }
 
 }

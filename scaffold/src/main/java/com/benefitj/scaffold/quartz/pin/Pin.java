@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.quartz.sched;
+package com.benefitj.scaffold.quartz.pin;
 
 
 import java.lang.annotation.*;
@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface SchedAnchor {
+public @interface Pin {
 
   /**
    * 名称，如果为空，根据类和方法明产生
@@ -20,13 +20,13 @@ public @interface SchedAnchor {
   String name() default "";
 
   /**
-   * 调度参数，默认为空
-   */
-  AnchorParam[] params() default {};
-
-  /**
    * 对此功能的描述
    */
   String description() default "";
+
+  /**
+   * 定义接收的参数，最终放在一个JSON字符串中
+   */
+  PinParam[] params() default {};
 
 }

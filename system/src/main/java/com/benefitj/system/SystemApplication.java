@@ -6,8 +6,9 @@ import com.benefitj.core.EventLoop;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
-import com.benefitj.scaffold.quartz.sched.AnchorParam;
-import com.benefitj.scaffold.quartz.sched.SchedAnchor;
+import com.benefitj.scaffold.quartz.pin.PinParam;
+import com.benefitj.scaffold.quartz.pin.ParamType;
+import com.benefitj.scaffold.quartz.pin.Pin;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.quartz.JobWorker;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +76,7 @@ public class SystemApplication {
   }
 
   @EventListener
-  public void onApplicationReadyEvent(ApplicationReadyEvent event) throws Exception {
+  public void onAppStart(ApplicationReadyEvent event) {
     EventLoop.io().schedule(() -> {
       ApplicationContext ctx = event.getApplicationContext();
       JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);
@@ -116,13 +117,17 @@ public class SystemApplication {
       }
     }
 
-    @SchedAnchor(
+    @Pin(
         name = "testScheduler",
-        params = {},
-        description = "测试调度服务"
+        description = "测试调度服务",
+        params = {
+            @PinParam(name = "personZid", type = ParamType.STRING, description = "患者ID"),
+            @PinParam(name = "type", type = ParamType.STRING, description = "类型"),
+            @PinParam(name = "orgZid", type = ParamType.STRING, description = "机构ID")
+        }
     )
-    public void testScheduler(@AnchorParam(name = "personZid") String personZid) {
-      System.err.println("测试调度方法...");
+    public void testScheduler(String parameterBody) {
+      System.err.println("测试调度方法... " + parameterBody);
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.benefitj.scaffold.quartz.sched;
+package com.benefitj.scaffold.quartz.pin;
 
 
 import java.lang.annotation.*;
@@ -9,10 +9,10 @@ import java.lang.annotation.*;
  * @author DINGXIUAN
  */
 @Documented
-@Target({ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
+@Target({ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface AnchorParam {
+public @interface PinParam {
 
   /**
    * 参数名称，如果未设置取参数的默认名，可能会取到arg0、arg1等值
@@ -20,13 +20,13 @@ public @interface AnchorParam {
   String name() default "";
 
   /**
-   * 参数的默认值
-   */
-  String defaultValue() default "";
-
-  /**
    * 参数描述
    */
   String description() default "";
+
+  /**
+   * 参数类型
+   */
+  ParamType type() default ParamType.STRING;
 
 }

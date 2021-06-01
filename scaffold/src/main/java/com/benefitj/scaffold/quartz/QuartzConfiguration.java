@@ -3,8 +3,9 @@ package com.benefitj.scaffold.quartz;
 import com.benefitj.scaffold.quartz.listener.GlobalDeleteJobTaskListener;
 import com.benefitj.scaffold.quartz.listener.LoggingSchedulerListener;
 import com.benefitj.scaffold.quartz.listener.QuartzStartListener;
-import com.benefitj.scaffold.quartz.sched.SchedAnchor;
-import com.benefitj.scaffold.quartz.sched.SchedServiceRegistrar;
+import com.benefitj.scaffold.quartz.pin.Pin;
+import com.benefitj.scaffold.quartz.pin.PinManager;
+import com.benefitj.scaffold.quartz.pin.PinServiceRegistrar;
 import com.benefitj.spring.quartz.EnableQuartz;
 import com.benefitj.spring.registrar.RegistrarMethodAnnotationBeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -48,16 +49,24 @@ public class QuartzConfiguration {
   }
 
 
-//  @ConditionalOnMissingBean(name = "schedServiceAnnotationProcessor")
-//  @Bean("schedServiceAnnotationProcessor")
-//  public RegistrarMethodAnnotationBeanPostProcessor schedServiceAnnotationProcessor(SchedServiceRegistrar registrar) {
-//    return new RegistrarMethodAnnotationBeanPostProcessor(registrar, SchedAnchor.class);
-//  }
-//
-//  @ConditionalOnMissingBean
-//  @Bean
-//  public SchedServiceRegistrar schedServiceRegistrar() {
-//    return new SchedServiceRegistrar();
-//  }
+  @ConditionalOnMissingBean(name = "schedServiceAnnotationProcessor")
+  @Bean("schedServiceAnnotationProcessor")
+  public RegistrarMethodAnnotationBeanPostProcessor schedServiceAnnotationProcessor(PinServiceRegistrar registrar) {
+    return new RegistrarMethodAnnotationBeanPostProcessor(registrar, Pin.class);
+  }
+
+  @ConditionalOnMissingBean
+  @Bean
+  public PinServiceRegistrar pinServiceRegistrar(PinManager pinManager) {
+    PinServiceRegistrar registrar = new PinServiceRegistrar();
+    registrar.setWorkerPinManager(pinManager);
+    return registrar;
+  }
+
+  @ConditionalOnMissingBean
+  @Bean
+  public PinManager pinManager() {
+    return PinManager.newManager();
+  }
 
 }

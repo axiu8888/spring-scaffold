@@ -1,6 +1,8 @@
 package com.benefitj.scaffold.quartz;
 
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.quartz.pin.PinParam;
+import com.benefitj.scaffold.quartz.pin.PinManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
@@ -15,11 +17,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Quartz的调度任务
@@ -32,6 +40,8 @@ public class QuartzController {
 
   @Autowired
   private QuartzJobTaskService quartzService;
+  @Autowired
+  private PinManager pinManager;
 
   @ApiOperation("获取触发器类型")
   @GetMapping("/triggerType")
@@ -125,6 +135,63 @@ public class QuartzController {
   public HttpResult<?> getJobTaskList(@GetBody QuartzJobTaskEntity condition) {
     List<QuartzJobTaskEntity> all = quartzService.getList(condition, null, null, false);
     return HttpResult.success(all);
+  }
+
+  @ApiOperation("获取对外发布的调度服务列表")
+  @ApiImplicitParams({})
+  @GetMapping("/workerPin/list")
+  public HttpResult<?> getWorkerPinList() {
+    return HttpResult.success(pinManager.values()
+        .stream()
+        .map(wm -> {
+          WorkerMethodVo vo = new WorkerMethodVo();
+          vo.setName(wm.getPinName());
+          vo.setDescription(wm.getPinDescription());
+          for (PinParam param : wm.getPinParams()) {
+            vo.getParams()
+                .add(new WorkerParameter(param.name(), param.type().getName(), param.description()));
+          }
+          return vo;
+        })
+        .collect(Collectors.toList()));
+  }
+
+  @Setter
+  @Getter
+  public static class WorkerMethodVo {
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 参数
+     */
+    private List<WorkerParameter> params = new ArrayList<>();
+    /**
+     * 描述
+     */
+    private String description;
+
+  }
+
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Setter
+  @Getter
+  public static class WorkerParameter {
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 类型
+     */
+    private String type;
+    /**
+     * 描述
+     */
+    private String description;
+
   }
 
 }
