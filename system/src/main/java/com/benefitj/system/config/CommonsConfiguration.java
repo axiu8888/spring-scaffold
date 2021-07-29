@@ -32,11 +32,12 @@ import java.util.stream.Collectors;
 @Configuration
 public class CommonsConfiguration {
 
-  private final Logger log = LoggerFactory.getLogger(getClass());
-
   @Bean
   public AnnotationUrlRegistryConfigurerCustomizer annotationUrlAuthorizationConfigurerCustomizer() {
     return new AnnotationUrlRegistryConfigurerCustomizer() {
+
+      final Logger log = LoggerFactory.getLogger(getClass());
+
       @Override
       public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
         // 打印忽略的路径，不包含通用路径
