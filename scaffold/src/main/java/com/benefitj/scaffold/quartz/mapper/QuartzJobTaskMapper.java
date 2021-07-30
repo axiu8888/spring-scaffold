@@ -4,7 +4,6 @@ import com.benefitj.core.DateFmtter;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.mapper.SuperMapper;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
-import com.benefitj.spring.quartz.QuartzJobTask;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.util.Sqls;
