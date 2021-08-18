@@ -1,23 +1,20 @@
-### 基础镜像，使用alpine操作系统，openjkd使用8u201
-#FROM openjdk:15
-FROM adoptopenjdk:15.0.1_9-jre-hotspot
+FROM openjdk:18-jdk
 #作者
 MAINTAINER dingxiuan <dingxiuan@163.com>
 
 # 版本
-LABEL version=1.0  description=openjdk15
+LABEL version=1.0  description=openjdk:18-jdk
 
 #系统编码
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 #声明一个挂载点，容器内此路径会对应宿主机的某个文件夹
 VOLUME /opt/apps/
-VOLUME /opt/logs/
 VOLUME /usr/local/bin/
 #应用构建成功后的jar文件被复制到镜像内，名字也改成了app.jar，不拷贝到镜像内，直接通过映射启动
 #ADD build/libs/app.jar  /opt/apps/app.jar
-RUN mkdir -p /opt/apps/ && mkdir -p /opt/logs/ && mkdir -p /usr/local/bin/
+RUN mkdir -p /opt/apps/ && mkdir -p /usr/local/bin/
 ADD docker-entrypoint.sh /usr/local/bin/
-RUN chmod 755 /opt/apps/ && chmod 755 /opt/logs/ && chmod 755 /usr/local/bin/docker-entrypoint.sh
+RUN chmod 755 /opt/apps/  && chmod 755 /usr/local/bin/docker-entrypoint.sh
 # 工作目录
 WORKDIR /opt/apps/
 #CMD [ \
@@ -46,5 +43,4 @@ EXPOSE 80/tcp
 #--rm :设置镜像成功后删除中间容器；
 #--tag, -t: 镜像的名字及标签，通常 name:tag 或者 name 格式；
 # 拷贝Dockerfile和start.sh文件到centos，然后执行如下命令
-# docker build -f Dockerfile --rm  --tag openjdk15:1.0 .
-# docker build -f Dockerfile --rm  --tag adoptopenjdk15:1.0 .
+# docker build -f Dockerfile --rm  --tag jdk-app:18 .

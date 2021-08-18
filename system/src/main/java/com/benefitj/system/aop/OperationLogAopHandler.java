@@ -66,8 +66,8 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
   /**
    * 是否支持GET请求
    */
-  @Value("#{@environment['spring.aop.operation-log.support-get'] ?: false}")
-  private boolean supportGet;
+  @Value("#{@environment['spring.aop.operation-log.ignore-get'] ?: true}")
+  private boolean ignoreGet;
   /**
    * 操作日志
    */
@@ -220,7 +220,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
     HttpServletRequest request = getRequest();
     if (request != null) {
       // 不支持GET，且是GET请求
-      if (!supportGet && HttpMethod.GET.matches(request.getMethod())) {
+      if (ignoreGet && HttpMethod.GET.matches(request.getMethod())) {
         return false;
       }
       if (matcher != null) {
