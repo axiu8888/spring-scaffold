@@ -7,6 +7,7 @@ import com.benefitj.spring.aop.log.EnableHttpLoggingHandler;
 import com.benefitj.spring.aop.web.EnableAutoAopWebHandler;
 import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
 import com.benefitj.spring.eventbus.EnableEventBusPoster;
+import com.benefitj.spring.redis.EnableRedisMessageChannel;
 import com.benefitj.spring.security.url.AnnotationUrlRegistryConfigurerCustomizer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @EnableDruidConfuration       // druid
 @EnableEventBusPoster         // EventBus
 @EnableScaffoldWebSecurityConfiguration // web security
+@EnableRedisMessageChannel    // redis
 @Configuration
 public class CommonsConfiguration {
 

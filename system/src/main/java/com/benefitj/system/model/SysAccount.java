@@ -1,7 +1,5 @@
 package com.benefitj.system.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 /**
@@ -26,13 +24,11 @@ public class SysAccount extends BaseModel {
   /**
    * 密码
    */
-  @JsonIgnore
   @Column(name = "password", columnDefinition = "varchar(200) comment '密码'", length = 200, nullable = false)
   private String password;
   /**
    * 是否被锁住
    */
-  @JsonIgnore
   @Column(name = "locked", columnDefinition = "tinyint(1) comment '是否被锁住'")
   private Boolean locked = Boolean.FALSE;
   /**

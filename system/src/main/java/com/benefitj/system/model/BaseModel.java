@@ -1,6 +1,6 @@
 package com.benefitj.system.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -22,13 +22,13 @@ public abstract class BaseModel {
   /**
    * 创建时间
    */
-  @JsonIgnore
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   @Column(name = "create_time", columnDefinition = "datetime comment '创建时间'")
   private Date createTime;
   /**
    * 修改时间
    */
-  @JsonIgnore
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   @Column(name = "update_time", columnDefinition = "datetime comment '修改时间'")
   private Date updateTime;
   /**

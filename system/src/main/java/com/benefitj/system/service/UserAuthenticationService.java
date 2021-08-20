@@ -1,6 +1,5 @@
 package com.benefitj.system.service;
 
-import com.benefitj.core.HexUtils;
 import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.security.JwtUserDetailsService;
 import com.benefitj.scaffold.security.token.JwtToken;
@@ -15,7 +14,6 @@ import com.benefitj.system.vo.SimpleJwtAccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +26,6 @@ import java.util.stream.Stream;
 @Service
 public class UserAuthenticationService implements JwtUserDetailsService {
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
   @Autowired
   private JwtTokenManager jwtTokenManager;
   @Autowired
@@ -46,11 +42,11 @@ public class UserAuthenticationService implements JwtUserDetailsService {
         && token.getUserDetails().getUsername().equals(username)) {
       return token.getUserDetails();
     }
-    SysAccount user = accountService.getByUsername(username);
-    if (user == null) {
-      throw new UsernameNotFoundException("Username not found");
+    SysAccount account = accountService.getByUsername(username);
+    if (account == null) {
+      throw new UsernameNotFoundException("The username is not found");
     }
-    return getUserDetails(user);
+    return getUserDetails(account);
   }
 
   /**
@@ -96,21 +92,11 @@ public class UserAuthenticationService implements JwtUserDetailsService {
    * @return 返回登陆后的 token
    */
   public AuthTokenVo login(String username, String password) {
-    SysAccount user = accountService.getByUsername(username);
-    String rawPassword = HexUtils.bytesToHex(password.getBytes());
-    if (user == null || !passwordEncoder.matches(rawPassword, user.getPassword())) {
-      throw new LogicException("账号或密码错误");
-    }
+    SysAccount account = accountService.getByUsername(username);
+    // 验证密码
+    accountService.validate(account, password);
 
-    if (!Boolean.TRUE.equals(user.getActive())) {
-      throw new LogicException("账号不可用");
-    }
-
-    if (Boolean.TRUE.equals(user.getLocked())) {
-      throw new LogicException("账号被锁定");
-    }
-
-    JwtUserDetails userDetails = getUserDetails(user);
+    JwtUserDetails userDetails = getUserDetails(account);
 
     JwtToken accessJwtToken = jwtTokenManager.createAccessToken(userDetails);
     JwtToken refreshJwtToken = jwtTokenManager.createRefreshToken(userDetails);
@@ -129,8 +115,7 @@ public class UserAuthenticationService implements JwtUserDetailsService {
   @Override
   public JwtUserDetails getUserDetails(String userId) {
     JwtToken token = JwtTokenManager.currentToken(true);
-    if (token != null
-        && token.getUserDetails().getUserId().equals(userId)) {
+    if (token != null && token.getUserDetails().getUserId().equals(userId)) {
       return token.getUserDetails();
     }
     SysAccount account = accountService.getByUserId(userId);

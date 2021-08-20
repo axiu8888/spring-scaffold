@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class SysAccountService extends BaseService<SysAccount, SysAccountMapper>
   private PasswordEncoder passwordEncoder;
   @Autowired
   private SysAccountMapper mapper;
+  @Autowired
+  private CacheService cacheService;
 
   @Override
   protected SysAccountMapper getMapper() {
@@ -34,7 +37,16 @@ public class SysAccountService extends BaseService<SysAccount, SysAccountMapper>
    * @return 返回查询的账号
    */
   public SysAccount getByUsername(String username) {
-    return getMapper().findByUserName(username);
+    SysAccount account = cacheService.getAccount(username);
+    if (account != null) {
+      return account;
+    }
+    account = getMapper().findByUserName(username);
+    if (account != null) {
+      // 缓存
+      cacheService.setAccount(account);
+    }
+    return account;
   }
 
   public int countByUsername(String username) {
@@ -68,6 +80,10 @@ public class SysAccountService extends BaseService<SysAccount, SysAccountMapper>
     account.setCreateTime(new Date());
     account.setActive(Boolean.TRUE);
     super.insert(account);
+
+    // 缓存
+    cacheService.setAccount(account);
+
     return account;
   }
 
@@ -83,6 +99,9 @@ public class SysAccountService extends BaseService<SysAccount, SysAccountMapper>
     if (account != null) {
       account.setActive(Checker.checkNotNull(active, account.getActive()));
       account.setUpdateTime(new Date());
+      if (Boolean.FALSE.equals(active)) {
+        cacheService.deleteAccount(account.getUsername());
+      }
       return updateByPKSelective(account) > 0;
     }
     return false;
@@ -106,7 +125,58 @@ public class SysAccountService extends BaseService<SysAccount, SysAccountMapper>
    * @return 返回帐号信息
    */
   public SysAccount getByUserId(String userId) {
-    return getMapper().selectByUserId(userId);
+    SysAccount account = cacheService.getAccountByUserId(userId);
+    if (account != null) {
+      return account;
+    }
+    account = getMapper().selectByUserId(userId);
+    if (account != null) {
+      cacheService.setUsername(userId, account.getUsername());
+      cacheService.setAccount(account);
+    }
+    return account;
+  }
+
+  /**
+   * 修改密码
+   *
+   * @param userId      用户ID
+   * @param oldPassword 旧密码
+   * @param newPassword 新密码
+   * @return 返回是否修改
+   */
+  public boolean changePassword(String userId, String oldPassword, String newPassword) {
+    SysAccount account = getByUserId(userId);
+    if (account != null) {
+      try {
+        // 验证账号和密码
+        validate(account, oldPassword);
+      } catch (LogicException e) {
+        throw new LogicException("旧密码错误");
+      }
+      // 对密码加密
+      String hex = HexUtils.bytesToHex(newPassword.getBytes(StandardCharsets.UTF_8));
+      account.setPassword(passwordEncoder.encode(hex));
+      account.setUpdateTime(new Date());
+      cacheService.deleteAccount(account.getUsername());
+      return updateByPK(account) > 0;
+    }
+    return false;
+  }
+
+  public void validate(SysAccount account, String password) {
+    String rawPassword = HexUtils.bytesToHex(password.getBytes(StandardCharsets.UTF_8));
+    if (account == null || !passwordEncoder.matches(rawPassword, account.getPassword())) {
+      throw new LogicException("账号或密码错误");
+    }
+
+    if (!Boolean.TRUE.equals(account.getActive())) {
+      throw new LogicException("账号不可用");
+    }
+
+    if (Boolean.TRUE.equals(account.getLocked())) {
+      throw new LogicException("账号被锁定");
+    }
   }
 
 }

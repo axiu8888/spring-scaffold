@@ -18,6 +18,9 @@ public class SysUserService extends SysBaseService<SysUser, SysUserMapper> {
   @Autowired
   private SysUserMapper mapper;
 
+  @Autowired
+  private CacheService cacheService;
+
   @Override
   protected SysUserMapper getMapper() {
     return mapper;
@@ -30,7 +33,15 @@ public class SysUserService extends SysBaseService<SysUser, SysUserMapper> {
    * @return 返回用户信息
    */
   public SysUser get(String id) {
-    return getMapper().selectByPrimaryKey(id);
+    SysUser user = cacheService.getUser(id);
+    if (user != null) {
+      return user;
+    }
+    user = getMapper().selectByPrimaryKey(id);
+    if (user != null) {
+      cacheService.setUser(user);
+    }
+    return user;
   }
 
   /**
@@ -49,6 +60,10 @@ public class SysUserService extends SysBaseService<SysUser, SysUserMapper> {
       user.setActive(Boolean.TRUE);
       insert(user);
     }
+
+    // 缓存
+    cacheService.setUser(user);
+
     return user;
   }
 
@@ -63,6 +78,9 @@ public class SysUserService extends SysBaseService<SysUser, SysUserMapper> {
     SysUser user = get(id);
     if (user != null) {
       user.setActive(active);
+      if (Boolean.FALSE.equals(active)) {
+        cacheService.deleteUser(id);
+      }
       return updateByPKSelective(user) > 0;
     }
     return false;

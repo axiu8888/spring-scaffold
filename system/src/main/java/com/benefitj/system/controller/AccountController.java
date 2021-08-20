@@ -78,4 +78,20 @@ public class AccountController {
     return HttpResult.create(CommonStatus.OK, result);
   }
 
+  //@AopIgnore
+  @ApiOperation("修改密码")
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "form"),
+      @ApiImplicitParam(name = "oldPassword", value = "旧密码", dataType = "String", paramType = "form"),
+      @ApiImplicitParam(name = "newPassword", value = "新密码", dataType = "String", paramType = "form"),
+  })
+  @PostMapping("/changePassword")
+  public HttpResult<?> changePassword(String userId, String oldPassword, String newPassword) {
+    if (StringUtils.isAnyBlank(userId, oldPassword, newPassword)) {
+      return HttpResult.failure("用户ID和密码都不能为空");
+    }
+    boolean result = accountService.changePassword(userId, oldPassword, newPassword);
+    return HttpResult.create(CommonStatus.OK, result);
+  }
+
 }
