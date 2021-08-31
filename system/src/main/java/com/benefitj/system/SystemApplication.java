@@ -3,6 +3,7 @@ package com.benefitj.system;
 import com.alibaba.fastjson.JSON;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
+import com.benefitj.core.ShutdownHook;
 import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
@@ -37,7 +38,6 @@ public class SystemApplication {
   public static void main(String[] args) {
     SpringApplication.run(SystemApplication.class, args);
   }
-
 
   /**
    * 接口文档配置
@@ -84,6 +84,8 @@ public class SystemApplication {
       System.err.println(jwtProperty.getSigningKey());
       System.err.println("----- SIGNING_KEY -----------------------\n");
     }, 3, TimeUnit.SECONDS);
+
+    ShutdownHook.register(() -> System.err.println("系统被kill... " + DateFmtter.fmtNowS()));
   }
 
   /**

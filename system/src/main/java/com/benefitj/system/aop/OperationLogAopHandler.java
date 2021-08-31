@@ -2,6 +2,7 @@ package com.benefitj.system.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.benefitj.core.EventLoop;
+import com.benefitj.core.IdUtils;
 import com.benefitj.core.local.LocalCache;
 import com.benefitj.core.local.LocalCacheFactory;
 import com.benefitj.scaffold.IpUtil;
@@ -11,7 +12,6 @@ import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.WebPointCutHandler;
 import com.benefitj.system.model.SysOperationLog;
 import com.benefitj.system.service.SysOperationLogService;
-import com.benefitj.system.utils.SnowflakeIdWorker;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +102,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
     MethodInfo mi = getMethodInfo(joinPoint);
     // 开始记录
     SysOperationLog sol = cache.get();
-    sol.setId(String.valueOf(SnowflakeIdWorker.getInstance().nextId()));
+    sol.setId(String.valueOf(IdUtils.snowflakeId()));
     sol.setCreateTime(new Date());
     sol.setActive(true);
 
