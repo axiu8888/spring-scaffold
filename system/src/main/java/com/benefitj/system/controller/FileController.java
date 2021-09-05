@@ -41,7 +41,7 @@ public class FileController {
   @ApiOperation("文件上传")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "path", value = "文件路径"),
-      @ApiImplicitParam(name = "files", value = "文件数组", required = true),
+      @ApiImplicitParam(name = "files", value = "文件数组", required = true, dataTypeClass = String.class),
   })
   @PostMapping
   public HttpResult<?> upload(HttpServletRequest request, MultipartFile[] files, String path) throws IOException {
@@ -61,7 +61,7 @@ public class FileController {
   @ApiOperation("文件下载")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "path", value = "路径"),
-      @ApiImplicitParam(name = "filename", value = "文件名称"),
+      @ApiImplicitParam(name = "filename", value = "文件名称", dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public void download(HttpServletRequest request,
@@ -79,8 +79,8 @@ public class FileController {
 
   @ApiOperation("文件列表")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "path", value = "文件的全路径", required = true),
-      @ApiImplicitParam(name = "multiLevel", value = "多层级", required = false, defaultValue = "false"),
+      @ApiImplicitParam(name = "path", value = "文件的全路径", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "multiLevel", value = "多层级", required = false, defaultValue = "false", dataType = "String", dataTypeClass = Boolean.class),
   })
   @GetMapping("/list")
   public HttpResult<?> list(String path, Boolean multiLevel) {
@@ -110,8 +110,8 @@ public class FileController {
 
   @ApiOperation("文件删除")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "path", value = "文件路径"),
-      @ApiImplicitParam(name = "files", value = "文件", required = true),
+      @ApiImplicitParam(name = "path", value = "文件路径", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "files", value = "文件", required = true, dataType = "String[]", dataTypeClass = String[].class),
   })
   @DeleteMapping
   public HttpResult<?> delete(String path, String[] files) {

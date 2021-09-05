@@ -35,7 +35,7 @@ public class MenuController {
 
   @ApiOperation("获取菜单")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -45,7 +45,7 @@ public class MenuController {
 
   @ApiOperation("添加菜单")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "menu", value = "菜单数据"),
+      @ApiImplicitParam(name = "menu", value = "菜单数据", dataType = "String", dataTypeClass = String.class),
   })
   @PostMapping
   public HttpResult<?> create(SysMenu menu) {
@@ -55,7 +55,7 @@ public class MenuController {
 
   @ApiOperation("更新菜单")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "menu", value = "菜单数据"),
+      @ApiImplicitParam(name = "menu", value = "菜单数据", dataType = "String", dataTypeClass = String.class),
   })
   @PutMapping
   public HttpResult<?> update(@RequestBody SysMenu menu) {
@@ -68,8 +68,8 @@ public class MenuController {
 
   @ApiOperation("删除菜单")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String"),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @DeleteMapping
   public HttpResult<?> delete(String id, Boolean force) {
@@ -79,8 +79,8 @@ public class MenuController {
 
   @ApiOperation("改变菜单的状态")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
   })
   @PatchMapping("/active")
   public HttpResult<?> changeActive(String id, Boolean active) {
@@ -93,7 +93,7 @@ public class MenuController {
 
   @ApiOperation("获取菜单列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<SysMenu> page) {
@@ -103,10 +103,10 @@ public class MenuController {
 
   @ApiOperation("获取机构的菜单列表")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "name", value = "菜单名称", dataType = "String"),
-      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
-      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean"),
+      @ApiImplicitParam(name = "name", value = "菜单名称", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
+      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/list")
   public HttpResult<?> getList(@GetBody SysMenu condition, Boolean multiLevel) {

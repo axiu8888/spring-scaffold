@@ -37,7 +37,7 @@ public class OperationLogController {
 
   @ApiOperation("获取操作日志")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "日志ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "日志ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -58,7 +58,7 @@ public class OperationLogController {
 
   @ApiOperation("获取操作日志列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<SysOperationLog> page) {
@@ -68,13 +68,13 @@ public class OperationLogController {
 
   @ApiOperation("获取机构的操作日志列表")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "module", value = "日志模块", dataType = "String"),
-      @ApiImplicitParam(name = "operation", value = "操作", dataType = "String"),
-      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "creatorId", value = "操作者ID", dataType = "String"),
-      @ApiImplicitParam(name = "url", value = "URL", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
-      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean"),
+      @ApiImplicitParam(name = "module", value = "日志模块", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "operation", value = "操作", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "creatorId", value = "操作者ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "url", value = "URL", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
+      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/list")
   public HttpResult<?> getList(@GetBody SysOperationLog condition, Boolean multiLevel) {

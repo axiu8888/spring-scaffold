@@ -28,7 +28,7 @@ public class AuthorizationController {
 
   @ApiOperation("获取用户拥有的角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping("/role")
   public HttpResult<?> getUserOwnedRoleList(String userId) {
@@ -41,8 +41,8 @@ public class AuthorizationController {
 
   @ApiOperation("给用户添加角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String"),
-      @ApiImplicitParam(name = "roles", value = "角色ID", required = true, dataType = "String[]"),
+      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "roles", value = "角色ID", required = true, dataType = "String[]", dataTypeClass = String[].class),
   })
   @PostMapping("/role")
   public HttpResult<?> correlation(String userId, String[] roles) {
@@ -55,8 +55,8 @@ public class AuthorizationController {
 
   @ApiOperation("删除用户的角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String"),
-      @ApiImplicitParam(name = "roles", value = "角色ID", required = true, dataType = "String[]"),
+      @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "roles", value = "角色ID", required = true, dataType = "String[]", dataTypeClass = String[].class),
   })
   @DeleteMapping("/role")
   public HttpResult<?> uncorrelation(String userId, String[] roles) {

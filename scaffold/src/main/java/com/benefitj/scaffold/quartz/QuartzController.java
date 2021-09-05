@@ -63,7 +63,7 @@ public class QuartzController {
 
   @ApiOperation("获取Cron调度任务")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "Cron调度任务的ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "Cron调度任务的ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -96,8 +96,8 @@ public class QuartzController {
 
   @ApiOperation("删除任务调度")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String"),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @DeleteMapping
   public HttpResult<?> delete(String id, Boolean force) {
@@ -107,8 +107,8 @@ public class QuartzController {
 
   @ApiOperation("改变任务调度的状态")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
   })
   @PatchMapping("/active")
   public HttpResult<?> changeActive(String id, Boolean active) {
@@ -121,7 +121,7 @@ public class QuartzController {
 
   @ApiOperation("获取任务调度列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<QuartzJobTaskEntity> page) {

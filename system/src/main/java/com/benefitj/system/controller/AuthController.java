@@ -33,9 +33,9 @@ public class AuthController {
   @AopIgnore
   @ApiOperation("注册")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
-      @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-      @ApiImplicitParam(name = "orgId", value = "机构ID", required = true, dataType = "String")
+      @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "orgId", value = "机构ID", required = true, dataType = "String", dataTypeClass = String.class)
   })
   @PostMapping("/register")
   public HttpResult<?> register(String username, String password, String orgId) {
@@ -52,8 +52,8 @@ public class AuthController {
   @AopIgnore
   @ApiOperation("登录")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
-      @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
+      @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", dataTypeClass = String.class)
   })
   @PostMapping("/login")
   public HttpResult<?> login(String username, String password) {
@@ -69,7 +69,7 @@ public class AuthController {
    */
   @ApiOperation("刷新token")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "refresh", value = "刷新的token", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "refresh", value = "刷新的token", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping("/token")
   public HttpResult<?> refreshToken(@RequestHeader("refresh") String refreshToken) {

@@ -36,7 +36,7 @@ public class UserController {
 
   @ApiOperation("获取用户信息")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -47,7 +47,7 @@ public class UserController {
 
   @ApiOperation("更新用户信息")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "user", value = "用户信息"),
+      @ApiImplicitParam(name = "user", value = "用户信息", dataTypeClass = SysUser.class),
   })
   @PutMapping
   public HttpResult<?> update(@RequestBody SysUser user) {
@@ -60,10 +60,10 @@ public class UserController {
 
   @ApiOperation("获取用户列表")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
-      @ApiImplicitParam(name = "gender", value = "性别", dataType = "Boolean"),
-      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean"),
+      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
+      @ApiImplicitParam(name = "gender", value = "性别", dataType = "Boolean", dataTypeClass = Boolean.class),
+      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/list")
   public HttpResult<?> getList(@GetBody SysUser condition, Boolean multiLevel) {
@@ -77,7 +77,7 @@ public class UserController {
 
   @ApiOperation("获取用户列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<SysUser> page) {

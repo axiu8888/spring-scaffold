@@ -32,7 +32,7 @@ public class AccountController {
 
   @ApiOperation("获取账号")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "账号ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "账号ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -45,7 +45,7 @@ public class AccountController {
 
   @ApiOperation("添加账号")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "account", value = "账号数据"),
+      @ApiImplicitParam(name = "account", value = "账号数据", dataType = "String", dataTypeClass = String.class),
   })
   @PostMapping
   public HttpResult<?> create(SysAccount account) {
@@ -55,8 +55,8 @@ public class AccountController {
 
   @ApiOperation("删除账号")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "账号ID", dataType = "String"),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "账号ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @DeleteMapping
   public HttpResult<?> delete(String id, Boolean force) {
@@ -66,8 +66,8 @@ public class AccountController {
 
   @ApiOperation("改变账号的状态")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "账号ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "id", value = "账号ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
   })
   @PatchMapping("/active")
   public HttpResult<?> changeActive(String id, Boolean active) {
@@ -81,9 +81,9 @@ public class AccountController {
   //@AopIgnore
   @ApiOperation("修改密码")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "oldPassword", value = "旧密码", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "newPassword", value = "新密码", dataType = "String", paramType = "form"),
+      @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "oldPassword", value = "旧密码", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "newPassword", value = "新密码", dataType = "String", paramType = "form", dataTypeClass = String.class),
   })
   @PostMapping("/changePassword")
   public HttpResult<?> changePassword(String userId, String oldPassword, String newPassword) {

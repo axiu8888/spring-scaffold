@@ -36,7 +36,7 @@ public class OrganizationController {
 
   @ApiOperation("获取机构")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", required = true, dataType = "String"),
+      @ApiImplicitParam(name = "id", value = "机构ID", required = true, dataType = "String", dataTypeClass = String.class),
   })
   @GetMapping
   public HttpResult<?> get(String id) {
@@ -46,7 +46,7 @@ public class OrganizationController {
 
   @ApiOperation("添加机构")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "org", value = "机构数据", required = true, dataType = "SysOrganization"),
+      @ApiImplicitParam(name = "org", value = "机构数据", required = true, dataType = "SysOrganization", dataTypeClass = SysOrganization.class),
   })
   @PostMapping
   public HttpResult<?> create(SysOrganization org) {
@@ -56,7 +56,7 @@ public class OrganizationController {
 
   @ApiOperation("更新机构")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "org", value = "机构数据", required = true, dataType = "SysOrganization"),
+      @ApiImplicitParam(name = "org", value = "机构数据", required = true, dataType = "SysOrganization", dataTypeClass = SysOrganization.class),
   })
   @PutMapping
   public HttpResult<?> update(@RequestBody SysOrganization org) {
@@ -69,8 +69,8 @@ public class OrganizationController {
 
   @ApiOperation("删除机构")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @DeleteMapping
   public HttpResult<?> delete(String id, Boolean force) {
@@ -80,8 +80,8 @@ public class OrganizationController {
 
   @ApiOperation("改变机构的状态")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", paramType = "form"),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form"),
+      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
   })
   @PatchMapping("/active")
   public HttpResult<?> changeActive(String id, Boolean active) {
@@ -94,7 +94,7 @@ public class OrganizationController {
 
   @ApiOperation("获取子机构列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage"),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<SysOrganization> page) {
@@ -104,8 +104,8 @@ public class OrganizationController {
 
   @ApiOperation("获取机构列表")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "multiLevel", value = "是否多层级", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "multiLevel", value = "是否多层级", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/list")
   public HttpResult<?> getList(@GetBody SysOrganization condition, Boolean multiLevel) {
@@ -116,8 +116,8 @@ public class OrganizationController {
 
   @ApiOperation("获取子机构")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/children")
   public HttpResult<?> getChildren(@GetBody SysOrganization condition, Boolean multiLevel) {
@@ -129,8 +129,8 @@ public class OrganizationController {
 
   @ApiOperation("获取组织机构树")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String"),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean"),
+      @ApiImplicitParam(name = "id", value = "机构ID", dataType = "String", dataTypeClass = String.class),
+      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
   })
   @GetMapping("/tree")
   public HttpResult<?> getOrgTree(String id, Boolean active) {
