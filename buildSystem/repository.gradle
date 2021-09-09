@@ -1,6 +1,30 @@
 
 buildscript {
     repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        jcenter()
+        maven { url 'https://repo.spring.io/milestone' }
+        if(useRepository) {
+            maven {
+                url = "http://${repositoryAddress}/repository/maven-public/"
+                credentials {
+                    username "${repositoryUserName}"
+                    password "${repositoryPassword}"
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+    jcenter()
+    maven { url 'https://repo.spring.io/milestone' }
+    if(useRepository) {
         maven {
             url = "http://${repositoryAddress}/repository/maven-public/"
             credentials {
@@ -8,26 +32,5 @@ buildscript {
                 password "${repositoryPassword}"
             }
         }
-        mavenLocal()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        mavenCentral()
-        jcenter()
-        maven { url 'https://repo.spring.io/milestone' }
     }
-}
-
-
-repositories {
-    maven {
-        url = "http://${repositoryAddress}/repository/maven-public/"
-        credentials {
-            username "${repositoryUserName}"
-            password "${repositoryPassword}"
-        }
-    }
-    mavenLocal()
-    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-    mavenCentral()
-    jcenter()
-    maven { url 'https://repo.spring.io/milestone' }
 }

@@ -7,8 +7,13 @@ plugins {
 apply from: "${getRootDir()}/buildSystem/springboot.gradle"
 
 group = "system-management"
-version = "1.0.1-SNAPSHOT"
-archivesBaseName = "${group}"
+//version = "1.0.1-SNAPSHOT"
+//archivesBaseName = "${group}"
+version = ''
+
+jar {
+	archivesBaseName = "system-management"
+}
 
 dependencies {
 	compile fileTree(dir: 'libs/jar', include: ['*.jar'])

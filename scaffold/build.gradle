@@ -23,10 +23,9 @@ dependencies {
     // QUARTZ
     compile "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
 
-    compile("io.springfox:springfox-swagger2:${swagger2Version}")
-    compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
-//    compile "io.springfox:springfox-boot-starter:${swagger2Version}"
-//    compile 'io.springfox:springfox-boot-starter:3.0.0'
+//    compile("io.springfox:springfox-swagger2:${swagger2Version}")
+//    compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
+    compile "io.springfox:springfox-boot-starter:${swagger2Version}"
 
     compile "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
     compile "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"

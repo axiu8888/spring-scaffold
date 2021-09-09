@@ -19,12 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 
@@ -42,6 +44,8 @@ public class SystemApplication {
   /**
    * 接口文档配置
    */
+//  @ConditionalOnExpression("(@environment['swagger.enable'] ?: false) == true") // 是否打开swagger
+  @EnableOpenApi
   @Configuration
   public static class ApiConfig extends SwaggerConfig {
     /**
@@ -56,16 +60,10 @@ public class SystemApplication {
     private String contextPath;
 
     @Override
-    public String basePackage() {
-      return "com.benefitj";
-    }
-
-    @Override
     public ApiInfo apiInfo() {
       return new ApiInfoBuilder()
-          .title("用户模块的API")
-          //.setResourceGroupingStrategy(SpringSwaggerConfig.defaultResourceGroupingStrategy())
-          .description("用户注册，登录认证，管理权限等方面的操作！")
+          .title("后台系统的API接口")
+          .description("用户注册，认证，权限管理等！")
           .termsOfServiceUrl(String.format("http://127.0.0.1:%s/%s", port, contextPath))
           .contact(new Contact("DING XIU AN", "", "dingxiuan@163.com"))
           .version("1.0.0")
