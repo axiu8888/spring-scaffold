@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ShutdownHook;
-import com.benefitj.scaffold.SwaggerConfig;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.quartz.pin.ParamType;
@@ -12,65 +11,31 @@ import com.benefitj.scaffold.quartz.pin.Pin;
 import com.benefitj.scaffold.quartz.pin.PinParam;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.quartz.JobWorker;
+import com.benefitj.spring.swagger.EnableSwaggerApi;
+import com.benefitj.spring.swagger.SwaggerApiInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * 系统管理
  */
+@PropertySource(value="classpath:swagger-api-info.properties", encoding="UTF-8")
+@EnableSwaggerApi
 @SpringBootApplication
 public class SystemApplication {
   public static void main(String[] args) {
     SpringApplication.run(SystemApplication.class, args);
-  }
-
-  /**
-   * 接口文档配置
-   */
-//  @ConditionalOnExpression("(@environment['swagger.enable'] ?: false) == true") // 是否打开swagger
-  @EnableOpenApi
-  @Configuration
-  public static class ApiConfig extends SwaggerConfig {
-    /**
-     * 端口号
-     */
-    @Value("#{ environment['server.port'] ?: '8080'}")
-    private String port;
-    /**
-     * 上下文路径
-     */
-    @Value("#{ environment['server.servlet.context-path'] ?: ''}")
-    private String contextPath;
-
-    @Override
-    public ApiInfo apiInfo() {
-      return new ApiInfoBuilder()
-          .title("后台系统的API接口")
-          .description("用户注册，认证，权限管理等！")
-          .termsOfServiceUrl(String.format("http://127.0.0.1:%s/%s", port, contextPath))
-          .contact(new Contact("DING XIU AN", "", "dingxiuan@163.com"))
-          .version("1.0.0")
-          .license("The Apache License, Version 2.0")
-          .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-          .build();
-    }
   }
 
   @EventListener
@@ -80,10 +45,16 @@ public class SystemApplication {
       JwtProperty jwtProperty = ctx.getBean(JwtProperty.class);
       System.err.println("\n----- SIGNING_KEY -----------------------");
       System.err.println(jwtProperty.getSigningKey());
+
+      SwaggerApiInfo apiInfo = ctx.getBean(SwaggerApiInfo.class);
+      System.err.println(JSON.toJSONString(apiInfo));
+
       System.err.println("----- SIGNING_KEY -----------------------\n");
+
     }, 3, TimeUnit.SECONDS);
 
     ShutdownHook.register(() -> System.err.println("系统被kill... " + DateFmtter.fmtNowS()));
+
   }
 
   /**
