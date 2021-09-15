@@ -5,7 +5,7 @@ import com.benefitj.scaffold.spring.EnableDruidConfuration;
 import com.benefitj.scaffold.spring.EnableScaffoldWebSecurityConfiguration;
 import com.benefitj.spring.aop.log.EnableHttpLoggingHandler;
 import com.benefitj.spring.aop.web.EnableAutoAopWebHandler;
-import com.benefitj.spring.athenapdf.EnableAthenapdfConfiguration;
+import com.benefitj.spring.athenapdf.EnableAthenapdf;
 import com.benefitj.spring.eventbus.EnableEventBusPoster;
 import com.benefitj.spring.redis.EnableRedisMessageChannel;
 import com.benefitj.spring.security.url.AnnotationUrlRegistryConfigurerCustomizer;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @EntityScan("com.benefitj.system.model")
 @MapperScan("com.benefitj.system.mapper")
-@EnableAthenapdfConfiguration // PDF打印
+@EnableAthenapdf              // PDF打印
 @EnableAutoAopWebHandler      // AOP
 @EnableHttpLoggingHandler     // 打印请求日志
 @EnableQuartzConfuration      // quartz
