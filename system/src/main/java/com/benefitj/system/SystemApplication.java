@@ -5,9 +5,6 @@ import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
-import com.benefitj.scaffold.quartz.pin.ParamType;
-import com.benefitj.scaffold.quartz.pin.Pin;
-import com.benefitj.scaffold.quartz.pin.PinParam;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.ctx.EnableSpringCtxInit;
 import com.benefitj.spring.ctx.SpringCtxHolder;
@@ -80,19 +77,6 @@ public class SystemApplication {
         log.error("throws: " + e.getMessage(), e);
         //throw new JobExecutionException(e);
       }
-    }
-
-    @Pin(
-        name = "testScheduler",
-        description = "测试调度服务",
-        params = {
-            @PinParam(name = "personZid", type = ParamType.STRING, description = "患者ID"),
-            @PinParam(name = "type", type = ParamType.STRING, description = "类型"),
-            @PinParam(name = "orgZid", type = ParamType.STRING, description = "机构ID")
-        }
-    )
-    public void testScheduler(String parameterBody) {
-      System.err.println("测试调度方法... " + parameterBody);
     }
   }
 }

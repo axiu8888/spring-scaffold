@@ -4,10 +4,10 @@ import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.spring.listener.AppStartListener;
 import com.benefitj.spring.quartz.QuartzUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.lang.reflect.Field;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 启动调度程序
  */
-public class QuartzStartListener {
+public class QuartzStartListener implements AppStartListener {
 
   private SchedulerFactoryBean schedulerFactoryBean;
   private QuartzJobTaskService service;
@@ -37,13 +37,13 @@ public class QuartzStartListener {
     this.service = service;
   }
 
-  @EventListener
-  public void onApplicationReadyEvent(ApplicationReadyEvent event) {
+  @Override
+  public void onAppStart(ApplicationReadyEvent event) {
     if (startup) {
-      Class<?> type = schedulerFactoryBean.getClass();
+      Class<?> type = getSchedulerFactoryBean().getClass();
       Field field = ReflectUtils.getField(type, "startupDelay");
       if (field != null) {
-        Integer value = ReflectUtils.getFieldValue(field, schedulerFactoryBean);
+        Integer value = ReflectUtils.getFieldValue(field, getSchedulerFactoryBean());
         // 调度任务
         EventLoop.io().schedule(() -> scheduleJobTasks(getService())
             , value + 3000
