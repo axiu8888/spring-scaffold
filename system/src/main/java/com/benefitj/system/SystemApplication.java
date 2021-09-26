@@ -6,10 +6,8 @@ import com.benefitj.core.EventLoop;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.spring.ctx.EnableSpringCtxInit;
 import com.benefitj.spring.ctx.SpringCtxHolder;
 import com.benefitj.spring.listener.AppStateHook;
-import com.benefitj.spring.listener.EnableAppStateListener;
 import com.benefitj.spring.quartz.JobWorker;
 import com.benefitj.spring.swagger.EnableSwaggerApi;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +28,6 @@ import java.util.concurrent.TimeUnit;
  */
 @PropertySource(value = "classpath:swagger-api-info.properties", encoding = "UTF-8")
 @EnableSwaggerApi
-@EnableSpringCtxInit
-@EnableAppStateListener
 @SpringBootApplication
 public class SystemApplication {
   public static void main(String[] args) {
@@ -62,17 +58,26 @@ public class SystemApplication {
     public void execute(JobExecutionContext context, JobDetail detail, String taskId) {
       try {
         QuartzJobTaskEntity task = taskService.get(taskId);
-        System.err.println("\n-------------------------------------");
-        System.err.println("task: " + JSON.toJSONString(task));
-        System.err.println("now: " + DateFmtter.fmtNowS());
-        System.err.println("key: " + detail.getKey());
-        System.err.println("jobClass: " + detail.getJobClass());
-        System.err.println("jobDataMap: " + JSON.toJSONString(detail.getJobDataMap()));
-        System.err.println("description: " + detail.getDescription());
-        System.err.println("refireCount: " + context.getRefireCount());
-        System.err.println("nextFireTime: " + fmtS(context.getNextFireTime()));
-        System.err.println("thread: " + Thread.currentThread().getName());
-        System.err.println("-------------------------------------\n");
+        log.info("\n------------------------------------- "
+                + "\ntask: {}"
+                + "\nnow: {}"
+                + "\nkey: {}"
+                + "\njobClass: {}"
+                + "\njobDataMap: {} "
+                + "\ndescription: {}"
+                + "\nrefireCount: {}"
+                + "\nnextFireTime: {}"
+                + "\nthread: {}"
+                + "\n-------------------------------------\n"
+            , JSON.toJSONString(task)
+            , DateFmtter.fmtNowS()
+            , detail.getKey()
+            , detail.getJobClass()
+            , JSON.toJSONString(detail.getJobDataMap())
+            , detail.getDescription()
+            , context.getRefireCount()
+            , fmtS(context.getNextFireTime())
+            , EventLoop.threadName());
       } catch (Exception e) {
         log.error("throws: " + e.getMessage(), e);
         //throw new JobExecutionException(e);
