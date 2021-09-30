@@ -32,6 +32,12 @@ public class SysMenuService extends SysBaseService<SysMenu, SysMenuMapper> {
     return false;
   }
 
+  @Override
+  protected void checkRecord(SysMenu record) {
+    Checker.requireNotBlank(record.getName(), "菜单名不能为空");
+    Checker.requireNotBlank(record.getUri(), "菜单路径不能为空");
+  }
+
   /**
    * 获取菜单
    *
@@ -52,8 +58,6 @@ public class SysMenuService extends SysBaseService<SysMenu, SysMenuMapper> {
     requireOrgExist(menu.getOrgId());
     checkMenuPermission(menu);
     menu.setId(IdUtils.uuid());
-    Checker.requireNotBlank(menu.getName(), "菜单名不能为空");
-    Checker.requireNotBlank(menu.getUri(), "菜单路径不能为空");
     menu.setOrgId(Checker.checkNotBlank(menu.getOrgId(), currentOrgId()));
     menu.setCreatorId(currentUserId());
     menu.setCreateTime(new Date());

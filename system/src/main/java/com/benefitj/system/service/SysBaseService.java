@@ -85,13 +85,35 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
   }
 
   @Override
+  public int insert(T record) {
+    checkRecord(record);
+    return super.insert(record);
+  }
+
+  @Override
+  public int updateByPK(T record) {
+    checkRecord(record);
+    return super.updateByPK(record);
+  }
+
+  @Override
+  public int updateByPKSelective(T record) {
+    checkRecord(record);
+    return super.updateByPKSelective(record);
+  }
+
+  protected void checkRecord(T record) {
+    // ~
+  }
+
+  @Override
   public List<T> getAll(@Nullable T condition) {
     changeOrgLevel(condition);
     return super.getAll(condition);
   }
 
   @Override
-  public List<T> getList(T condition, Date startTime, Date endTime, Boolean multiLevel) {
+  public List<T> getList(T condition, Date startTime, Date endTime, boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

@@ -144,7 +144,7 @@ public class SysRoleService extends SysBaseService<SysRole, SysRoleMapper> {
   }
 
   @Override
-  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, Boolean multiLevel) {
+  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

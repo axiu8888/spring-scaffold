@@ -58,7 +58,7 @@ public class OperationLogController {
 
   @ApiOperation("获取操作日志列表分页")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
+      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "PageableRequest", dataTypeClass = PageableRequest.class),
   })
   @GetMapping("/page")
   public HttpResult<?> getPage(@PageBody PageableRequest<SysOperationLog> page) {

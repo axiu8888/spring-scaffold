@@ -211,7 +211,7 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
   }
 
   @Override
-  public List<QuartzJobTaskEntity> getList(QuartzJobTaskEntity condition, Date startTime, Date endTime, Boolean multiLevel) {
+  public List<QuartzJobTaskEntity> getList(QuartzJobTaskEntity condition, Date startTime, Date endTime, boolean multiLevel) {
     if (StringUtils.isBlank(condition.getOrgId())) {
       condition.setOrgId(JwtTokenManager.currentOrgId());
     }
