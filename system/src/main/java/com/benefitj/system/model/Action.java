@@ -11,49 +11,49 @@ public enum Action {
   /**
    * 查看 -> 1
    */
-  VIEW(1, "VIEW", "查看"),
+  VIEW(1, "view", "查看"),
   /**
    * 添加 -> 2
    */
-  ADD(1 << 1, "ADD", "添加"),
+  ADD(1 << 1, "add", "添加"),
   /**
    * 删除 -> 4
    */
-  DELETE(1 << 2, "DELETE", "删除"),
+  DELETE(1 << 2, "delete", "删除"),
   /**
    * 编辑 -> 8
    */
-  EDIT(1 << 3, "EDIT", "编辑"),
+  EDIT(1 << 3, "edit", "编辑"),
   /**
    * 授权 -> 16
    */
-  AUTH(1 << 4, "AUTH", "授权"),
+  AUTH(1 << 4, "auth", "授权"),
   /**
    * 移动 -> 32
    */
-  MOVE(1 << 5, "MOVE", "移动"),
+  MOVE(1 << 5, "move", "移动"),
   /**
    * 可点击 -> 64
    */
-  CLICK(1 << 6, "CLICK", "点击"),
+  CLICK(1 << 6, "click", "点击"),
   /**
    * 全部 -> 2147483647
    */
-  ALL((1 << 31) - 1, "ALL", "全部");
+  ALL((1 << 31) - 1, "all", "全部");
 
-  private static final Map<Action, String> ACTION_JSON;
+  private static final Map<Action, String> ACTION_JSONS;
 
   static {
-    Map<Action, String> jsonMap = new TreeMap<>(Comparator.comparingInt(Action::getValue));
+    Map<Action, String> jsons = new TreeMap<>(Comparator.comparingInt(Action::getValue));
     for (Action action : values()) {
       String json = "{"
           + "\"value\":" + action.getValue()
           + ",\"name\":\"" + action.getName() + "\""
           + ",\"nameCN\":\"" + action.getNameCN() + "\""
           + "}";
-      jsonMap.put(action, json);
+      jsons.put(action, json);
     }
-    ACTION_JSON = Collections.unmodifiableMap(jsonMap);
+    ACTION_JSONS = Collections.unmodifiableMap(jsons);
   }
 
   private final int value;
@@ -184,7 +184,7 @@ public enum Action {
   }
 
   public static String getJson(Action action) {
-    return ACTION_JSON.get(action);
+    return ACTION_JSONS.get(action);
   }
 
   public int getValue() {

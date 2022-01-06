@@ -51,9 +51,9 @@ public interface SysBaseMapper<T extends ISysBaseModel> extends SuperMapper<T> {
         notNull(c.getActive(), () -> WHERE("t.active = " + c.getActive()));
         getTable().getEntityClassColumns()
             .stream()
-            .filter(column -> column.getColumn().equals("name"))
-            .filter(column -> column.getColumn().equals("creator_id"))
-            .filter(column -> column.getColumn().equals("active"))
+            .filter(column -> !column.getColumn().equals("name"))
+            .filter(column -> !column.getColumn().equals("creator_id"))
+            .filter(column -> !column.getColumn().equals("active"))
             .filter(column -> getValue(column, c) != null)
             .forEach(column -> {
               Object value = getValue(column, c);
