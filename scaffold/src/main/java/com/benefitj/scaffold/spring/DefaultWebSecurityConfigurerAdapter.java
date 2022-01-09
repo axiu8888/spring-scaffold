@@ -1,14 +1,13 @@
 package com.benefitj.scaffold.spring;
 
 import com.benefitj.scaffold.security.*;
-import com.benefitj.scaffold.security.token.JwtProperty;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.spring.security.AbstractWebSecurityConfigurerAdapter;
 import com.benefitj.spring.security.EnableHttpSecurityCustomizerConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -97,6 +96,7 @@ public class DefaultWebSecurityConfigurerAdapter extends AbstractWebSecurityConf
     return new JwtAuthenticationProvider();
   }
 
+  @Lazy
   @Autowired
   public void configureAuthentication(AuthenticationManagerBuilder builder,
                                       JwtUserDetailsService userDetailsService,
@@ -142,24 +142,6 @@ public class DefaultWebSecurityConfigurerAdapter extends AbstractWebSecurityConf
   public void loadFilters(HttpSecurity httpSecurity) {
     httpSecurity.addFilterBefore(jwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     httpSecurity.addFilterBefore(corsFilter(), JwtTokenAuthenticationProcessingFilter.class);
-  }
-
-  /**
-   * 配置
-   */
-  @ConditionalOnMissingBean
-  @Bean
-  public JwtProperty jwtProperty() {
-    return new JwtProperty();
-  }
-
-  /**
-   * JWT token管理
-   */
-  @ConditionalOnMissingBean
-  @Bean
-  public JwtTokenManager jwtTokenManager(JwtProperty jwtProperty) {
-    return new JwtTokenManager(jwtProperty);
   }
 
 }

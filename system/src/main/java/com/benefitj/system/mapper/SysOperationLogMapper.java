@@ -26,7 +26,7 @@ public interface SysOperationLogMapper extends SysBaseMapper<SysOperationLog> {
    */
   @SelectProvider(type = Provider.class, method = "selectList")
   @Override
-  List<SysOperationLog> selectList(SysOperationLog c, Date startTime, Date endTime, boolean multiLevel);
+  List<SysOperationLog> selectList(SysOperationLog c, Date startTime, Date endTime, Boolean multiLevel);
 
 
   final class Provider {

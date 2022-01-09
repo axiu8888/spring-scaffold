@@ -1,5 +1,11 @@
 package com.benefitj.system.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,6 +13,11 @@ import javax.persistence.Table;
 /**
  * 操作日志
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_operation_log")
 public class SysOperationLog extends SysBaseModel {
@@ -57,75 +68,4 @@ public class SysOperationLog extends SysBaseModel {
   @Column(name = "result_code")
   private Integer resultCode;
 
-  public String getModule() {
-    return module;
-  }
-
-  public void setModule(String module) {
-    this.module = module;
-  }
-
-  public String getOperation() {
-    return operation;
-  }
-
-  public void setOperation(String operation) {
-    this.operation = operation;
-  }
-
-  public String getIpAddr() {
-    return ipAddr;
-  }
-
-  public void setIpAddr(String ipAddr) {
-    this.ipAddr = ipAddr;
-  }
-
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public String getHttpMethod() {
-    return httpMethod;
-  }
-
-  public void setHttpMethod(String httpMethod) {
-    this.httpMethod = httpMethod;
-  }
-
-  public String getArgs() {
-    return args;
-  }
-
-  public void setArgs(String args) {
-    this.args = args;
-  }
-
-  public String getClassMethod() {
-    return classMethod;
-  }
-
-  public void setClassMethod(String classMethod) {
-    this.classMethod = classMethod;
-  }
-
-  public String getResultMsg() {
-    return resultMsg;
-  }
-
-  public void setResultMsg(String resultMsg) {
-    this.resultMsg = resultMsg;
-  }
-
-  public Integer getResultCode() {
-    return resultCode;
-  }
-
-  public void setResultCode(Integer resultCode) {
-    this.resultCode = resultCode;
-  }
 }

@@ -1,5 +1,11 @@
 package com.benefitj.system.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -8,6 +14,11 @@ import javax.persistence.Table;
 /**
  * 系统菜单
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_menu")
 public class SysMenu extends SysBaseModel {
@@ -28,27 +39,4 @@ public class SysMenu extends SysBaseModel {
   @Column(name = "uri", columnDefinition = "varchar(1024) comment '地址'", length = 1024)
   private String uri;
 
-  public String getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(String parentId) {
-    this.parentId = parentId;
-  }
-
-  public String getIcon() {
-    return icon;
-  }
-
-  public void setIcon(String icon) {
-    this.icon = icon;
-  }
-
-  public String getUri() {
-    return uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
 }

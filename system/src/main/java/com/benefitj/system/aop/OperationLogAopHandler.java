@@ -9,7 +9,10 @@ import com.benefitj.scaffold.IpUtil;
 import com.benefitj.scaffold.security.token.JwtToken;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.HttpResult;
+import com.benefitj.spring.aop.AopAdvice;
 import com.benefitj.spring.aop.web.WebPointCutHandler;
+import com.benefitj.spring.mvc.matcher.AntPathRequestMatcher;
+import com.benefitj.spring.mvc.matcher.OrRequestMatcher;
 import com.benefitj.system.model.SysOperationLog;
 import com.benefitj.system.service.SysOperationLogService;
 import io.swagger.annotations.Api;
@@ -22,8 +25,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +38,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -94,7 +96,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
    * @param joinPoint 方法切入点
    */
   @Override
-  public void doBefore(JoinPoint joinPoint) {
+  public void doBefore(AopAdvice advice, JoinPoint joinPoint) {
     if (!support(joinPoint)) {
       return;
     }
@@ -164,15 +166,15 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
   }
 
   @Override
-  public void doAfterReturning(JoinPoint joinPoint, Object returnValue) {
+  public void doAfter(AopAdvice advice, JoinPoint joinPoint, AtomicReference<Object> returnValue) {
     if (!support(joinPoint)) {
       return;
     }
     // 成功返回
     SysOperationLog sol = cache.get();
-    if (returnValue instanceof HttpResult) {
+    if (returnValue.get() instanceof HttpResult) {
       // 返回 HttpResult
-      HttpResult r = (HttpResult) returnValue;
+      HttpResult r = (HttpResult) returnValue.get();
       sol.setResultCode(r.getCode());
       sol.setResultMsg(r.getMsg());
     } else {
@@ -183,7 +185,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
   }
 
   @Override
-  public void doAfterThrowing(JoinPoint joinPoint, Throwable ex) {
+  public void doAfterThrowing(AopAdvice advice, JoinPoint joinPoint, Throwable ex) {
     if (!support(joinPoint)) {
       return;
     }
@@ -194,7 +196,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
   }
 
   @Override
-  public void doAfter(JoinPoint joinPoint) {
+  public void doAfterReturning(AopAdvice advice, JoinPoint joinPoint) {
     if (!support(joinPoint)) {
       return;
     }

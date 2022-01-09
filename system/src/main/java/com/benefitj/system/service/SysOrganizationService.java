@@ -246,7 +246,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
   }
 
   @Override
-  public List<SysOrganization> getList(SysOrganization condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<SysOrganization> getList(SysOrganization condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, Boolean.TRUE.equals(multiLevel));
   }
 

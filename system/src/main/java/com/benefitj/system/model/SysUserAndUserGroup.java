@@ -1,10 +1,19 @@
 package com.benefitj.system.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 
 /**
  * 用户和用户组关联表
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "sys_user_and_usergroup")
 public class SysUserAndUserGroup {
@@ -18,37 +27,12 @@ public class SysUserAndUserGroup {
   /**
    * 用户ID
    */
-  @PrimaryKeyJoinColumn
   @Column(name = "user_id", columnDefinition = "varchar(32) comment '用户ID'", length = 32, nullable = false)
   private String userId;
   /**
    * 用户组ID
    */
-  @PrimaryKeyJoinColumn
   @Column(name = "user_group_id", columnDefinition = "varchar(32) comment '用户组ID'", length = 32, nullable = false)
   private String userGroupId;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public String getUserGroupId() {
-    return userGroupId;
-  }
-
-  public void setUserGroupId(String userGroupId) {
-    this.userGroupId = userGroupId;
-  }
 }

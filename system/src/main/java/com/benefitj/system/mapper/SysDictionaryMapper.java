@@ -26,7 +26,7 @@ public interface SysDictionaryMapper extends SysBaseMapper<SysDictionaryModel> {
    */
   @SelectProvider(type = Provider.class, method = "selectList")
   @Override
-  List<SysDictionaryModel> selectList(SysDictionaryModel c, Date startTime, Date endTime, boolean multiLevel);
+  List<SysDictionaryModel> selectList(SysDictionaryModel c, Date startTime, Date endTime, Boolean multiLevel);
 
 
   final class Provider {
@@ -43,7 +43,7 @@ public interface SysDictionaryMapper extends SysBaseMapper<SysDictionaryModel> {
     public String selectList(@Param("c") SysDictionaryModel c,
                              @Param("startTime") Date startTime,
                              @Param("endTime") Date endTime,
-                             @Param("multiLevel") boolean multiLevel) {
+                             @Param("multiLevel") Boolean multiLevel) {
       return new BaseOrgSQL(c.getClass()) {{
         base(c, startTime, endTime, multiLevel);
         notBlank(c.getParentId(), (parentId) -> WHERE("t.parent_id = '" + parentId + "'"));

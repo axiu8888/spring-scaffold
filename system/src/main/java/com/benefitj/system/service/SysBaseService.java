@@ -113,7 +113,7 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
   }
 
   @Override
-  public List<T> getList(T condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<T> getList(T condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

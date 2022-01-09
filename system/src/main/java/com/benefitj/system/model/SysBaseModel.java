@@ -1,5 +1,11 @@
 package com.benefitj.system.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -8,6 +14,11 @@ import javax.persistence.PrimaryKeyJoinColumn;
 /**
  * 关联机构的基类
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @MappedSuperclass
 public abstract class SysBaseModel extends BaseModel implements ISysBaseModel<String> {
 
@@ -29,33 +40,4 @@ public abstract class SysBaseModel extends BaseModel implements ISysBaseModel<St
   @Column(name = "name", columnDefinition = "varchar(100) comment '名称' ", length = 100)
   private String name;
 
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  @Override
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getOrgId() {
-    return orgId;
-  }
-
-  @Override
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
-  }
 }

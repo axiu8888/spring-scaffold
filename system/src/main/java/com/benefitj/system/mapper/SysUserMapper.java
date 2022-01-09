@@ -25,7 +25,7 @@ public interface SysUserMapper extends SysBaseMapper<SysUser> {
    */
   @SelectProvider(type = Provider.class, method = "selectList")
   @Override
-  List<SysUser> selectList(SysUser c, Date startTime, Date endTime, boolean multiLevel);
+  List<SysUser> selectList(SysUser c, Date startTime, Date endTime, Boolean multiLevel);
 
 
   final class Provider {
@@ -42,7 +42,7 @@ public interface SysUserMapper extends SysBaseMapper<SysUser> {
     public String selectList(@Param("c") SysUser c,
                              @Param("startTime") Date startTime,
                              @Param("endTime") Date endTime,
-                             @Param("multiLevel") boolean multiLevel) {
+                             @Param("multiLevel") Boolean multiLevel) {
       return new BaseOrgSQL(c.getClass()) {{
         base(c, startTime, endTime, multiLevel);
         notBlank(c.getName(), (first_name) -> WHERE("t.first_name LIKE '%" + first_name + "%'"));

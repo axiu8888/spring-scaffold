@@ -1,6 +1,11 @@
 package com.benefitj.system.model;
 
 import com.benefitj.scaffold.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +16,11 @@ import java.util.Date;
 /**
  * 用户信息
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_user")
 public class SysUser extends BaseModel implements ISysBaseModel<String> {
@@ -57,73 +67,4 @@ public class SysUser extends BaseModel implements ISysBaseModel<String> {
   @Column(name = "avatar", columnDefinition = "varchar(200) comment '头像'")
   private String avatar;
 
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  @Override
-  public void setId(String zid) {
-    this.id = zid;
-  }
-
-  @Override
-  public String getOrgId() {
-    return orgId;
-  }
-
-  @Override
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String firstName) {
-    this.name = firstName;
-  }
-
-  public Gender getGender() {
-    return gender;
-  }
-
-  public void setGender(Gender gender) {
-    this.gender = gender;
-  }
-
-  public Date getBirthday() {
-    return birthday;
-  }
-
-  public void setBirthday(Date birthday) {
-    this.birthday = birthday;
-  }
-
-  public Integer getHeight() {
-    return height;
-  }
-
-  public void setHeight(Integer height) {
-    this.height = height;
-  }
-
-  public Float getWeight() {
-    return weight;
-  }
-
-  public void setWeight(Float weight) {
-    this.weight = weight;
-  }
-
-  public String getAvatar() {
-    return avatar;
-  }
-
-  public void setAvatar(String avatar) {
-    this.avatar = avatar;
-  }
 }

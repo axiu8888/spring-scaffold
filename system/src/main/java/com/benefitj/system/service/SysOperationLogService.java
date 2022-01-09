@@ -23,7 +23,7 @@ public class SysOperationLogService extends SysBaseService<SysOperationLog, SysO
   }
 
   @Override
-  public List<SysOperationLog> getList(SysOperationLog condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<SysOperationLog> getList(SysOperationLog condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

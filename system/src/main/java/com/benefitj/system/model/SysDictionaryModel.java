@@ -1,6 +1,12 @@
 package com.benefitj.system.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -8,6 +14,11 @@ import javax.persistence.Table;
 /**
  * 字典
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_dictionary")
 public class SysDictionaryModel extends SysBaseModel {
@@ -33,35 +44,4 @@ public class SysDictionaryModel extends SysBaseModel {
   @Column(name = "value", columnDefinition = "varchar(255) comment '字典属性值'", length = 255)
   private String value;
 
-  public String getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(String parentId) {
-    this.parentId = parentId;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getAttribute() {
-    return attribute;
-  }
-
-  public void setAttribute(String attribute) {
-    this.attribute = attribute;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
 }

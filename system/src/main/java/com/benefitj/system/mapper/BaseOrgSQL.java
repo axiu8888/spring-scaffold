@@ -22,8 +22,8 @@ public class BaseOrgSQL extends BaseSQL {
   public BaseOrgSQL base(@Param("c") ISysBaseModel<?> c,
                          @Param("startTime") Date startTime,
                          @Param("endTime") Date endTime,
-                         @Param("multiLevel") boolean multiLevel) {
-    if (multiLevel) {
+                         @Param("multiLevel") Boolean multiLevel) {
+    if (Boolean.TRUE.equals(multiLevel)) {
       final EntityTable orgTable = EntityHelper.getEntityTable(SysOrganization.class);
       SELECT("t.*");
       FROM(getTableName() + " AS t");

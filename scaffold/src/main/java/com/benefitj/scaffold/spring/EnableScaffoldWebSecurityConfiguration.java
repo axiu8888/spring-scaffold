@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * 引入 Web Security 配置
  */
 @Import({
-    DefaultWebMvcConfiguration.class,
+    WebMvcConfig.class,
     DefaultWebSecurityConfigurerAdapter.class,
     SystemFileManagerConfiguration.class,
 })

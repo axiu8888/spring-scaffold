@@ -1,10 +1,21 @@
 package com.benefitj.system.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 
 /**
  * 账号
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_account")
 public class SysAccount extends BaseModel {
@@ -15,6 +26,11 @@ public class SysAccount extends BaseModel {
   @Id
   @Column(name = "id", columnDefinition = "varchar(32) comment 'ID'", length = 32)
   private String id;
+  /**
+   * 账号ID
+   */
+  @Column(name = "user_id", columnDefinition = "varchar(32) comment '用户ID'", nullable = false)
+  private String userId;
   /**
    * 用户名
    */
@@ -29,64 +45,7 @@ public class SysAccount extends BaseModel {
   /**
    * 是否被锁住
    */
-  @Column(name = "locked", columnDefinition = "tinyint(1) comment '是否被锁住'")
-  private Boolean locked = Boolean.FALSE;
-  /**
-   * 账号ID
-   */
-  @Column(name = "user_id", columnDefinition = "varchar(32) comment '用户ID'", nullable = false)
-  private String userId;
+  @Column(name = "locked", columnDefinition = "tinyint(1) NOT NULL DEFAULT 0 comment '是否被锁住'")
+  private Boolean locked;
 
-  public SysAccount() {
-  }
-
-  public SysAccount(String id) {
-    this.id = id;
-    this.setActive(null);
-  }
-
-  public SysAccount(String username, String password) {
-    this.username = username;
-    this.password = password;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setLocked(Boolean locked) {
-    this.locked = locked;
-  }
-
-  public Boolean getLocked() {
-    return locked;
-  }
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
 }

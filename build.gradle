@@ -1,26 +1,23 @@
 
 
 ext {
-    springBootVersion = "2.5.6"
-    jacksonVersion = "2.13.0"
-    swagger2Version = "3.0.0"
-    guavaVersion = "30.1.1-jre"
-    aspectjVersion = "1.9.7"
 
-    lombokVersion = "1.18.20"
-    nettyVersion = "4.1.66.Final"
-    fastjsonVersion = "1.2.78"
+    springBootVersion = "2.6.2"
+    //springBootVersion = "2.5.6"
+    springDependencyManagementVersion = "1.0.11.RELEASE"
+    aotVersion = "0.11.1"
+    springIntegrationVersion = "5.5.6"
+
+    aspectjVersion = "1.9.7"
+    swagger2Version = "3.0.0"
     jjwtVersion = "0.11.2"
+    nettyVersion = "4.1.66.Final"
 
     mysqlVersion = "8.0.25"
     druidVersion = "1.2.8"
     mybatisVersion = "2.2.0"
     mapperVersion = "2.1.5"
-    pagehelperVersion = "1.4.0"
-
-
-    springIntegrationVersion = "5.5.2"
-
+    pagehelperVersion = "1.4.1"
 
 //  repositoryAddress = '192.168.159.133:9001'
     repositoryAddress = '192.168.19.129:9001'

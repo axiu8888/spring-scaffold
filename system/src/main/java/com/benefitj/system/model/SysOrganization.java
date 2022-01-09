@@ -2,12 +2,22 @@ package com.benefitj.system.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 /**
  * 系统菜单
  */
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "sys_organization")
 public class SysOrganization extends BaseModel implements ISysBaseModel<String> {
@@ -48,14 +58,6 @@ public class SysOrganization extends BaseModel implements ISysBaseModel<String> 
   @Column(name = "logo", columnDefinition = "varchar(1024) comment '机构LOGO'", length = 1024)
   private String logo;
 
-  public SysOrganization() {
-  }
-
-  public SysOrganization(String id) {
-    this.id = id;
-    this.setActive(null);
-  }
-
   /**
    * 生成 autoCode
    *
@@ -80,50 +82,6 @@ public class SysOrganization extends BaseModel implements ISysBaseModel<String> 
 
   private static boolean isNotEmpty(String str) {
     return str != null && !str.isEmpty();
-  }
-
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  @Override
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(String parentId) {
-    this.parentId = parentId;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getAutoCode() {
-    return autoCode;
-  }
-
-  public void setAutoCode(String autoCode) {
-    this.autoCode = autoCode;
-  }
-
-  public String getLogo() {
-    return logo;
-  }
-
-  public void setLogo(String logo) {
-    this.logo = logo;
   }
 
   /**
@@ -153,19 +111,9 @@ public class SysOrganization extends BaseModel implements ISysBaseModel<String> 
   }
 
   /**
-   * 获取机构编码
-   */
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  /**
    * 获取父节点的 autoCode
    */
+  @JSONField(serialize = false)
   @JsonIgnore
   public String getParentAutoCode() {
     String autoCode = getAutoCode();

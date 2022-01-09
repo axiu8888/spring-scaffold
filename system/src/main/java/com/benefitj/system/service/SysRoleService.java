@@ -116,7 +116,7 @@ public class SysRoleService extends SysBaseService<SysRole, SysRoleMapper> {
       if (uarService.countUserByRoles(Collections.singletonList(id)) > 0) {
         if (force) {
           // 强制删除关联的角色信息
-          uarService.delete(new SysUserAndRole(null, id));
+          uarService.delete(new SysUserAndRole(null, null, id));
         } else {
           throw new LogicException("用户拥有此角色，请先取消授权!");
         }
@@ -144,7 +144,7 @@ public class SysRoleService extends SysBaseService<SysRole, SysRoleMapper> {
   }
 
   @Override
-  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, boolean multiLevel) {
+  public List<SysRole> getList(SysRole condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, multiLevel);
   }
 

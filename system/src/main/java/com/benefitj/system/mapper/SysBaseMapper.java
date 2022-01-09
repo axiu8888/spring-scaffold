@@ -27,7 +27,7 @@ public interface SysBaseMapper<T extends ISysBaseModel> extends SuperMapper<T> {
   List<T> selectList(@Param("c") T c,
                      @Param("startTime") Date startTime,
                      @Param("endTime") Date endTime,
-                     @Param("multiLevel") boolean multiLevel);
+                     @Param("multiLevel") Boolean multiLevel);
 
   final class Provider<T extends ISysBaseModel> {
 
@@ -43,7 +43,7 @@ public interface SysBaseMapper<T extends ISysBaseModel> extends SuperMapper<T> {
     public String selectList(@Param("c") T c,
                              @Param("startTime") Date startTime,
                              @Param("endTime") Date endTime,
-                             @Param("multiLevel") boolean multiLevel) {
+                             @Param("multiLevel") Boolean multiLevel) {
       return new BaseOrgSQL(c.getClass()) {{
         base(c, startTime, endTime, multiLevel);
         notBlank(c.getName(), (name) -> WHERE("t.name LIKE '%" + name + "%'"));

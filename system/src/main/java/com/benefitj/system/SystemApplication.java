@@ -1,31 +1,34 @@
 package com.benefitj.system;
 
 import com.alibaba.fastjson.JSON;
+import com.benefitj.core.DUtils;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
+import com.benefitj.core.TryCatchUtils;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
 import com.benefitj.spring.ctx.SpringCtxHolder;
-import com.benefitj.spring.listener.AppStateHook;
+import com.benefitj.spring.listener.OnAppStart;
 import com.benefitj.spring.quartz.JobWorker;
 import com.benefitj.spring.swagger.EnableSwaggerApi;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
 /**
  * 系统管理
  */
+@Slf4j
 @PropertySource(value = "classpath:swagger-api-info.properties", encoding = "UTF-8")
 @EnableSwaggerApi
 @SpringBootApplication
@@ -34,15 +37,30 @@ public class SystemApplication {
     SpringApplication.run(SystemApplication.class, args);
   }
 
-  private static final Logger log = LoggerFactory.getLogger(SystemApplication.class);
 
-  static {
-    AppStateHook.registerStart(e ->
-        EventLoop.io().schedule(() -> {
-          JwtProperty jwtProperty = SpringCtxHolder.getBean(JwtProperty.class);
-          log.info("\n----- SIGNING_KEY -----------------------\n{}\n----- SIGNING_KEY -----------------------", jwtProperty.getSigningKey());
-        }, 3, TimeUnit.SECONDS));
+  @OnAppStart
+  public void onAppStart() {
+    EventLoop.io().schedule(() -> TryCatchUtils.tryThrow(() -> {
+      JwtProperty jwtProperty = SpringCtxHolder.getBean(JwtProperty.class);
+      log.info("\n----- SIGNING_KEY -----------------------\n{}\n----- SIGNING_KEY -----------------------\n", jwtProperty.getSigningKey());
+
+      String ip = InetAddress.getLocalHost().getHostAddress();
+      Environment env = SpringCtxHolder.getEnvironment();
+      String port = env.getProperty("server.port");
+      String path = env.getProperty("server.servlet.context-path");
+      String swaggerBaseUrl = env.getProperty("springfox.documentation.swagger-ui.base-url");
+      swaggerBaseUrl = DUtils.withs(swaggerBaseUrl, "/", "/");
+      String address = ip + ":" + port + path;
+      log.info("\n---------------------------------------------------------------------------------\n\t" +
+          "[ " + SpringCtxHolder.getAppName() + " ] is running! Access URLs:\n\t" +
+          "Local: \t\t\thttp://localhost:" + port + path + "/\n\t" +
+          "External: \t\thttp://" + address + "/\n\t" +
+          "Swagger文档: \thttp://" + address + swaggerBaseUrl + "swagger-ui/index.html\n\t" +
+          "knife4j文档: \thttp://" + address + "/doc.html\n" +
+          "---------------------------------------------------------------------------------");
+    }), 3, TimeUnit.SECONDS);
   }
+
 
   /**
    * 测试 Quartz 的 JobWorker

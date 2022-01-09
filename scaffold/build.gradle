@@ -10,9 +10,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 
-    compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
-    compile("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
-
     //compile 'com.h2database:h2:1.4.200'
     compileOnly "mysql:mysql-connector-java:${mysqlVersion}"
     compileOnly "com.alibaba:druid-spring-boot-starter:${druidVersion}"
@@ -24,6 +21,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
 
     compile "io.springfox:springfox-boot-starter:${swagger2Version}"
+    //compile 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
 
     compile "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
     compile "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"

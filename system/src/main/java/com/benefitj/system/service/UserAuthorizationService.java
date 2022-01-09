@@ -45,7 +45,7 @@ public class UserAuthorizationService {
       if (roleService.countByPK(roleId) <= 0) {
         throw new LogicException("角色[" + roleId + "]不存在");
       }
-      SysUserAndRole uarCorrelation = new SysUserAndRole(userId, roleId);
+      SysUserAndRole uarCorrelation = new SysUserAndRole(null, userId, roleId);
       // 统计用户和角色的关联关系是否已存在
       if (uarService.count(uarCorrelation) <= 0) {
         list.add(uarCorrelation);
