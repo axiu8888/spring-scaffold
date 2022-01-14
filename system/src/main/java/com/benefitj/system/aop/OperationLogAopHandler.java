@@ -185,7 +185,7 @@ public class OperationLogAopHandler implements InitializingBean, WebPointCutHand
   }
 
   @Override
-  public void doAfterThrowing(AopAdvice advice, JoinPoint joinPoint, Throwable ex) {
+  public void doThrowing(AopAdvice advice, JoinPoint joinPoint, Throwable ex) {
     if (!support(joinPoint)) {
       return;
     }
