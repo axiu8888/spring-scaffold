@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'springboot-scaffold'
+rootProject.name = 'spring-scaffold'
 
 /**
  * web脚手架
