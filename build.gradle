@@ -2,16 +2,16 @@
 
 ext {
 
-    springBootVersion = "2.6.2"
-    //springBootVersion = "2.5.6"
+    springBootVersion = "2.7.0"
+//  springBootVersion = '2.3.5.RELEASE'
     springDependencyManagementVersion = "1.0.11.RELEASE"
-    aotVersion = "0.11.1"
+    aotVersion = "'0.12.0"
     springIntegrationVersion = "5.5.6"
 
     aspectjVersion = "1.9.7"
     swagger2Version = "3.0.0"
     jjwtVersion = "0.11.2"
-    nettyVersion = "4.1.66.Final"
+    nettyVersion = "4.1.78.Final"
 
     mysqlVersion = "8.0.25"
     druidVersion = "1.2.8"
