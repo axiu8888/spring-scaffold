@@ -2,7 +2,7 @@ package com.benefitj.system.mapper;
 
 import com.benefitj.scaffold.mapper.BaseSQL;
 import com.benefitj.system.model.ISysBaseModel;
-import com.benefitj.system.model.SysOrganization;
+import com.benefitj.system.model.SysOrg;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
@@ -24,7 +24,7 @@ public class BaseOrgSQL extends BaseSQL {
                          @Param("endTime") Date endTime,
                          @Param("multiLevel") Boolean multiLevel) {
     if (Boolean.TRUE.equals(multiLevel)) {
-      final EntityTable orgTable = EntityHelper.getEntityTable(SysOrganization.class);
+      final EntityTable orgTable = EntityHelper.getEntityTable(SysOrg.class);
       SELECT("t.*");
       FROM(getTableName() + " AS t");
       LEFT_OUTER_JOIN(orgTable.getName() + " AS o ON t.org_id = o.id");

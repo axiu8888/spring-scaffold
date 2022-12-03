@@ -3,29 +3,30 @@ apply from: "${getRootDir()}/buildSystem/base.gradle"
 
 
 dependencies {
-    compile fileTree(dir: 'libs/jar', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs/jar', include: ['*.jar'])
     compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
 
-    compileOnly "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 
     //compile 'com.h2database:h2:1.4.200'
-    compileOnly "mysql:mysql-connector-java:${mysqlVersion}"
-    compileOnly "com.alibaba:druid-spring-boot-starter:${druidVersion}"
-    compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-    compile "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
-    compile "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+    api "mysql:mysql-connector-java:${mysqlVersion}"
+    api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+    api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    api "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
+    api "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
 
     // QUARTZ
-    compile "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
 
-    compile "io.springfox:springfox-boot-starter:${swagger2Version}"
-    //compile 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
+    api "io.springfox:springfox-boot-starter:${swagger2Version}"
+    api 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
 
-    compile "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
-    compile "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
-    compile "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+    api "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    api "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    api "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
 }
 

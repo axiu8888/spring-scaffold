@@ -1,5 +1,7 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 /**
  * 系统权限
  */
+@ApiModel("系统权限")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,7 @@ public class SysPermission extends SysBaseModel {
   /**
    * 资源类型，请参考：{@link ResourceType}
    */
+  @ApiModelProperty("资源类型")
   @Column(name = "resource_type", columnDefinition = "varchar(30) comment '资源类型'")
   private String resourceType;
 

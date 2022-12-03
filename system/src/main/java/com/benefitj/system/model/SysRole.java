@@ -1,5 +1,6 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 /**
  * 系统角色
  */
+@ApiModel("系统角色")
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

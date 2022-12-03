@@ -1,10 +1,10 @@
 package com.benefitj.system;
 
 import com.alibaba.fastjson.JSON;
+import com.benefitj.core.CatchUtils;
 import com.benefitj.core.DUtils;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.core.EventLoop;
-import com.benefitj.core.TryCatchUtils;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
 import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.security.token.JwtProperty;
@@ -40,7 +40,7 @@ public class SystemApplication {
 
   @OnAppStart
   public void onAppStart() {
-    EventLoop.io().schedule(() -> TryCatchUtils.tryThrow(() -> {
+    EventLoop.io().schedule(() -> CatchUtils.tryThrow(() -> {
       JwtProperty jwtProperty = SpringCtxHolder.getBean(JwtProperty.class);
       log.info("\n----- SIGNING_KEY -----------------------\n{}\n----- SIGNING_KEY -----------------------\n", jwtProperty.getSigningKey());
 

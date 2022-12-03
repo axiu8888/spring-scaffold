@@ -3,7 +3,7 @@ package com.benefitj.system.mapper;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.mapper.BaseSQL;
 import com.benefitj.scaffold.mapper.SuperMapper;
-import com.benefitj.system.model.SysOrganization;
+import com.benefitj.system.model.SysOrg;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,7 +16,7 @@ import java.util.List;
  * 机构
  */
 @Mapper
-public interface SysOrganizationMapper extends SuperMapper<SysOrganization> {
+public interface SysOrganizationMapper extends SuperMapper<SysOrg> {
 
   /**
    * 查询满足条件的列表
@@ -28,10 +28,10 @@ public interface SysOrganizationMapper extends SuperMapper<SysOrganization> {
    * @return 返回符合的机构
    */
   @SelectProvider(type = Provider.class, method = "selectList")
-  List<SysOrganization> selectList(@Param("c") SysOrganization condition,
-                                   @Param("startTime") Date startTime,
-                                   @Param("endTime") Date endTime,
-                                   @Param("multiLevel") boolean multiLevel);
+  List<SysOrg> selectList(@Param("c") SysOrg condition,
+                          @Param("startTime") Date startTime,
+                          @Param("endTime") Date endTime,
+                          @Param("multiLevel") boolean multiLevel);
 
   /**
    * 使用正则表达式匹配符合的AutoCode
@@ -44,11 +44,11 @@ public interface SysOrganizationMapper extends SuperMapper<SysOrganization> {
    * @return 返回符合的机构
    */
   @SelectProvider(type = Provider.class, method = "selectByAutoCodeRegex")
-  List<SysOrganization> selectByAutoCodeRegex(@Param("c") SysOrganization c,
-                                              @Param("startTime") Date startTime,
-                                              @Param("endTime") Date endTime,
-                                              @Param("n") int n,
-                                              @Param("m") int m);
+  List<SysOrg> selectByAutoCodeRegex(@Param("c") SysOrg c,
+                                     @Param("startTime") Date startTime,
+                                     @Param("endTime") Date endTime,
+                                     @Param("n") int n,
+                                     @Param("m") int m);
 
   /**
    * 通过机构ID查询 autoCode
@@ -72,7 +72,7 @@ public interface SysOrganizationMapper extends SuperMapper<SysOrganization> {
      * @param multiLevel 是否查询多层级
      * @return 返回查询的数据
      */
-    public String selectList(@Param("c") SysOrganization c,
+    public String selectList(@Param("c") SysOrg c,
                              @Param("startTime") Date startTime,
                              @Param("endTime") Date endTime,
                              @Param("multiLevel") boolean multiLevel) {
@@ -110,7 +110,7 @@ public interface SysOrganizationMapper extends SuperMapper<SysOrganization> {
      * @param m         至多匹配的次数
      * @return 返回查询的数据
      */
-    public String selectByAutoCodeRegex(@Param("c") SysOrganization c,
+    public String selectByAutoCodeRegex(@Param("c") SysOrg c,
                                         @Param("startTime") Date startTime,
                                         @Param("endTime") Date endTime,
                                         @Param("n") int n,

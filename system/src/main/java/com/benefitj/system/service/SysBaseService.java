@@ -4,7 +4,7 @@ import com.benefitj.scaffold.BaseService;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.security.CurrentUserService;
-import com.benefitj.spring.mvc.page.PageableRequest;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.benefitj.system.mapper.SysBaseMapper;
 import com.benefitj.system.model.ISysBaseModel;
 import com.github.pagehelper.PageInfo;
@@ -118,7 +118,7 @@ public abstract class SysBaseService<T extends ISysBaseModel, M extends SysBaseM
   }
 
   @Override
-  public PageInfo<T> getPage(PageableRequest<T> page) {
+  public PageInfo<T> getPage(PageRequest<T> page) {
     page.setCondition(checkAndGetEntity(page.getCondition()));
     changeOrgLevel(page.getCondition());
     return super.getPage(page);

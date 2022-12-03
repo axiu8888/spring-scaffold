@@ -1,5 +1,7 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 /**
  * 用户组
  */
+@ApiModel("用户组")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +29,14 @@ public class SysUserGroup extends SysBaseModel {
   /**
    * 用户组ID
    */
+  @ApiModelProperty("用户组ID")
   @Id
   @Column(name = "id", columnDefinition = "varchar(32) comment '用户组ID'", length = 32)
   private String id;
   /**
    * 用户组编号
    */
+  @ApiModelProperty("用户组编号")
   @Column(name = "code", columnDefinition = "varchar(100) comment '用户组编号'", length = 100)
   private String code;
 

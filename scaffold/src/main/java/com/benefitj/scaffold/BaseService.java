@@ -1,8 +1,8 @@
 package com.benefitj.scaffold;
 
 import com.benefitj.scaffold.mapper.SuperMapper;
-import com.benefitj.spring.mvc.page.OrderUtils;
-import com.benefitj.spring.mvc.page.PageableRequest;
+import com.benefitj.spring.mvc.query.OrderUtils;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -155,7 +155,7 @@ public abstract class BaseService<T, M extends SuperMapper<T>> {
    * @param page 分页参数
    * @return 返回查询的分页
    */
-  public PageInfo<T> getPage(@Nonnull PageableRequest<T> page) {
+  public PageInfo<T> getPage(@Nonnull PageRequest<T> page) {
     // ORDER BY
     String orderBy = String.join(",", getOrderByList(page.getOrderBy()));
     Date startTime = page.getStartTime();

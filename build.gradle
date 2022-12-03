@@ -1,51 +1,58 @@
-
-
 ext {
 
-    springBootVersion = "2.7.0"
-//  springBootVersion = '2.3.5.RELEASE'
-    springDependencyManagementVersion = "1.0.11.RELEASE"
-    aotVersion = "'0.12.0"
-    springIntegrationVersion = "5.5.6"
+  springBootVersion = "2.7.0"
+  springDependencyManagementVersion = "1.0.11.RELEASE"
+  aotVersion = "'0.12.0"
+  springIntegrationVersion = "5.5.6"
 
-    aspectjVersion = "1.9.7"
-    swagger2Version = "3.0.0"
-    jjwtVersion = "0.11.2"
-    nettyVersion = "4.1.78.Final"
+  aspectjVersion = "1.9.7"
+  swagger2Version = "3.0.0"
+  jjwtVersion = "0.11.2"
+  nettyVersion = "4.1.78.Final"
 
-    mysqlVersion = "8.0.25"
-    druidVersion = "1.2.8"
-    mybatisVersion = "2.2.0"
-    mapperVersion = "2.1.5"
-    pagehelperVersion = "1.4.1"
+  mysqlVersion = "8.0.25"
+  druidVersion = "1.2.8"
+  mybatisVersion = "2.2.0"
+  mapperVersion = "2.1.5"
+  pagehelperVersion = "1.4.1"
 
-//  repositoryAddress = '192.168.159.133:9001'
-    repositoryAddress = '192.168.19.129:9001'
-    repositoryUserName = 'admin'
-    repositoryPassword = 'admin123'
-    useRepository = false
+  try {
+    def props = new Properties()
+    props.load(new FileReader("${getRootDir()}/nexus.properties"))
+    repoUrl = props["repoUrl"]
+    repoUsername = props["repoUsername"]
+    repoPassword = props["repoPassword"]
+  } catch (e) {
+    e.printStackTrace()
+  }
 }
 
-allprojects {
+subprojects {
 
-    apply plugin: 'java'
-    apply plugin: 'maven'
+  apply plugin: 'java'
 
-    //group = "${getProject().name}"
-//    group = 'springboot-scaffold'
-    group = 'com.benefitj.springboot'
-    version = "1.0.0-SNAPSHOT"
-    archivesBaseName = "scaffold-${getProject().name}"
+  group = 'com.benefitj.springboot'
+  version = "2.0.0-SNAPSHOT"
+  archivesBaseName = "scaffold-${getProject().name}"
 
-    ext {
-        groupId = "${group}"
-        artifactPrefix = ""
-        artifactId = "${getProject().name}"
-        versionId = "${version}"
-    }
+  ext {
+    groupId = "${group}"
+    artifactPrefix = ""
+    artifactId = "${getProject().name}"
+    versionId = "${version}"
 
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    // 默认是spring环境
+    springEnv = true
 
+    manifestAttributes = [
+        "version"   : "$version",
+        "build-date": "${new Date().format('yyyy-MM-dd')}",
+        "author"    : "axiu8888",
+        "home"      : "https://github.com/axiu8888/${rootProject.name}",
+    ]
+  }
+
+  sourceCompatibility = JavaVersion.VERSION_15
+  targetCompatibility = JavaVersion.VERSION_15
 
 }

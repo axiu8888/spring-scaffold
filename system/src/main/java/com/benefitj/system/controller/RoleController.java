@@ -5,16 +5,14 @@ import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
-import com.benefitj.spring.mvc.page.PageableRequest;
-import com.benefitj.spring.mvc.get.GetBody;
-import com.benefitj.spring.mvc.page.PageBody;
+import com.benefitj.spring.mvc.query.PageBody;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.benefitj.system.model.SysRole;
 import com.benefitj.system.service.SysRoleService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +22,8 @@ import java.util.List;
 /**
  * 角色
  */
-@AopWebPointCut
 @Api(tags = {"角色"}, description = "对角色的各种操作")
+@AopWebPointCut
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
@@ -34,82 +32,52 @@ public class RoleController {
   private SysRoleService roleService;
 
   @ApiOperation("获取角色")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "String", dataTypeClass = String.class),
-  })
   @GetMapping
-  public HttpResult<?> get(String id) {
-    SysRole role = roleService.get(id);
-    return HttpResult.create(CommonStatus.OK, role);
+  public HttpResult<SysRole> get(@ApiParam("角色ID") String id) {
+    return HttpResult.create(CommonStatus.OK, roleService.get(id));
   }
 
   @ApiOperation("添加角色")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "role", value = "角色数据", dataTypeClass = SysRole.class),
-  })
   @PostMapping
-  public HttpResult<?> create(SysRole role) {
-    role = roleService.create(role);
-    return HttpResult.create(CommonStatus.CREATED, role);
+  public HttpResult<SysRole> create(@ApiParam("角色数据") SysRole role) {
+    return HttpResult.create(CommonStatus.CREATED, roleService.create(role));
   }
 
   @ApiOperation("更新角色")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "role", value = "角色数据", dataTypeClass = SysRole.class),
-  })
   @PutMapping
-  public HttpResult<?> update(@RequestBody SysRole role) {
+  public HttpResult<SysRole> update(@ApiParam("角色") @RequestBody SysRole role) {
     if (StringUtils.isAnyBlank(role.getId(), role.getName())) {
       return HttpResult.failure("角色ID和角色名都不能为空");
     }
-    roleService.update(role);
-    return HttpResult.create(CommonStatus.CREATED, role);
+    return HttpResult.create(CommonStatus.CREATED, roleService.update(role));
   }
 
   @ApiOperation("删除角色")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "角色ID", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
-  })
   @DeleteMapping
-  public HttpResult<?> delete(String id, Boolean force) {
-    int count = roleService.delete(id, Boolean.TRUE.equals(force));
-    return HttpResult.create(CommonStatus.NO_CONTENT, count);
+  public HttpResult<Integer> delete(@ApiParam("角色ID") String id, @ApiParam("是否强制") Boolean force) {
+    return HttpResult.create(CommonStatus.NO_CONTENT, roleService.delete(id, Boolean.TRUE.equals(force)));
   }
 
   @ApiOperation("改变角色的状态")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "角色ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
-  })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean active) {
+  public HttpResult<Boolean> changeActive(@ApiParam("角色ID") String id,
+                                          @ApiParam("状态") Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("角色ID不能为空");
     }
-    Boolean result = roleService.changeActive(id, active);
-    return HttpResult.create(CommonStatus.OK, result);
+    return HttpResult.create(CommonStatus.OK, roleService.changeActive(id, active));
   }
 
   @ApiOperation("获取角色列表分页")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "PageableRequest", dataTypeClass = PageableRequest.class),
-  })
   @GetMapping("/page")
-  public HttpResult<?> getPage(@PageBody PageableRequest<SysRole> page) {
-    PageInfo<SysRole> roleList = roleService.getPage(page);
-    return HttpResult.success(roleList);
+  public HttpResult<PageInfo<SysRole>> getPage(@ApiParam("分页参数") @PageBody PageRequest<SysRole> page) {
+    return HttpResult.success(roleService.getPage(page));
   }
 
   @ApiOperation("获取机构的角色列表")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
-      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean", dataTypeClass = Boolean.class),
-  })
   @GetMapping("/list")
-  public HttpResult<?> getList(@GetBody SysRole condition, Boolean multiLevel) {
+  public HttpResult<List<SysRole>> getList(@ApiParam("角色条件") @RequestBody SysRole condition,
+                                           @ApiParam("是否返回多级机构的数据") Boolean multiLevel) {
     condition.setOrgId(Checker.checkNotBlank(condition.getOrgId(), JwtTokenManager.currentOrgId()));
     if (StringUtils.isBlank(condition.getOrgId())) {
       return HttpResult.failure("orgId为空");

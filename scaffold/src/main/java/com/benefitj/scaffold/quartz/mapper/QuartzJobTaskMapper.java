@@ -56,7 +56,7 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
     final Sqls sqls = Sqls.custom();
     Checker.checkNotNull(startTime, () -> sqls.andGreaterThanOrEqualTo("create_time", fmt(startTime)));
     Checker.checkNotNull(endTime, () -> sqls.andLessThanOrEqualTo("create_time", fmt(endTime)));
-    Checker.checkNotBlank(condition.getTriggerType(), triggerType -> sqls.andLike("triggerType", triggerType));
+    Checker.checkNotNull(condition.getTriggerType(), triggerType -> sqls.andLike("triggerType", triggerType.name()));
     Checker.checkNotBlank(condition.getJobGroup(), jobGroup -> sqls.andLike("jobGroup", jobGroup));
     Checker.checkNotBlank(condition.getJobName(), jobName -> sqls.andLike("jobName", jobName));
     Checker.checkNotBlank(condition.getTriggerGroup(), triggerGroup -> sqls.andLike("triggerGroup", triggerGroup));

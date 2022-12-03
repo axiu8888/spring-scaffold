@@ -9,9 +9,9 @@ import com.benefitj.scaffold.security.exception.PermissionException;
 import com.benefitj.scaffold.security.token.JwtToken;
 import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.spring.BeanHelper;
-import com.benefitj.spring.mvc.page.PageableRequest;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.benefitj.system.mapper.SysOrganizationMapper;
-import com.benefitj.system.model.SysOrganization;
+import com.benefitj.system.model.SysOrg;
 import com.benefitj.system.vo.OrgTreeVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 机构
  */
 @Service
-public class SysOrganizationService extends BaseService<SysOrganization, SysOrganizationMapper>
+public class SysOrganizationService extends BaseService<SysOrg, SysOrganizationMapper>
     implements CurrentUserService {
 
   @Autowired
@@ -68,7 +68,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param org 机构
    * @return 返回新的 autoCode
    */
-  private String getAutoCode(SysOrganization org) {
+  private String getAutoCode(SysOrg org) {
     String parentId = org.getParentId();
     return getAutoCode(parentId, org.getOrgId(), StringUtils.isNotBlank(parentId));
   }
@@ -82,12 +82,12 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @return 返回新的 autoCode
    */
   private String getAutoCode(String parentId, String id, boolean allowThrow) {
-    SysOrganization pOrg = getByPK(parentId);
+    SysOrg pOrg = getByPK(parentId);
     if (pOrg == null && allowThrow) {
       throw new IllegalStateException("父级机构不存在");
     }
-    String parentAutoCode = Checker.checkNotNull(pOrg, SysOrganization::getAutoCode);
-    return SysOrganization.generateAutoCode(parentAutoCode, id);
+    String parentAutoCode = Checker.checkNotNull(pOrg, SysOrg::getAutoCode);
+    return SysOrg.generateAutoCode(parentAutoCode, id);
   }
 
   /**
@@ -149,7 +149,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
       }
       JwtToken token = JwtTokenManager.currentToken();
       String ownedAutoCode = token != null && token.containsKey("organization")
-          ? ((SysOrganization)token.get("organization")).getAutoCode() : getAutoCodeById(standardId);
+          ? ((SysOrg) token.get("organization")).getAutoCode() : getAutoCodeById(standardId);
       String autoCode = getAutoCodeById(checkId);
       return StringUtils.isNotBlank(autoCode) && autoCode.startsWith(ownedAutoCode);
     }
@@ -162,7 +162,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param id 机构ID
    * @return 返回查询到的机构
    */
-  public SysOrganization get(String id) {
+  public SysOrg get(String id) {
     return StringUtils.isNotBlank(id) && checkOrgLevel(id)
         ? getMapper().selectByPrimaryKey(id) : null;
   }
@@ -170,7 +170,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
   /**
    * 创建新的机构
    */
-  public SysOrganization create(SysOrganization org) {
+  public SysOrg create(SysOrg org) {
     // 生成ID
     String orgId = getNextOrgId();
     org.setId(orgId);
@@ -178,7 +178,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
     String autoCode = getAutoCode(org);
 
     // 检查组织机构的层级，不建议超过10层
-    String[] split = autoCode.split(SysOrganization.AUTO);
+    String[] split = autoCode.split(SysOrg.AUTO);
     if (split.length > 10) {
       throw new IllegalStateException("组织机构不能超过超过10层");
     }
@@ -197,8 +197,8 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param org 更新的机构
    * @return 返回更新的机构
    */
-  public SysOrganization update(SysOrganization org) {
-    SysOrganization existOrg = getByPK(org.getId());
+  public SysOrg update(SysOrg org) {
+    SysOrg existOrg = getByPK(org.getId());
     if (existOrg == null) {
       throw new IllegalArgumentException("无法发现机构");
     }
@@ -236,7 +236,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @return 返回是否更新
    */
   public boolean changeActive(String id, Boolean active) {
-    SysOrganization org = get(id);
+    SysOrg org = get(id);
     if (org != null) {
       org.setActive(Checker.checkNotNull(active, org.getActive()));
       org.setUpdateTime(new Date());
@@ -246,7 +246,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
   }
 
   @Override
-  public List<SysOrganization> getList(SysOrganization condition, Date startTime, Date endTime, Boolean multiLevel) {
+  public List<SysOrg> getList(SysOrg condition, Date startTime, Date endTime, Boolean multiLevel) {
     return getMapper().selectList(condition, startTime, endTime, Boolean.TRUE.equals(multiLevel));
   }
 
@@ -257,8 +257,8 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @return 返回分页数据
    */
   @Override
-  public PageInfo<SysOrganization> getPage(PageableRequest<SysOrganization> page) {
-    SysOrganization c = page.getCondition();
+  public PageInfo<SysOrg> getPage(PageRequest<SysOrg> page) {
+    SysOrg c = page.getCondition();
     String ownedId = currentOrgId();
     if (StringUtils.isBlank(c.getParentId())) {
       c.setParentId(ownedId);
@@ -283,8 +283,8 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param m    之多匹配的次数
    * @return 返回符合的机构
    */
-  protected PageInfo<SysOrganization> getByAutoCodeRegex(PageableRequest<SysOrganization> page, int n, int m) {
-    SysOrganization c = page.getCondition();
+  protected PageInfo<SysOrg> getByAutoCodeRegex(PageRequest<SysOrg> page, int n, int m) {
+    SysOrg c = page.getCondition();
     // 重置autoCode
     c.setAutoCode(getAutoCodeById(c.getParentId()));
     // ORDER BY
@@ -296,7 +296,7 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
     Date endTime = page.getEndTime();
     // 分页
     PageHelper.startPage(page.getPageNum(), page.getPageSize(), orderBy);
-    List<SysOrganization> list = getMapper().selectByAutoCodeRegex(c, startTime, endTime, n, m);
+    List<SysOrg> list = getMapper().selectByAutoCodeRegex(c, startTime, endTime, n, m);
     return PageInfo.of(list);
   }
 
@@ -307,17 +307,17 @@ public class SysOrganizationService extends BaseService<SysOrganization, SysOrga
    * @param active 可用状态
    * @return 返回组织机构树
    */
-  public List<SysOrganization> getOrgTreeList(String id, @Nullable Boolean active) {
+  public List<SysOrg> getOrgTreeList(String id, @Nullable Boolean active) {
     String autoCode = getAutoCodeById(id);
     if (StringUtils.isBlank(autoCode)) {
       return Collections.emptyList();
     }
-    SysOrganization org = new SysOrganization();
+    SysOrg org = new SysOrg();
     org.setAutoCode(autoCode);
     org.setActive(active);
-    List<SysOrganization> list = getMapper().selectByAutoCodeRegex(org, null, null, 0, 10);
+    List<SysOrg> list = getMapper().selectByAutoCodeRegex(org, null, null, 0, 10);
     final Map<String, OrgTreeVo> map = new ConcurrentHashMap<>(list.size());
-    for (SysOrganization o : list) {
+    for (SysOrg o : list) {
       map.put(o.getId(), BeanHelper.copy(o, OrgTreeVo.class));
     }
     Map<String, OrgTreeVo> sort = SortedTree.sort(map);

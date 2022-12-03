@@ -1,28 +1,36 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.annotation.Nullable;
 import java.util.function.Function;
 
 /**
  * 资源类型
  */
+@ApiModel("资源类型")
 public enum ResourceType {
 
   /**
    * 菜单 1
    */
+  @ApiModelProperty("菜单 1")
   MENU(1, "menu"),
   /**
    * 页面 2
    */
+  @ApiModelProperty("页面 2")
   PAGE(1 << 1, "page"),
   /**
    * 功能操作 4
    */
+  @ApiModelProperty("功能操作 4")
   FUNCTIONAL(1 << 2, "functional"),
   /**
    * 文件 8
    */
+  @ApiModelProperty("文件 8")
   FILE(1 << 3, "file");
 
 

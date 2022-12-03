@@ -129,12 +129,12 @@ public class QuartzJobTaskService extends BaseService<QuartzJobTaskEntity, Quart
     if (existTask != null) {
       // 触发器组和名称、Job组合名称 都为自动生成，触发器类型必须指定
 
-      TriggerType type = TriggerType.of(task.getTriggerType());
+      TriggerType type = task.getTriggerType();
       if (type == null) {
         throw new QuartzException("请指定正确的触发器类型");
       }
 
-      if (!type.name().equalsIgnoreCase(existTask.getTriggerType())) {
+      if (type != existTask.getTriggerType()) {
         throw new QuartzException("无法修改触发器类型");
       }
 

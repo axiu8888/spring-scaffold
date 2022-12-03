@@ -1,6 +1,7 @@
 package com.benefitj.system.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,28 +22,33 @@ public abstract class BaseModel {
   /**
    * 创建者
    */
+  @ApiModelProperty("创建者")
   @Column(name = "creator_id", columnDefinition = "varchar(32) comment '创建者'", length = 32)
   private String creatorId;
   /**
    * 备注
    */
+  @ApiModelProperty("备注")
   @Column(name = "remarks", columnDefinition = "varchar(1024) comment '备注'", length = 1024)
   private String remarks;
   /**
    * 创建时间
    */
+  @ApiModelProperty("创建时间: yyyy-MM-dd HH:mm:ss")
   @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   @Column(name = "create_time", columnDefinition = "datetime comment '创建时间'")
   private Date createTime;
   /**
    * 修改时间
    */
+  @ApiModelProperty("修改时间: yyyy-MM-dd HH:mm:ss")
   @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   @Column(name = "update_time", columnDefinition = "datetime comment '修改时间'")
   private Date updateTime;
   /**
    * 是否激活
    */
+  @ApiModelProperty("是否激活")
   @Column(name = "active", columnDefinition = "tinyint(1) NOT NULL DEFAULT 1  comment '是否激活'")
   private Boolean active;
 

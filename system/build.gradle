@@ -5,20 +5,18 @@ plugins {
 //	id 'org.springframework.experimental.aot' version "${aotVersion}"
 }
 
-apply from: "${getRootDir()}/buildSystem/springboot.gradle"
+apply from: "${getRootDir()}/buildSystem/base.gradle"
 
 group = "system-management"
 //version = "1.0.1-SNAPSHOT"
 //archivesBaseName = "${group}"
+archivesBaseName = "system-management"
 version = ''
 
-jar {
-	archivesBaseName = "system-management"
-}
 
 dependencies {
 
-	compile(project(":scaffold"))
+	implementation(project(":scaffold"))
 
 	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"

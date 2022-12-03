@@ -2,7 +2,7 @@ package com.benefitj.system.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.benefitj.core.SortedTree;
-import com.benefitj.system.model.SysOrganization;
+import com.benefitj.system.model.SysOrg;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.LinkedHashSet;
@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 组织机构树
  */
-public class OrgTreeVo extends SysOrganization implements SortedTree.Tree<String, OrgTreeVo> {
+public class OrgTreeVo extends SysOrg implements SortedTree.Tree<String, OrgTreeVo> {
 
   private final Set<OrgTreeVo> children = new LinkedHashSet<>();
 

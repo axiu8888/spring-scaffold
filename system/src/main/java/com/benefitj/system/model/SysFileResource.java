@@ -1,5 +1,7 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 /**
  * 文件资源
  */
+@ApiModel("文件资源")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,7 @@ public class SysFileResource extends SysBaseModel {
   /**
    * 资源地址
    */
+  @ApiModelProperty("资源地址")
   @Column(name = "uri", columnDefinition = "varchar(1024) comment '资源地址'", length = 1024, nullable = false)
   private String uri;
 

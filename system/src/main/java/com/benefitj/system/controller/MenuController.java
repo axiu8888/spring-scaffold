@@ -5,16 +5,14 @@ import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
-import com.benefitj.spring.mvc.page.PageableRequest;
-import com.benefitj.spring.mvc.get.GetBody;
-import com.benefitj.spring.mvc.page.PageBody;
+import com.benefitj.spring.mvc.query.PageBody;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.benefitj.system.model.SysMenu;
 import com.benefitj.system.service.SysMenuService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +22,8 @@ import java.util.List;
 /**
  * 菜单
  */
-@AopWebPointCut
 @Api(tags = {"菜单"}, description = "对菜单的各种操作")
+@AopWebPointCut
 @RestController
 @RequestMapping("/menus")
 public class MenuController {
@@ -34,88 +32,57 @@ public class MenuController {
   private SysMenuService menuService;
 
   @ApiOperation("获取菜单")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "String", dataTypeClass = String.class),
-  })
   @GetMapping
-  public HttpResult<?> get(String id) {
-    SysMenu menu = menuService.get(id);
-    return HttpResult.create(CommonStatus.OK, menu);
+  public HttpResult<SysMenu> get(@ApiParam("菜单ID") String id) {
+    return HttpResult.create(CommonStatus.OK, menuService.get(id));
   }
 
   @ApiOperation("添加菜单")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "menu", value = "菜单数据", dataType = "String", dataTypeClass = String.class),
-  })
   @PostMapping
-  public HttpResult<?> create(SysMenu menu) {
-    menu = menuService.create(menu);
-    return HttpResult.create(CommonStatus.CREATED, menu);
+  public HttpResult<SysMenu> create(@ApiParam("菜单") SysMenu menu) {
+    return HttpResult.create(CommonStatus.CREATED, menuService.create(menu));
   }
 
   @ApiOperation("更新菜单")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "menu", value = "菜单数据", dataType = "String", dataTypeClass = String.class),
-  })
   @PutMapping
-  public HttpResult<?> update(@RequestBody SysMenu menu) {
+  public HttpResult<SysMenu> update(@ApiParam("菜单") @RequestBody SysMenu menu) {
     if (StringUtils.isAnyBlank(menu.getId(), menu.getName())) {
       return HttpResult.failure("菜单ID和菜单名都不能为空");
     }
-    menu = menuService.update(menu);
-    return HttpResult.create(CommonStatus.CREATED, menu);
+    return HttpResult.create(CommonStatus.CREATED, menuService.update(menu));
   }
 
   @ApiOperation("删除菜单")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
-  })
   @DeleteMapping
-  public HttpResult<?> delete(String id, Boolean force) {
-    int count = menuService.delete(id, Boolean.TRUE.equals(force));
-    return HttpResult.create(CommonStatus.NO_CONTENT, count);
+  public HttpResult<Integer> delete(@ApiParam("菜单ID") String id, @ApiParam("是否强制") Boolean force) {
+    return HttpResult.create(CommonStatus.NO_CONTENT, menuService.delete(id, Boolean.TRUE.equals(force)));
   }
 
   @ApiOperation("改变菜单的状态")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "菜单ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
-  })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean active) {
+  public HttpResult<Boolean> changeActive(@ApiParam("菜单ID") String id,
+                                          @ApiParam("状态") Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("菜单ID不能为空");
     }
-    Boolean result = menuService.changeActive(id, active);
-    return HttpResult.create(CommonStatus.OK, result);
+    return HttpResult.create(CommonStatus.OK, menuService.changeActive(id, active));
   }
 
   @ApiOperation("获取菜单列表分页")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "PageableRequest", dataTypeClass = PageableRequest.class),
-  })
   @GetMapping("/page")
-  public HttpResult<?> getPage(@PageBody PageableRequest<SysMenu> page) {
-    PageInfo<SysMenu> menuList = menuService.getPage(page);
-    return HttpResult.success(menuList);
+  public HttpResult<PageInfo<SysMenu>> getPage(@ApiParam("分页参数") @PageBody PageRequest<SysMenu> page) {
+    return HttpResult.success(menuService.getPage(page));
   }
 
   @ApiOperation("获取机构的菜单列表")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "name", value = "菜单名称", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "orgId", value = "机构ID", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "active", value = "是否可用", dataType = "Boolean", dataTypeClass = Boolean.class),
-      @ApiImplicitParam(name = "multiLevel", value = "是否返回多级机构的数据", dataType = "Boolean", dataTypeClass = Boolean.class),
-  })
   @GetMapping("/list")
-  public HttpResult<?> getList(@GetBody SysMenu condition, Boolean multiLevel) {
+  public HttpResult<List<SysMenu>> getList(@ApiParam("条件") @RequestBody SysMenu condition,
+                                           @ApiParam("是否返回多级机构的数据") Boolean multiLevel) {
     condition.setOrgId(Checker.checkNotBlank(condition.getOrgId(), JwtTokenManager.currentOrgId()));
     if (StringUtils.isBlank(condition.getOrgId())) {
       return HttpResult.failure("orgId为空");
     }
-    List<SysMenu> menuList = menuService.getList(condition, null, null, multiLevel);
-    return HttpResult.success(menuList);
+    return HttpResult.success(menuService.getList(condition, null, null, multiLevel));
   }
 
 }

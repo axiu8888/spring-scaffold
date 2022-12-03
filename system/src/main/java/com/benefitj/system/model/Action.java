@@ -1,44 +1,56 @@
 package com.benefitj.system.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.annotation.Nullable;
 import java.util.*;
 
 /**
  * 资源支持的操作类型
  */
+@ApiModel("资源支持的操作类型")
 public enum Action {
 
   /**
    * 查看 -> 1
    */
+  @ApiModelProperty("查看 -> 1")
   VIEW(1, "view", "查看"),
   /**
    * 添加 -> 2
    */
+  @ApiModelProperty("添加 -> 2")
   ADD(1 << 1, "add", "添加"),
   /**
    * 删除 -> 4
    */
+  @ApiModelProperty("删除 -> 4")
   DELETE(1 << 2, "delete", "删除"),
   /**
    * 编辑 -> 8
    */
+  @ApiModelProperty("编辑 -> 8")
   EDIT(1 << 3, "edit", "编辑"),
   /**
    * 授权 -> 16
    */
+  @ApiModelProperty("授权 -> 16")
   AUTH(1 << 4, "auth", "授权"),
   /**
    * 移动 -> 32
    */
+  @ApiModelProperty("移动 -> 32")
   MOVE(1 << 5, "move", "移动"),
   /**
    * 可点击 -> 64
    */
+  @ApiModelProperty("可点击 -> 64")
   CLICK(1 << 6, "click", "点击"),
   /**
    * 全部 -> 2147483647
    */
+  @ApiModelProperty("全部 -> 2147483647")
   ALL((1 << 31) - 1, "all", "全部");
 
   private static final Map<Action, String> ACTION_JSONS;

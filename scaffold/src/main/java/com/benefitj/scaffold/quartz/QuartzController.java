@@ -4,17 +4,13 @@ import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
-import com.benefitj.spring.mvc.page.PageableRequest;
-import com.benefitj.spring.mvc.get.GetBody;
-import com.benefitj.spring.mvc.page.PageBody;
+import com.benefitj.spring.mvc.query.PageBody;
+import com.benefitj.spring.mvc.query.PageRequest;
 import com.benefitj.spring.quartz.JobType;
 import com.benefitj.spring.quartz.TriggerType;
 import com.benefitj.spring.quartz.WorkerType;
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +25,8 @@ import java.util.List;
 /**
  * Quartz的调度任务
  */
-@AopWebPointCut
 @Api(tags = {"调度任务"}, description = "Quartz的调度任务")
+@AopWebPointCut
 @RestController
 @RequestMapping("/quartz")
 public class QuartzController {
@@ -40,116 +36,97 @@ public class QuartzController {
 
   @ApiOperation("获取触发器类型")
   @GetMapping("/triggerType")
-  public HttpResult<?> getTriggerType() {
+  public HttpResult<TriggerType[]> getTriggerType() {
     return HttpResult.success(TriggerType.values());
   }
 
   @ApiOperation("获取Job类型")
   @GetMapping("/jobType")
-  public HttpResult<?> getJobType() {
+  public HttpResult<JobType[]> getJobType() {
     return HttpResult.success(JobType.values());
   }
 
   @ApiOperation("获取Worker类型")
   @GetMapping("/workerType")
-  public HttpResult<?> getWorkerType() {
+  public HttpResult<WorkerType[]> getWorkerType() {
     return HttpResult.success(WorkerType.values());
   }
 
   @ApiOperation("获取Cron调度任务")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "Cron调度任务的ID", required = true, dataType = "String", dataTypeClass = String.class),
-  })
   @GetMapping
-  public HttpResult<?> get(String id) {
-    QuartzJobTaskEntity task = quartzService.get(id);
-    return HttpResult.create(CommonStatus.OK, task);
+  public HttpResult<QuartzJobTaskEntity> get(@ApiParam("Cron调度任务的ID") String id) {
+    return HttpResult.create(CommonStatus.OK, quartzService.get(id));
   }
 
   @ApiOperation("添加任务调度")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "task", dataTypeClass = QuartzJobTaskEntity.class),
-  })
   @PostMapping
-  public HttpResult<?> create(QuartzJobTaskEntity task) {
-    task = quartzService.create(task);
-    return HttpResult.create(CommonStatus.CREATED, task);
+  public HttpResult<QuartzJobTaskEntity> create(@ApiParam("调度数据") QuartzJobTaskEntity task) {
+    return HttpResult.create(CommonStatus.CREATED, quartzService.create(task));
   }
 
   @ApiOperation("更新任务调度")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "task", value = "任务调度数据", dataTypeClass = QuartzJobTaskEntity.class),
-  })
   @PutMapping
-  public HttpResult<?> update(@RequestBody QuartzJobTaskEntity task) {
+  public HttpResult<QuartzJobTaskEntity> update(@ApiParam("任务调度数据") @RequestBody QuartzJobTaskEntity task) {
     if (StringUtils.isBlank(task.getId())) {
       return HttpResult.failure("任务调度任务的ID不能为空");
     }
-    task = quartzService.update(task);
-    return HttpResult.create(CommonStatus.CREATED, task);
+    return HttpResult.create(CommonStatus.CREATED, quartzService.update(task));
   }
 
   @ApiOperation("删除任务调度")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "force", value = "是否强制", dataType = "Boolean", dataTypeClass = Boolean.class),
-  })
   @DeleteMapping
-  public HttpResult<?> delete(String id, Boolean force) {
-    int count = quartzService.delete(id, Boolean.TRUE.equals(force));
-    return HttpResult.create(CommonStatus.NO_CONTENT, count);
+  public HttpResult<Integer> delete(@ApiParam("任务调度ID") String id,
+                                    @ApiParam("是否强制") Boolean force) {
+    return HttpResult.create(CommonStatus.NO_CONTENT, quartzService.delete(id, Boolean.TRUE.equals(force)));
   }
 
   @ApiOperation("改变任务调度的状态")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "id", value = "任务调度ID", dataType = "String", paramType = "form", dataTypeClass = String.class),
-      @ApiImplicitParam(name = "active", value = "状态", dataType = "Boolean", paramType = "form", dataTypeClass = Boolean.class),
-  })
   @PatchMapping("/active")
-  public HttpResult<?> changeActive(String id, Boolean active) {
+  public HttpResult<Boolean> changeActive(@ApiParam("任务调度ID") String id,
+                                          @ApiParam("是否强制") Boolean active) {
     if (StringUtils.isBlank(id)) {
       return HttpResult.failure("调度任务的ID不能为空");
     }
-    Boolean result = quartzService.changeActive(id, active);
-    return HttpResult.create(CommonStatus.OK, result);
+    return HttpResult.create(CommonStatus.OK, quartzService.changeActive(id, active));
   }
 
   @ApiOperation("获取任务调度列表分页")
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "page", value = "分页参数", dataType = "RequestPage", dataTypeClass = PageableRequest.class),
-  })
   @GetMapping("/page")
-  public HttpResult<?> getPage(@PageBody PageableRequest<QuartzJobTaskEntity> page) {
+  public HttpResult<PageInfo<QuartzJobTaskEntity>> getPage(@ApiParam("分页参数") @PageBody PageRequest<QuartzJobTaskEntity> page) {
     PageInfo<QuartzJobTaskEntity> pageList = quartzService.getPage(page);
     return HttpResult.success(pageList);
   }
 
   @ApiOperation("获取机构的任务调度列表")
-  @ApiImplicitParams({})
   @GetMapping("/list")
-  public HttpResult<?> getJobTaskList(@GetBody QuartzJobTaskEntity condition) {
-    List<QuartzJobTaskEntity> all = quartzService.getList(condition, null, null, false);
-    return HttpResult.success(all);
+  public HttpResult<List<QuartzJobTaskEntity>> getJobTaskList(@ApiParam("条件") @RequestBody QuartzJobTaskEntity condition) {
+    return HttpResult.success(quartzService.getList(condition, null, null, false));
   }
 
+
+  @ApiModel("Worker方法")
   @Setter
   @Getter
   public static class WorkerMethodVo {
     /**
      * 名称
      */
+    @ApiModelProperty("名称")
     private String name;
     /**
      * 参数
      */
+    @ApiModelProperty("参数")
     private List<WorkerParameter> params = new ArrayList<>();
     /**
      * 描述
      */
+    @ApiModelProperty("描述")
     private String description;
 
   }
 
+  @ApiModel("Worker参数")
   @NoArgsConstructor
   @AllArgsConstructor
   @Setter
@@ -158,14 +135,17 @@ public class QuartzController {
     /**
      * 名称
      */
+    @ApiModelProperty("名称")
     private String name;
     /**
      * 类型
      */
+    @ApiModelProperty("类型")
     private String type;
     /**
      * 描述
      */
+    @ApiModelProperty("描述")
     private String description;
 
   }
