@@ -7,21 +7,20 @@ dependencies {
     api fileTree(dir: 'libs/jar', include: ['*.jar'])
     compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
 
-    api "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    api "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
-    api "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
+    api "org.springframework.boot:spring-boot-starter-security:${springbootVersion}"
+    api "org.springframework.boot:spring-boot-starter-data-jpa:${springbootVersion}"
 
     //compile 'com.h2database:h2:1.4.200'
     api "mysql:mysql-connector-java:${mysqlVersion}"
     api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-    api "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
     api "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
 
     // QUARTZ
-    api "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-quartz:${springbootVersion}"
 
-    api "io.springfox:springfox-boot-starter:${swagger2Version}"
+    api "io.springfox:springfox-boot-starter:${swaggerVersion}"
     api 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
 
     api "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
