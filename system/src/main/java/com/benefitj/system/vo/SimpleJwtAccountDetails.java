@@ -1,7 +1,7 @@
 package com.benefitj.system.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.benefitj.scaffold.security.user.JwtUserDetails;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.benefitj.spring.security.jwt.JwtUserDetails;
 import com.benefitj.system.model.SysAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

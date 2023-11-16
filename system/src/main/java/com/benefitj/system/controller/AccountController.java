@@ -1,10 +1,10 @@
 package com.benefitj.system.controller;
 
 
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysAccount;
 import com.benefitj.system.service.SysAccountService;
 import com.benefitj.system.service.UserAuthenticationService;

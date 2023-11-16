@@ -2,11 +2,11 @@ package com.benefitj.system.service;
 
 import com.benefitj.scaffold.LogicException;
 import com.benefitj.scaffold.security.JwtUserDetailsService;
-import com.benefitj.scaffold.security.token.JwtToken;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
-import com.benefitj.scaffold.security.user.JwtUserDetails;
 import com.benefitj.scaffold.vo.AuthTokenVo;
 import com.benefitj.spring.BeanHelper;
+import com.benefitj.spring.security.jwt.JwtUserDetails;
+import com.benefitj.spring.security.jwt.token.JwtToken;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysAccount;
 import com.benefitj.system.model.SysUser;
 import com.benefitj.system.vo.JwtGrantedAuthority;

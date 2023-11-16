@@ -1,8 +1,9 @@
 package com.benefitj.scaffold.security;
 
-import com.benefitj.scaffold.security.token.JwtToken;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
-import com.benefitj.scaffold.security.user.JwtUserDetails;
+
+import com.benefitj.spring.security.jwt.JwtUserDetails;
+import com.benefitj.spring.security.jwt.token.JwtToken;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 
 import javax.annotation.Nullable;
 

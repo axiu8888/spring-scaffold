@@ -3,7 +3,7 @@ package com.benefitj.scaffold.quartz.listener;
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.ReflectUtils;
 import com.benefitj.scaffold.quartz.QuartzJobTaskService;
-import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.quartz.entity.SysJob;
 import com.benefitj.spring.listener.AppStartListener;
 import com.benefitj.spring.quartz.QuartzUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,10 +58,10 @@ public class QuartzStartListener implements AppStartListener {
   }
 
   public void scheduleJobTasks(QuartzJobTaskService service) {
-    QuartzJobTaskEntity condition = new QuartzJobTaskEntity();
+    SysJob condition = new SysJob();
     condition.setActive(Boolean.TRUE);
-    List<QuartzJobTaskEntity> all = service.getAll(condition);
-    for (QuartzJobTaskEntity task : all) {
+    List<SysJob> all = service.getAll(condition);
+    for (SysJob task : all) {
       QuartzUtils.scheduleJob(service.getScheduler(), task);
     }
   }

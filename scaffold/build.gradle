@@ -1,31 +1,32 @@
 
-apply from: "${getRootDir()}/buildSystem/base.gradle"
-
+apply from: "${rootDir}/buildSystem/base.gradle"
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-    api fileTree(dir: 'libs/jar', include: ['*.jar'])
-    compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
+  api fileTree(dir: 'libs', include: ['*.jar'])
+  api fileTree(dir: 'libs/jar', include: ['*.jar'])
+  compileOnly fileTree(dir: 'libs/source', include: ['*.jar'])
 
-    api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
-    api "org.springframework.boot:spring-boot-starter-security:${springbootVersion}"
-    api "org.springframework.boot:spring-boot-starter-data-jpa:${springbootVersion}"
+  api "org.springframework.boot:spring-boot-starter-web:${springbootVersion}"
+  api "org.springframework.boot:spring-boot-starter-security:${springbootVersion}"
+  api "org.springframework.boot:spring-boot-starter-data-jpa:${springbootVersion}"
 
-    //compile 'com.h2database:h2:1.4.200'
-    api "mysql:mysql-connector-java:${mysqlVersion}"
-    api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
-    api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-    api "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+  //compile 'com.h2database:h2:1.4.200'
+  api "com.mysql:mysql-connector-j:${mysqlVersion}"
+  api "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+  //api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+  api "tk.mybatis:mapper-spring-boot-starter:${mapperVersion}"
+  api "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+  api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybtaisVersion}"
 
-    // QUARTZ
-    api "org.springframework.boot:spring-boot-starter-quartz:${springbootVersion}"
+  // QUARTZ
+  api "org.springframework.boot:spring-boot-starter-quartz:${springbootVersion}"
 
-    api "io.springfox:springfox-boot-starter:${swaggerVersion}"
-    api 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
+  api "io.springfox:springfox-boot-starter:${swaggerVersion}"
+  api 'com.github.xiaoymin:knife4j-spring-ui:3.0.3'
 
-    api "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
-    api "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
-    api "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+  api "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+  api "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+  api "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
 }
 

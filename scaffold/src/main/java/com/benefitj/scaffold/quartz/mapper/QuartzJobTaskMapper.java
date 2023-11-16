@@ -3,7 +3,7 @@ package com.benefitj.scaffold.quartz.mapper;
 import com.benefitj.core.DateFmtter;
 import com.benefitj.scaffold.Checker;
 import com.benefitj.scaffold.mapper.SuperMapper;
-import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.quartz.entity.SysJob;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.util.Sqls;
@@ -16,7 +16,7 @@ import java.util.List;
  * Cron
  */
 @Mapper
-public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
+public interface QuartzJobTaskMapper extends SuperMapper<SysJob> {
 
   static String fmt(Object time) {
     return DateFmtter.fmt(time, DateFmtter._yMd);
@@ -52,7 +52,7 @@ public interface QuartzJobTaskMapper extends SuperMapper<QuartzJobTaskEntity> {
    * @return 返回查询的列表
    */
   @Transient
-  default List<QuartzJobTaskEntity> selectList(QuartzJobTaskEntity condition, Date startTime, Date endTime, Boolean multiLevel) {
+  default List<SysJob> selectList(SysJob condition, Date startTime, Date endTime, Boolean multiLevel) {
     final Sqls sqls = Sqls.custom();
     Checker.checkNotNull(startTime, () -> sqls.andGreaterThanOrEqualTo("create_time", fmt(startTime)));
     Checker.checkNotNull(endTime, () -> sqls.andLessThanOrEqualTo("create_time", fmt(endTime)));

@@ -5,7 +5,7 @@ import com.benefitj.core.IdUtils;
 import com.benefitj.core.file.IUserFileManager;
 import com.benefitj.scaffold.file.SystemFileManager;
 import com.benefitj.scaffold.vo.HttpResult;
-import com.benefitj.spring.BreakPointTransmissionHelper;
+import com.benefitj.spring.ServletUtils;
 import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.system.vo.FileItem;
 import io.swagger.annotations.Api;
@@ -51,7 +51,7 @@ public class FileController {
     for (MultipartFile file : files) {
       String filename = file.getOriginalFilename();
       filename = StringUtils.isNotBlank(filename) ? filename : IdUtils.nextId(8) + "__" + file.getName();
-      BreakPointTransmissionHelper.upload(request, file, new File(dir, filename));
+      ServletUtils.upload(request, file, new File(dir, filename));
     }
     return HttpResult.success("上传成功!");
   }
@@ -68,7 +68,7 @@ public class FileController {
       response.encodeRedirectURL("/error/404.html");
       return;
     }
-    BreakPointTransmissionHelper.download(request, response, file, filename);
+    ServletUtils.download(request, response, file, filename);
   }
 
   @ApiOperation("文件列表")

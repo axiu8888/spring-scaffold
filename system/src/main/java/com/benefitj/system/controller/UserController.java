@@ -2,12 +2,12 @@ package com.benefitj.system.controller;
 
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.spring.mvc.query.PageBody;
 import com.benefitj.spring.mvc.query.PageRequest;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysUser;
 import com.benefitj.system.service.SysUserService;
 import com.github.pagehelper.PageInfo;
@@ -28,7 +28,7 @@ import java.util.List;
 public class UserController {
 
   @Autowired
-  private SysUserService userService;
+  SysUserService userService;
 
   @ApiOperation("获取用户信息")
   @GetMapping

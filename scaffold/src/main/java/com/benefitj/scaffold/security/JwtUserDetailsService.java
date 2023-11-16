@@ -1,6 +1,6 @@
 package com.benefitj.scaffold.security;
 
-import com.benefitj.scaffold.security.user.JwtUserDetails;
+import com.benefitj.spring.security.jwt.JwtUserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

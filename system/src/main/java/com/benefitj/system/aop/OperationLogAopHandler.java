@@ -1,18 +1,18 @@
 package com.benefitj.system.aop;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.benefitj.core.EventLoop;
 import com.benefitj.core.IdUtils;
 import com.benefitj.core.local.LocalCache;
 import com.benefitj.core.local.LocalCacheFactory;
 import com.benefitj.scaffold.IpUtil;
-import com.benefitj.scaffold.security.token.JwtToken;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.AopAdvice;
 import com.benefitj.spring.aop.web.WebPointCutHandler;
 import com.benefitj.spring.mvc.matcher.AntPathRequestMatcher;
 import com.benefitj.spring.mvc.matcher.OrRequestMatcher;
+import com.benefitj.spring.security.jwt.token.JwtToken;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysOperationLog;
 import com.benefitj.system.service.SysOperationLogService;
 import io.swagger.annotations.Api;

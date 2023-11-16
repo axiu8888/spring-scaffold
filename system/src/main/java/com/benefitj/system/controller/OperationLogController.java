@@ -1,12 +1,12 @@
 package com.benefitj.system.controller;
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.spring.mvc.query.PageBody;
 import com.benefitj.spring.mvc.query.PageRequest;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysOperationLog;
 import com.benefitj.system.service.SysOperationLogService;
 import com.github.pagehelper.PageInfo;
@@ -32,7 +32,7 @@ import java.util.List;
 public class OperationLogController {
 
   @Autowired
-  private SysOperationLogService operationLogService;
+  SysOperationLogService operationLogService;
 
   @ApiOperation("获取操作日志")
   @GetMapping

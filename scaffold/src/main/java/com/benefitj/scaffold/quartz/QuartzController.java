@@ -1,6 +1,6 @@
 package com.benefitj.scaffold.quartz;
 
-import com.benefitj.scaffold.quartz.entity.QuartzJobTaskEntity;
+import com.benefitj.scaffold.quartz.entity.SysJob;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
@@ -54,19 +54,19 @@ public class QuartzController {
 
   @ApiOperation("获取Cron调度任务")
   @GetMapping
-  public HttpResult<QuartzJobTaskEntity> get(@ApiParam("Cron调度任务的ID") String id) {
+  public HttpResult<SysJob> get(@ApiParam("Cron调度任务的ID") String id) {
     return HttpResult.create(CommonStatus.OK, quartzService.get(id));
   }
 
   @ApiOperation("添加任务调度")
   @PostMapping
-  public HttpResult<QuartzJobTaskEntity> create(@ApiParam("调度数据") QuartzJobTaskEntity task) {
+  public HttpResult<SysJob> create(@ApiParam("调度数据") SysJob task) {
     return HttpResult.create(CommonStatus.CREATED, quartzService.create(task));
   }
 
   @ApiOperation("更新任务调度")
   @PutMapping
-  public HttpResult<QuartzJobTaskEntity> update(@ApiParam("任务调度数据") @RequestBody QuartzJobTaskEntity task) {
+  public HttpResult<SysJob> update(@ApiParam("任务调度数据") @RequestBody SysJob task) {
     if (StringUtils.isBlank(task.getId())) {
       return HttpResult.failure("任务调度任务的ID不能为空");
     }
@@ -92,14 +92,14 @@ public class QuartzController {
 
   @ApiOperation("获取任务调度列表分页")
   @GetMapping("/page")
-  public HttpResult<PageInfo<QuartzJobTaskEntity>> getPage(@ApiParam("分页参数") @PageBody PageRequest<QuartzJobTaskEntity> page) {
-    PageInfo<QuartzJobTaskEntity> pageList = quartzService.getPage(page);
+  public HttpResult<PageInfo<SysJob>> getPage(@ApiParam("分页参数") @PageBody PageRequest<SysJob> page) {
+    PageInfo<SysJob> pageList = quartzService.getPage(page);
     return HttpResult.success(pageList);
   }
 
   @ApiOperation("获取机构的任务调度列表")
   @GetMapping("/list")
-  public HttpResult<List<QuartzJobTaskEntity>> getJobTaskList(@ApiParam("条件") @RequestBody QuartzJobTaskEntity condition) {
+  public HttpResult<List<SysJob>> getJobTaskList(@ApiParam("条件") @RequestBody SysJob condition) {
     return HttpResult.success(quartzService.getList(condition, null, null, false));
   }
 

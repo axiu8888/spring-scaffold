@@ -1,7 +1,7 @@
 package com.benefitj.system.filter;
 
-import com.benefitj.scaffold.security.token.JwtToken;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
+import com.benefitj.spring.security.jwt.token.JwtToken;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.service.SysOrganizationService;
 import com.benefitj.system.utils.Const;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class OrganizationtRequestFilter extends OncePerRequestFilter {
 
   @Autowired
-  private SysOrganizationService organizationService;
+  SysOrganizationService organizationService;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,8 +31,7 @@ public class OrganizationtRequestFilter extends OncePerRequestFilter {
       if (token != null && StringUtils.isNotBlank(token.getOrgId())) {
         token.put(Const.ORGANIZATION, organizationService.get(token.getOrgId()));
       }
-    } catch (Exception ignore) { /* ~ */ }
-     finally {
+    } catch (Exception ignore) { /* ~ */ } finally {
       filterChain.doFilter(request, response);
       if (token != null) {
         token.remove(Const.ORGANIZATION);

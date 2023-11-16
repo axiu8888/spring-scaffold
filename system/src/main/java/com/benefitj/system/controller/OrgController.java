@@ -2,12 +2,12 @@ package com.benefitj.system.controller;
 
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.spring.mvc.query.PageBody;
 import com.benefitj.spring.mvc.query.PageRequest;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysOrg;
 import com.benefitj.system.service.SysOrganizationService;
 import com.github.pagehelper.PageInfo;
@@ -30,7 +30,7 @@ import java.util.List;
 public class OrgController {
 
   @Autowired
-  private SysOrganizationService orgService;
+  SysOrganizationService orgService;
 
   @ApiOperation("获取机构")
   @GetMapping

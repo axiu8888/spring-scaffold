@@ -1,7 +1,7 @@
 package com.benefitj.scaffold.file;
 
-import com.benefitj.scaffold.security.token.JwtToken;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
+import com.benefitj.spring.security.jwt.token.JwtToken;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

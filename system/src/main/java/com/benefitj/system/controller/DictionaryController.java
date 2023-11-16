@@ -1,12 +1,12 @@
 package com.benefitj.system.controller;
 
 import com.benefitj.scaffold.Checker;
-import com.benefitj.scaffold.security.token.JwtTokenManager;
 import com.benefitj.scaffold.vo.CommonStatus;
 import com.benefitj.scaffold.vo.HttpResult;
 import com.benefitj.spring.aop.web.AopWebPointCut;
 import com.benefitj.spring.mvc.query.PageBody;
 import com.benefitj.spring.mvc.query.PageRequest;
+import com.benefitj.spring.security.jwt.token.JwtTokenManager;
 import com.benefitj.system.model.SysDictionaryModel;
 import com.benefitj.system.service.SysDictionaryService;
 import com.github.pagehelper.PageInfo;

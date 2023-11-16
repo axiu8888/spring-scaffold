@@ -1,8 +1,11 @@
 ext {
 
+//  springbootVersion = "3.1.5"
+//  springDependencyManagementVersion = "1.1.3"
+//  springIntegrationVersion = "6.1.4"
   springbootVersion = "2.7.17"
   springDependencyManagementVersion = "1.0.15.RELEASE"
-  springIntegrationVersion = "5.5.16"
+  springIntegrationVersion = "5.5.19"
 
   lombokVersion = "1.18.30"
   jacksonVersion = "2.15.3"
@@ -29,7 +32,7 @@ ext {
   druidVersion = "1.2.20"
   mybatisPlusVersion = "3.5.4.1"
   pagehelperVersion = "2.0.0"
-  mybatisVersion = "3.0.2"
+  mybtaisVersion = "2.3.1"
   mapperVersion = "4.2.3"
 
   try {
@@ -71,4 +74,26 @@ subprojects {
   sourceCompatibility = JavaVersion.VERSION_15
   targetCompatibility = JavaVersion.VERSION_15
 
+
+  repositories {
+    maven { url("https://maven.aliyun.com/repository/google") }
+    maven { url("https://maven.aliyun.com/repository/central") }
+    maven { url("https://maven.aliyun.com/repository/gradle-plugin") }
+    maven { url("https://maven.aliyun.com/repository/public") }
+    maven { url("https://maven.aliyun.com/repository/jcenter") }
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/release' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+
+    try {
+      maven {
+        url = repoUrl
+        allowInsecureProtocol = true
+        credentials {
+          username repoUsername
+          password repoPassword
+        }
+      }
+    } catch (e) {/* ~ */}
+  }
 }
